@@ -22,11 +22,14 @@ public class Temoignage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime  dateTemoignage;
+    private LocalDateTime dateTemoignage;
     private String messageTemoignage;
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
-    // @JoinColumn(name = "idAdmin")
-    // private Admin admin;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
 }

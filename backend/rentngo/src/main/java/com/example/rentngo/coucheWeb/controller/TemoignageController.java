@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rentngo.DAO.entites.Temoignage;
-import com.example.rentngo.coucheService.serviceTemoignage.ServiceTemoignage;
+import com.example.rentngo.coucheService.Services.ServiceTemoignage;
 
 import lombok.AllArgsConstructor;
 

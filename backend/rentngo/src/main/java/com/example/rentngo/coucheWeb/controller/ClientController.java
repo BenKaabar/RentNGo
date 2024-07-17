@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rentngo.DAO.entites.Client;
-import com.example.rentngo.coucheService.serviceClient.ServiceClient;
+import com.example.rentngo.coucheService.Services.ServiceClient;
 
 import lombok.AllArgsConstructor;
 

@@ -1,12 +1,19 @@
 package com.example.rentngo.DAO.entites;
 
+import java.util.Date;
+import com.example.rentngo.DAO.enums.Status;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,13 +22,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "contacts")
-public class Contact {
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String email;
+    @Temporal(TemporalType.DATE)
+    private Date dateDebut;
+    @Temporal(TemporalType.DATE)
+    private Date dateFin;
     private String message;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.EN_ATTENTE; // Valeur par défaut
+    private String localisation;
+
+    @OneToOne
+    private Voiture voiture;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
