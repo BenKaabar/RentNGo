@@ -24,10 +24,10 @@ public class Contact {
     private String message;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "id_client")
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
+    @JoinColumn(name = "id_admin")
     private Admin admin;
 }

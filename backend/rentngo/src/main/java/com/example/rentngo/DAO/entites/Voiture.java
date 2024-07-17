@@ -31,10 +31,10 @@ public class Voiture {
     private String couleur;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
+    @JoinColumn(name = "id_admin")
     private Admin admin;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reservation")
+    @OneToOne()
+    // @JoinColumn(name = "reservation")
     private Reservation reservation;
 }

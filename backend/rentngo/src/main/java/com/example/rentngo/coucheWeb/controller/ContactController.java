@@ -20,13 +20,14 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin("*") //Purpose: It allows any domain to make requests to your API. The * wildcard indicates that requests from all origins are permitted.
+@CrossOrigin("*") // Purpose: It allows any domain to make requests to your API. The * wildcard
+                  // indicates that requests from all origins are permitted.
 @RequestMapping(path = "/contact")
 public class ContactController {
     @Autowired
     private ServiceContact serviceContact;
 
- // select all Contact
+    // select all Contact
     @GetMapping(path = "/all")
     public List<Contact> getAllContact() {
         return serviceContact.getAllContact();
@@ -56,6 +57,4 @@ public class ContactController {
         serviceContact.deleteContactById(id);
     }
 
-
-    
 }

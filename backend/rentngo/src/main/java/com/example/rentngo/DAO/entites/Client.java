@@ -2,8 +2,6 @@ package com.example.rentngo.DAO.entites;
 
 import java.util.List;
 
-import org.hibernate.annotations.ManyToAny;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -34,7 +32,7 @@ public class Client {
     private String address;
     
     @ManyToOne
-    @JoinColumn(name = "admin_id")
+    @JoinColumn(name = "id_admin") // nom de column id_admin
     private Admin admin;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)

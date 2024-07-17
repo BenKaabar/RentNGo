@@ -36,14 +36,15 @@ public class Reservation {
     private Status status = Status.EN_ATTENTE; // Valeur par défaut
     private String localisation;
 
-    @OneToOne
+    @OneToOne(mappedBy = "reservation")
+    // @JoinColumn
     private Voiture voiture;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "id_client")
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id")
+    @JoinColumn(name = "id_admin")
     private Admin admin;
 }
