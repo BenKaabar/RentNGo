@@ -1,0 +1,30 @@
+/* .products-services-section {
+    background-color: #fff;
+    padding: 20px;
+  } */
+  
+  .text-orange {
+    color: #FF5722;
+  }
+  .promotions {
+    text-align: center;
+  }
+  .card {
+    margin: 20px 0;
+  }
+  
+  .card-title {
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    font-size: 1.1em;
+    color: #333;
+  }
+  
+  .carousel-item {
+    display: flex;
+    justify-content: center;
+  }
+  

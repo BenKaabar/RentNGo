@@ -1,1 +1,243 @@
-<p>page-accueil works!</p>
+
+<!-- Carousel-->
+<!-- <div id="carouselExampleFade" class="carousel slide carousel-fade">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="assets/images/carousels/slide1.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img src="assets/images/carousels/slide2.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="carousel-item">
+        <img  src="assets/images/carousels/slide3.jpg" class="d-block w-100" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div> -->
+<app-composant-1></app-composant-1>
+<!--   <div id="carouselExampleIndicators" class="carousel slide">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="assets/images/carousels/slide1.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img src="assets/images/carousels/slide2.jpg" class="d-block w-100" alt="...">
+          </div>
+          <div class="carousel-item">
+            <img  src="assets/images/carousels/slide3.jpg" class="d-block w-100" alt="...">
+          </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div> -->
+
+  <!-- section recherche + card voitures -->
+ <!--  <div class="container">  
+    <header class="text-center my-4">  
+      <h1>Devis & Réservation</h1>  
+      <p>Assistance 24h/24</p>  
+      <p>MAMICAR, agence de location voiture en Tunisie depuis 2007</p>  
+    </header>  
+  
+    <section class="promotions">  
+      <h2>Nos promotions de locations de voitures en Tunisie</h2>  
+      <div class="row">  
+        <div class="col-md-4">  
+          <div class="card">  
+            <img src="https://via.placeholder.com/300" class="card-img-top" alt="Hyundai G10 BVA 2024">  
+            <div class="card-body">  
+              <h5 class="card-title">Hyundai G10 BVA 2024</h5>  
+              <p class="card-text">À partir de 140.00 TND</p>  
+              <button class="btn">Réserver</button>  
+            </div>  
+          </div>  
+        </div>  
+        <div class="col-md-4">  
+          <div class="card">  
+            <img src="https://via.placeholder.com/300" class="card-img-top" alt="VW Polo Restylé 2024">  
+            <div class="card-body">  
+              <h5 class="card-title">VW Polo Restylé 2024</h5>  
+              <p class="card-text">À partir de 160.00 TND</p>  
+              <button class="btn">Réserver</button>  
+            </div>  
+          </div>  
+        </div>  
+        <div class="col-md-4">  
+          <div class="card">  
+            <img src="https://via.placeholder.com/300" class="card-img-top" alt="Peugeot TRAVELLER 2024">  
+            <div class="card-body">  
+              <h5 class="card-title">Peugeot TRAVELLER 2024</h5>  
+              <p class="card-text">À partir de 180.00 TND</p>  
+              <button class="btn">Réserver</button>  
+            </div>  
+          </div>  
+        </div>  
+      </div>  
+    </section>  
+  </div> -->
+<!--   <div class="container">  
+    <div class="row">  
+      <div class="col-md-4">  
+        <div class="dropdown">  
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">  
+            Lieu de prix en charge  
+          </button>  
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">  
+            <li><a class="dropdown-item" href="#">Aéroport Tunis Carthage</a></li>  
+            <li><a class="dropdown-item" href="#">Autre lieu</a></li>  
+          </ul>  
+        </div>  
+      </div>  
+      <div class="col-md-4">  
+        <button class="btn btn-light" (click)="openDatePicker('datePickUp')">Date et Heure de Prise</button>  
+        <ngb-datepicker #d1 [(ngModel)]="datePickUp" (dateSelect)="onDateSelect($event, 'datePickUp')" [displayMonths]="1" [showWeekNumbers]="false" [autoClose]="true" *ngIf="datePickerOpen"></ngb-datepicker>  
+        <span *ngIf="datePickUp">{{ datePickUp | date: 'dd/MM/yyyy HH:mm' }}</span>  
+      </div>  
+      <div class="col-md-4">  
+        <button class="btn btn-light" (click)="openDatePicker('dateReturn')">Date et Heure de Retour</button>  
+        <ngb-datepicker #d2 [(ngModel)]="dateReturn" (dateSelect)="onDateSelect($event, 'dateReturn')" [displayMonths]="1" [showWeekNumbers]="false" [autoClose]="true" *ngIf="datePickerOpen"></ngb-datepicker>  
+        <span *ngIf="dateReturn">{{ dateReturn | date: 'dd/MM/yyyy HH:mm' }}</span>  
+      </div>  
+    </div>  
+    <div class="row mt-3">  
+      <div class="col-md-12">  
+        <button class="btn btn-warning" (click)="reserve()">Devis et Réservation</button>  
+      </div>  
+    </div>  
+    <div class="row mt-3">  
+      <div class="col-md-12">  
+        <p>Assistance 24/24</p>  
+        <p>MAMICAR, agence fondée en 2007</p>  
+        <p>Une flotte de location voiture Tunisie</p>  
+      </div>  
+    </div>  
+  </div> -->
+
+
+  <div class="container-fluid">
+    <!-- Banner Section -->
+<!-- *****-->
+ <app-composant-2></app-composant-2>
+    <!-- Reservation Section --><!-- 
+    <div class="reservation-section bg-success text-white text-center py-4">
+      <form class="d-flex justify-content-center">
+        
+        <div class="form-group mx-2">
+          <label for="pickup-location" class="form-label">Lieu de prise</label>
+          <input type="text" id="pickup-location" class="form-control" placeholder="Entrer lieu de prise">
+        </div>
+        <div class="form-group mx-2">
+          <label for="dropoff-location" class="form-label">Lieu de retour</label>
+          <input type="text" id="dropoff-location" class="form-control" placeholder="Entrer lieu de retour">
+        </div>
+        <div class="form-group mx-2">
+          <label for="pickup-date" class="form-label">Date de prise</label>
+          <input type="date" id="pickup-date" class="form-control">
+        </div>
+        <div class="form-group mx-2">
+          <label for="dropoff-date" class="form-label">Date de retour</label>
+          <input type="date" id="dropoff-date" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-warning mx-2">Devis de Réservation</button>
+      </form>
+    </div> -->
+<!--******-->
+    <!-- Promotions Section -->
+     <app-composant-3></app-composant-3>
+       <!-- 
+    <div class="promotions-section my-4">
+      <h2 class="text-center">Nos promotions de locations de voitures en Tunisie</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <img src="assets/images/cars/car1.jpg" class="card-img-top" alt="Car Image 1">
+            <div class="card-body">
+              <h5 class="card-title">Skoda Fabia 2024</h5>
+              <p class="card-text">Description de la voiture.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <img src="assets/images/cars/car1.jpg" class="card-img-top" alt="Car Image 2">
+            <div class="card-body">
+              <h5 class="card-title">Peugeot 208 2019</h5>
+              <p class="card-text">Description de la voiture.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <img src="assets/images/cars/car1.jpg" class="card-img-top" alt="Car Image 3">
+            <div class="card-body">
+              <h5 class="card-title">Volkswagen Tiguan 2024</h5>
+              <p class="card-text">Description de la voiture.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+<!--***-->
+    <!-- Products and Services Section -->
+     <app-composant-4></app-composant-4>
+       <!-- 
+    <div class="products-services-section my-4">
+      <h2 class="text-center">Nos Produits et services</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <img src="assets/images/cars/car1.jpg" class="card-img-top" alt="Service Image 1">
+            <div class="card-body">
+              <h5 class="card-title">Service 1</h5>
+              <p class="card-text">Description du service.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <img src="assets/images/cars/car1.jpg" class="card-img-top" alt="Service Image 2">
+            <div class="card-body">
+              <h5 class="card-title">Service 2</h5>
+              <p class="card-text">Description du service.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <img src="assets/images/cars/car1.jpg" class="card-img-top" alt="Service Image 3">
+            <div class="card-body">
+              <h5 class="card-title">Service 3</h5>
+              <p class="card-text">Description du service.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   -->
+
+
+   <app-composant-5></app-composant-5>
+   <app-composant-6></app-composant-6>
+    <!-- Footer Section -->
+    <footer class="footer-section bg-success text-white text-center py-4">
+      <p>Une icône de la location voiture Tunisie | Nous fournissons des services de location de voiture avec les meilleures offres.</p>
+    </footer>
+  </div>
