@@ -1,1 +1,57 @@
-<p>sign-up works!</p>
+<form [formGroup]="signupform" novalidate>
+    <div class="main">
+        <div class="login">
+            <div class="signup">
+                <div class="signupform">
+                    <div>
+                        <label for="exampleInputNom" class="form-label">Nom</label><br>
+                        <input type="text" formControlName="nom" class="form-control" id="exampleInputNom">
+                        <small *ngIf="signupform.controls['nom'].errors && signupform.controls['nom'].touched" class="text-danger">
+                            {{getErrorsMessage('nom', signupform.controls['nom'].errors)}}</small>
+                    </div>
+                    <div>
+                        <label for="exampleInputPrenom" class="form-label">Prenom</label>
+                        <input type="text" formControlName="prenom" class="form-control" id="exampleInputPrenom">
+                        <small *ngIf="signupform.controls['prenom'].errors && signupform.controls['prenom'].touched" class="text-danger">
+                            {{getErrorsMessage('prenom', signupform.controls['prenom'].errors)}}</small>
+                    </div>
+                    <div>
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" formControlName="mail" id="exampleInputEmail1">
+                        <small *ngIf="signupform.controls['mail'].errors && signupform.controls['mail'].touched" class="text-danger">
+                            {{getErrorsMessage('mail', signupform.controls['mail'].errors)}}</small>
+                    </div>
+                    <div>
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" formControlName="password" id="exampleInputPassword1">
+                        <small *ngIf="signupform.controls['password'].errors && signupform.controls['password'].touched" class="text-danger">
+                            {{getErrorsMessage('password', signupform.controls['password'].errors)}}</small>
+                    </div>
+                    <div>
+                        <label for="exampleInputTelephone" class="form-label">Telephone</label>
+                        <input type="text" class="form-control" formControlName="telephone" id="exampleInputTelephone" placeholder="+216">
+                        <small *ngIf="signupform.controls['telephone'].errors && signupform.controls['telephone'].touched" class="text-danger">
+                            {{getErrorsMessage('telephone', signupform.controls['telephone'].errors)}}</small>
+                    </div>
+                    <div>
+                        <label for="exampleInputAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" formControlName="address" id="exampleInputAddress">
+                        <small *ngIf="signupform.controls['address'].errors && signupform.controls['address'].touched" class="text-danger">
+                            {{getErrorsMessage('address', signupform.controls['address'].errors)}}</small>
+                    </div>
+                </div>
+                <div class="signupbutton">
+                    <button type="submit" routerLink="/SignIn">S’inscrire</button>
+                </div>
+            </div>
+
+
+            <div class="signin">
+                <h2>Bienvenue a RentGo</h2>
+                <h5>Connectez-vous à votre compte RentNGo pour accéder à la meilleure expérience de location de voiture.
+                </h5>
+                <button routerLink="/SignIn">Connectez-vous</button>
+            </div>
+        </div>
+    </div>
+</form>

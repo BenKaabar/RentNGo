@@ -1,0 +1,36 @@
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    height: 84px;
+    background-color: rgb(107, 145, 0);
+    display: flex;
+    padding-left: 200px;
+    align-items: center;
+}
+
+.body {
+    padding: 0px 200px;
+    margin: 50px 0px;
+}
+
+h3 {
+    color: white;
+}
+
+.titre {
+    font-size: 22px;
+    font-family: Rubik;
+}
+
+.sous-titre {
+    font-size: 18px;
+    font-family: Rubik, sans-serif;
+}
+
+.description {
+    font-size: 16px;
+    font-family: Rubik, sans-serif;
+}

@@ -1,0 +1,74 @@
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    height: 84px;
+    background-color: rgb(107, 145, 0);
+    display: flex;
+    padding-left: 200px;
+    align-items: center;
+}
+
+h3 {
+    color: white;
+}
+
+
+.top {
+    padding: 30px 200px;
+}
+
+.buttom {
+    padding: 30px 200px;
+}
+
+
+button.active {
+    background-color: #f36a01;
+    color: white;
+    border-radius: 20px;
+    border: 5 solid blue;
+    padding: 8px;
+    margin: 0px 5px;
+}
+
+button {
+    background-color: #e1e1e1;
+    color: black;
+    border-radius: 20px;
+    border: 0;
+    padding: 8px;
+    margin: 0px 5px;
+}
+
+/* ********************************************** card edit ********************************************** */
+.card{
+    height: 154px;
+    padding: 20px;
+    border: 2 solid gray;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+.left-card{
+    display: flex;
+    align-items: center;
+    padding: 0px 20px;
+}
+
+.right-card{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px;
+}
+.right-card-top{
+    color: #f36a01;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.right-card-buttom{
+    padding: 24px;
+}

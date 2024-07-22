@@ -1,0 +1,52 @@
+.main {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #212529;
+    height: 60px;
+}
+
+.left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.middle h6:hover {
+    color: #73a2d4;
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+img {
+    width: 100px;
+    height: 50px;
+    object-fit: contain;
+}
+
+h6 {
+    color: white;
+    padding: 0px 15px;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.vertical-line {
+    background-color: white;
+    width: 1px;
+    height: 20px;
+}
