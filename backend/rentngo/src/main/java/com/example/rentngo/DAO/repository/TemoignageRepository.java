@@ -6,6 +6,6 @@ import com.example.rentngo.DAO.entites.Temoignage;
 
 public interface TemoignageRepository extends JpaRepository<Temoignage, Long>{
 
-    Temoignage getTemoignageById(Long id);
+    // Temoignage getTemoignageById(Long id);
 
 }

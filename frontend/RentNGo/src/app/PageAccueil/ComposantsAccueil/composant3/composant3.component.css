@@ -1,0 +1,158 @@
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.carousel-wrapper {
+  width: 1260px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.carousel-content {
+  display: flex;
+  transition: transform 1s ease;
+}
+
+.carousel-card {
+  flex: 0 0 auto;
+  width: 400px;
+  height: 300px;
+  margin: 10px;
+  background: #17061abd;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: white;
+  z-index: 1;
+}
+
+.prev-button {
+  left: 10px;
+}
+
+.next-button {
+  right: 10px;
+}
+
+.main {
+  margin: 0;
+  padding: 40px 0px;
+}
+
+.reserver {
+  width: 100%;
+  background-color: rgb(114, 180, 56);
+  color: white;
+  padding: 6px;
+  font-size: 16px;
+  border: 1px solid green;
+  border-radius: 4px;
+}
+
+.card-title-container {
+  background-color: #212529;
+  padding: 5px;
+  width: 50%;
+}
+.card-title{
+  color: white;
+}
+.card-text-container {
+  background-color: rgb(255, 179, 0);
+  padding: 5px;
+  width: 50%;
+}
+
+.card-body {
+  display: flex;
+  height: 60px;
+  width: 100%;
+}
+
+img {
+  height: 340px;
+}
+/* p{
+  color: white;
+} */
+.carousel-card button {
+  width: 100px;
+}
+
+.top {
+  height: 340px;
+  background-image: url('/assets/images/accueil/cars/car1.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.top button:hover,
+.top:hover {
+  opacity: 1;
+}
+
+.top button {
+  opacity: 0;
+}
+h6, h3{
+  color: rgb(0, 0, 0);
+  text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .carousel-card {
+      width: 50%;
+  }
+
+  .nav-button {
+      font-size: 1.5rem;
+  }
+
+  .prev-button,
+  .next-button {
+      right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-card {
+      width: 40%;
+  }
+
+  .nav-button {
+      font-size: 1.2rem;
+  }
+
+  .prev-button {
+      left: 2px;
+  }
+
+  .next-button {
+      right: 2px;
+  }
+}

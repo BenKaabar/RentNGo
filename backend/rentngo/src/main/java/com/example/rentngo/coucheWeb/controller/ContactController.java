@@ -1,8 +1,11 @@
 package com.example.rentngo.coucheWeb.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.rentngo.DAO.entites.Contact;
@@ -35,26 +39,37 @@ public class ContactController {
 
     // select Contact by id
     @GetMapping(path = "/{id}")
-    public Contact getById(@PathVariable("id") Long id) {
+    public Contact getContactById(@PathVariable("id") Long id) {
         return serviceContact.getContactById(id);
     }
 
     // add Contact
     @PostMapping(path = "/add")
-    public Contact addContact(@RequestBody Contact Contact) {
-        return serviceContact.addContact(Contact);
+    public ResponseEntity<?> addContact(@RequestParam("ContactRequestDTO") String contactRequestDTO)
+            throws IOException {
+        try {
+            serviceContact.addContact(contactRequestDTO);
+            return ResponseEntity.ok("Contact added successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
+        }
     }
 
     // update Contact
     @PutMapping(path = "/update/{id}")
-    public Contact updateContact(@RequestBody Contact Contact, @PathVariable("id") Long id) {
-        return serviceContact.updateContact(Contact, id);
+    public ResponseEntity<?> updateContact(@RequestBody String contactRequestDTO) throws IOException {
+        try {
+            serviceContact.updateContact(contactRequestDTO);
+            return ResponseEntity.ok("Contact updated successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
+        }
     }
 
     // delete by id
     @DeleteMapping(path = "/delete/{id}")
-    public void deleteContactById(@PathVariable("id") Long id) {
-        serviceContact.deleteContactById(id);
+    public void deleteContact(@RequestParam Long id) {
+        serviceContact.deleteContact(id);
     }
 
 }

@@ -1,0 +1,167 @@
+/* your-component.component.css */
+.card-grid {
+    padding: 0px 200px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    margin: 50px 0px;
+  }
+  
+  .card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .card-img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .card-content {
+    padding: 8px;
+  }
+  
+  .card-content h3 {
+    font-size: 1rem;
+    margin: 0;
+  }
+  
+  .card-content p {
+    font-size: 0.875rem;
+    color: #666;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px  0px ; 
+    background-color: bisque;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+  }
+  .pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  .page-numbers button {
+    background-color: transparent;
+  }
+  
+  .page-numbers button.active {
+    background-color: rgb(99, 143, 5); /* Change to your desired color */
+    color: white;
+    font-weight: bold;
+  }
+
+
+
+  /*  */
+
+
+  .main {
+    padding: 0px 200px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    margin: 50px 0px;
+}
+
+/* *************************** card *************************** */
+.card {
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
+    height: 180px;
+}
+
+h4 {
+    background-color: #212529;
+    color: white;
+    padding: 5px 0px;
+    margin-bottom: 15px;
+}
+
+/* ************ card-middle ************ */
+.card-middle img {
+    width: 24px;
+    height: 24px;
+    margin: 0px 5px;
+}
+
+.description {
+    padding: 10px;
+}
+
+p {
+    font-size: 14px;
+    text-align: left;
+    font-family: Rubik, sans-serif;
+    margin-bottom: 3px;
+    margin-left: 4px;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}
+/* Styles personnalisés pour les popovers */
+.custom-popover .popover-body {
+    background-color: #000; 
+    color: #fff;          
+    padding: 8px;
+    border-radius: 4px;
+  }
+  
+  .custom-popover .popover-arrow::after {
+    border-top-color: #000; 
+    border-bottom-color: #000; 
+  }
+  
+/* ************ card-bottom ************ */
+.card-bottom {
+    padding: 10px;
+}
+
+.button {
+    background-color: rgb(99, 143, 5);
+    width: 90%;
+    margin: 0 5%;
+    color: white;
+    padding: 6px;
+    border: none;
+    border-radius: 20px;
+}
+
+.button:hover {
+    background-color: rgb(5, 143, 21);
+    width: 90%;
+    margin: 0 5%;
+    color: white;
+    padding: 6px;
+    border: none;
+    border-radius: 20px;
+}
+
+/* *************************** title *************************** */
+.title {
+    height: 84px;
+    background-color: rgb(107, 145, 0);
+    display: flex;
+    padding-left: 200px;
+    align-items: center;
+}
+
+h3 {
+    color: white;
+
+}

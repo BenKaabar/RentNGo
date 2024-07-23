@@ -1,15 +1,17 @@
 package com.example.rentngo.coucheService.Services;
 
+import java.io.IOException;
 import java.util.List;
+
 
 import com.example.rentngo.DAO.entites.Temoignage;
 
 public interface ServiceTemoignage {
-    public Temoignage addTemoignage(Temoignage temoignage);
+    void addTemoignage(String temoignageRequestDTO) throws IOException;
 
-    public Temoignage getTemoignageById(Long id);
+    Temoignage findTemoignageById(Long id);
 
-    public List<Temoignage> getAllTemoignage();
+    List<Temoignage> getAllTemoignage();
 
-    public void deleteTemoignageById(Long id);
+    void deleteTemoignage(Long id);
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageAccueilComponent } from './PageAccueil/page-accueil/page-accueil.component';
+import { PageAccueilComponent } from './PageAccueil/Accueil/page-accueil.component';
 import { VoitureComponent } from './Voiture/voiture.component';
 import { TemoignagesComponent } from './Temoignages/temoignages.component';
 import { AproposComponent } from './About/apropos/apropos.component';
@@ -26,6 +26,7 @@ const routes: Routes = [
   { path: '**', component: NotFoundComponent },
 ];
 
+  // {path:'',redirectTo:'/produits',pathMatch:'full'}
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

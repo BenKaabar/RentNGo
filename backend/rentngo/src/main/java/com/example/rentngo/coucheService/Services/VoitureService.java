@@ -2,13 +2,15 @@ package com.example.rentngo.coucheService.Services;
 
 import com.example.rentngo.DAO.entites.Voiture;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public interface VoitureService {
     List<Voiture> getAllCars();
-    Voiture addCar(Voiture car);
+    void addCar(String voitureRequestDTO, MultipartFile File) throws IOException;
     Voiture findCarById(Long id);
-    Voiture updateCar(Long id, Voiture carDetails);
+    void updateCar(String voitureRequestDTO, MultipartFile File) throws IOException;
     void deleteCar(Long id);
 }
-

@@ -1,20 +1,10 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { Popover } from 'bootstrap';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-faq',
   templateUrl: './faq.component.html',
   styleUrls: ['./faq.component.css']
 })
-export class FaqComponent implements AfterViewInit {
+export class FaqComponent {
 
-  ngAfterViewInit(): void {
-    const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-    const popoverList = popoverTriggerList.map(popoverTriggerEl => new Popover(popoverTriggerEl, {
-      trigger: 'focus',
-      placement: 'top',
-      title: 'Custom title',
-      delay: { show: 500, hide: 100 }
-    }));
-  }
 }

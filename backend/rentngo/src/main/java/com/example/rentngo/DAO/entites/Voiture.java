@@ -1,5 +1,6 @@
 package com.example.rentngo.DAO.entites;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +17,12 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 public class Voiture {
+    public Voiture(String name,String type,byte[] picbyte){
+        this.nomPhotoVoiture=name;
+        this.typePhotoVoiture=type;
+        this.PhotoVoiture=picbyte;
+      }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,6 +30,13 @@ public class Voiture {
     private String marque;
     private Long prix;
     private String couleur;
+    private String categorie;
+    private long garantie;
+    private String nomPhotoVoiture;
+    @Column(name = "type")
+    private String typePhotoVoiture;
+    @Column(name = "picbyte", length = 50000000)
+    private byte[] PhotoVoiture;
 
     @ManyToOne
     @JoinColumn(name = "id_admin")

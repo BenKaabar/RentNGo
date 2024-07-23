@@ -1,0 +1,67 @@
+<div class="main">
+    <div class="left">
+        <div class="leftTop">
+            <h5>Une icône de la location voiture Tunisie !</h5>
+            <p>RentNGo Tunisie est une agence de location voiture Tunisie depuis 2007, assurant un service sérieux et de
+                qualité sur tous les aéroports tunisiens : location voiture aéroport Tunis Carthage, Enfidha, Monastir,
+                Sfax et Djerba afin de garantir une livraison rapide de votre voiture de location dés votre arrivée en
+                Tunisie.
+            </p>
+            <p>RentNGo Tunisie garantit à sa chère clientèle des voitures de locations récentes, propres et bien
+                entretenues à des prix de locations voitures pas chers.
+            </p>
+            <p>Location voiture Hammamet, Nabeul, Sousse, Bizerte et Sfax. Louez votre voiture en Tunisie chez l'agence
+                de location voiture RentNGo Tunisie et profitez des promotions quotidiennes sur toutes les gammes de
+                voitures de locations.
+            </p>
+        </div>
+        <div class="leftBottom">
+            <div class="side1">
+                <h5>Dans les villes</h5>
+                <p>Location voiture Tunis</p>
+                <p>Location voiture Bizerte</p>
+                <p>Location voiture Hammamet</p>
+                <p>Location voiture Nabeul</p>
+                <p>Location voiture Enfidha</p>
+                <p>Location voiture Sousse</p>
+                <p>Location voiture Monastir</p>
+                <p>Location voiture Sfax</p>
+                <p>Location voiture Djerba</p>
+            </div>
+            <div class="side2">
+                <h5>Dans les villes</h5>
+                <p>Location voiture Tunis</p>
+                <p>Location voiture Bizerte</p>
+                <p>Location voiture Hammamet</p>
+                <p>Location voiture Nabeul</p>
+                <p>Location voiture Enfidha</p>
+                <p>Location voiture Sousse</p>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="top">
+            <p>Ce qu'en disent nos clients</p>
+            <button  routerLink="/Temoignages">Afficher plus d'avis</button>
+        </div>
+        <div class="bottom">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel"  data-bs-config='{"interval":1000 }' data-bs-ride="carousel">
+                
+                <div class="carousel-inner">
+                    <div *ngFor="let avis of reviews; let i = index" [class.active]="i === 0" class="carousel-item">
+                        <div class="carousel-card">
+                            <p>{{ avis.client }}</p>
+                            <p>{{ avis.cmnt }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
