@@ -12,7 +12,7 @@ import { AproposComponent } from './About/apropos/apropos.component';
 import { FaqComponent } from './About/faq/faq.component';
 import { NavBarComponent } from './Shared/nav-bar/nav-bar.component';
 import { FooterComponent } from './Shared/footer/footer.component';
-import { ReservationComponent } from './Reservation/reservation.component';
+
 import { GestionContactComponent } from './Dashboard/gestion-contact/gestion-contact.component';
 import { GestionReservationComponent } from './Dashboard/gestion-reservation/gestion-reservation.component';
 import { GestionTemoignagesComponent } from './Dashboard/gestion-temoignages/gestion-temoignages.component';
@@ -24,8 +24,11 @@ import { Composant1Component } from './ComposantAccueil/composant-1/composant-1.
 import { Composant2Component } from './ComposantAccueil/composant-2/composant-2.component';
 import { Composant3Component } from './ComposantAccueil/composant-3/composant-3.component';
 import { Composant4Component } from './ComposantAccueil/composant-4/composant-4.component';
-import { Composant5Component } from './ComposantAccueil/composant-5/composant-5.component';
-import { Composant6Component } from './ComposantAccueil/composant-6/composant-6.component';
+import { ReservationComponent } from './ReservationPage/Reservation/reservation.component';
+import { Etape2Component } from './ReservationPage/composantsReservation/etapes/etape2/etape2.component';
+import { Etape3Component } from './ReservationPage/composantsReservation/etapes/etape3/etape3.component';
+import { FormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -50,13 +53,14 @@ import { Composant6Component } from './ComposantAccueil/composant-6/composant-6.
     Composant2Component,
     Composant3Component,
     Composant4Component,
-    Composant5Component,
-    Composant6Component
+    Etape2Component,
+    Etape3Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
