@@ -20,8 +20,13 @@ public class VoitureController {
     private VoitureService carService;
 
     @GetMapping(path = "/ById/{id}")
-    public Voiture findCarById(@RequestParam Long id) {
-        return carService.findCarById(id);
+    public ResponseEntity<Voiture> findCarById(@PathVariable Long id) {
+        try {
+            Voiture voiture = carService.findCarById(id);
+            return ResponseEntity.ok(voiture);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @GetMapping("/all")
@@ -30,30 +35,41 @@ public class VoitureController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addCar(@RequestParam("VoitureRequestDTO") String voitureRequestDTO,
-            @RequestParam("logo") MultipartFile file) throws IOException {
+    public ResponseEntity<String> addCar(@RequestPart String voitureRequestDTO,
+                                         @RequestPart("logo") MultipartFile file) {
         try {
             carService.addCar(voitureRequestDTO, file);
             return ResponseEntity.ok("Voiture added successfully");
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateCar(@RequestBody String voitureRequestDTO, Long id,
-            MultipartFile file) throws IOException {
+    public ResponseEntity<String> updateCar(@PathVariable Long id,
+                                            @RequestPart String voitureRequestDTO,
+                                            @RequestPart("logo") MultipartFile file) {
         try {
-            carService.updateCar(voitureRequestDTO, file);
-            return ResponseEntity.ok("voiture updated successfully");
+            carService.updateCar(voitureRequestDTO, file, id);
+            return ResponseEntity.ok("Voiture updated successfully");
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
         }
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    public void deleteCar(@RequestParam Long id) {
-        carService.deleteCar(id);
-
+    public ResponseEntity<String> deleteCar(@PathVariable Long id) {
+        try {
+            carService.deleteCar(id);
+            return ResponseEntity.ok("Voiture deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Voiture not found with id: " + id);
+        }
     }
 }

@@ -13,9 +13,11 @@ import lombok.NoArgsConstructor;
 @Data
 public class ReservationRequestDTO {
     private Long id;
-    private Date dateDebut;
-    private Date dateFin;
+    private String dateDebut;
+    private String dateFin;
     private String message;
     private Status status;
     private String localisation;
+    private Long idClient;
+    private Long idVoiture;
 }

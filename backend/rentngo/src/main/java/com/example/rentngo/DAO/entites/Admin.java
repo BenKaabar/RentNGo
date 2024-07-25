@@ -26,8 +26,8 @@ public class Admin {
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
     private List<Contact> contacts;
 
-    @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY) // clé premier de table admin "idadmin"
-    private List<Client> client;
+    @OneToMany(mappedBy = "admin")
+    private List<Client> clients;
 
     @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
     private List<Temoignage> temoignages;

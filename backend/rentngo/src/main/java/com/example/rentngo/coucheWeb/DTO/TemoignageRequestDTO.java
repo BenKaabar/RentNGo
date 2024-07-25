@@ -13,4 +13,5 @@ public class TemoignageRequestDTO {
     private Long id;
     private LocalDateTime dateTemoignage;
     private String messageTemoignage;
+    private Long idClient;
 }

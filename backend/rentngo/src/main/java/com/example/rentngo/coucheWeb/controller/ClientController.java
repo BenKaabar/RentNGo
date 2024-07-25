@@ -1,65 +1,103 @@
 package com.example.rentngo.coucheWeb.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.rentngo.DAO.entites.Client;
 import com.example.rentngo.coucheService.Services.ServiceClient;
+import com.example.rentngo.coucheWeb.DTO.ClientRequestDTO;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin("*") //Purpose: It allows any domain to make requests to your API. The * wildcard indicates that requests from all origins are permitted.
+@CrossOrigin("*") // Allows any domain to make requests to your API
 @RequestMapping(path = "/client")
 public class ClientController {
+
     @Autowired
-    private ServiceClient serviceClient;
+    private final ServiceClient serviceClient;
 
-    // select all client
+    // Select all clients
     @GetMapping(path = "/all")
-    public List<Client> getAllClient() {
-        return serviceClient.getAllClient();
+    public ResponseEntity<List<Client>> getAllClient() {
+        try {
+            List<Client> clients = serviceClient.getAllClient();
+            return ResponseEntity.ok(clients);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
     }
 
-    // select client by id
-    @GetMapping(path = "/{id}")
-    public Client getById(@PathVariable("id") Long id) {
-        return serviceClient.getClientById(id);
+    // Select client by ID
+    @GetMapping(path = "/by/{id}")
+    public ResponseEntity<Client> getById(@PathVariable("id") Long id) {
+        try {
+            Client client = serviceClient.getClientById(id);
+            return ResponseEntity.ok(client);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
     }
 
-    // select client by nom
+    // Select clients by name
     @GetMapping(path = "/ByNom/{nom}")
-    public List<Client> findByNom(@PathVariable("nom") String nom) {
-        return serviceClient.findByNom(nom);
+    public ResponseEntity<List<Client>> findByNom(@PathVariable("nom") String nom) {
+        try {
+            List<Client> clients = serviceClient.findByNom(nom);
+            return ResponseEntity.ok(clients);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
     }
 
-    // add client
+    // Add client
     @PostMapping(path = "/add")
-    public Client addClient(@RequestBody Client client) {
-        return serviceClient.addClient(client);
+    public ResponseEntity<String> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+        try {
+            serviceClient.addClient(clientRequestDTO);
+            return ResponseEntity.ok("Client added successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid request: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
+        }
     }
 
-    // update client
+    // Update client
     @PutMapping(path = "/update/{id}")
-    public Client updateClient(@RequestBody Client client, @PathVariable("id") Long id) {
-        return serviceClient.updateClient(client, id);
+    public ResponseEntity<String> updateClient(@PathVariable Long id, @RequestBody ClientRequestDTO clientRequestDTO) {
+        try {
+            serviceClient.updateClient(clientRequestDTO, id);
+            return ResponseEntity.ok("Client updated successfully");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Invalid request: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
+        }
     }
 
-    // delete by id
+    // Delete client by ID
     @DeleteMapping(path = "/delete/{id}")
-    public void deleteClientById(@PathVariable("id") Long id) {
-        serviceClient.deleteClientById(id);
+    public ResponseEntity<String> deleteClientById(@PathVariable Long id) {
+        try {
+            serviceClient.deleteClientById(id);
+            return ResponseEntity.ok("Client deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Client not found with id: " + id);
+        }
     }
-
 }

@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.util.List;
 
 import com.example.rentngo.DAO.entites.Contact;
+import com.example.rentngo.coucheWeb.DTO.ContactRequestDTO;
 
 public interface ServiceContact {
-    void addContact(String contactRequestDTO) throws IOException;
+    void addContact(ContactRequestDTO contactRequestDTO, Long id_client) throws IOException;
 
     Contact getContactById(Long id);
 
     List<Contact> getAllContact();
 
-    void updateContact(String contactRequestDTO) throws IOException;
+    void updateContact(ContactRequestDTO contactRequestDTO, Long id, Long id_client) throws IOException;
 
     void deleteContact(Long id);
 }

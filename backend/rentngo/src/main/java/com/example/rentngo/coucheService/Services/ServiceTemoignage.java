@@ -5,9 +5,10 @@ import java.util.List;
 
 
 import com.example.rentngo.DAO.entites.Temoignage;
+import com.example.rentngo.coucheWeb.DTO.TemoignageRequestDTO;
 
 public interface ServiceTemoignage {
-    void addTemoignage(String temoignageRequestDTO) throws IOException;
+    void addTemoignage(TemoignageRequestDTO temoignageRequestDTO, Long id_client) throws IOException;
 
     Temoignage findTemoignageById(Long id);
 

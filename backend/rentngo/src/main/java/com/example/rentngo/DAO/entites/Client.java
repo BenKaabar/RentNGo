@@ -30,14 +30,15 @@ public class Client {
     private String motDePasse;
     private Long telephone;
     private String address;
-    
+
+   
     @ManyToOne
-    @JoinColumn(name = "id_admin") // nom de column id_admin
+    @JoinColumn(name = "admin_id")
     private Admin admin;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<Contact> contacts;
-    
+
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<Temoignage> temoignages;
 

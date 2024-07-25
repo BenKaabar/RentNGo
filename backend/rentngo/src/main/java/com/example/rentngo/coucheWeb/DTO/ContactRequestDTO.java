@@ -11,4 +11,5 @@ public class ContactRequestDTO {
     private Long id;
     private String email;
     private String message;
+    private Long idClient;
 }

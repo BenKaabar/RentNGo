@@ -6,10 +6,10 @@ import com.example.rentngo.coucheService.Services.VoitureService;
 import com.example.rentngo.coucheWeb.DTO.VoitureRequestDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,81 +20,85 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
+@Slf4j
 @Transactional
-
 public class VoitureServiceImpl implements VoitureService {
-    @Autowired
-    private VoitureRepository carRepository;
+    private final VoitureRepository carRepository;
+    private final ObjectMapper objectMapper;
 
     @Override
     public List<Voiture> getAllCars() {
+        log.info("List of car------------------------");
         return carRepository.findAll();
     }
 
     @Override
-    public void deleteCar(Long id) {
-        Voiture car = carRepository.findById(id).get();
-        carRepository.delete(car);
-    }
-
-    @Override
     public void addCar(String voitureRequestDTO, MultipartFile File) throws IOException {
-        VoitureRequestDTO voitureRequestDTO1 = new ObjectMapper().readValue(voitureRequestDTO,
-                VoitureRequestDTO.class);
         Voiture voiture = new Voiture();
+        VoitureRequestDTO voitureRequestDTO1 = objectMapper.readValue(voitureRequestDTO, VoitureRequestDTO.class);
+        voiture.setGarantie(voitureRequestDTO1.getGarantie());
         voiture.setImmatriculation(voitureRequestDTO1.getImmatriculation());
         voiture.setMarque(voitureRequestDTO1.getMarque());
         voiture.setPrix(voitureRequestDTO1.getPrix());
         voiture.setCouleur(voitureRequestDTO1.getCouleur());
         voiture.setCategorie(voitureRequestDTO1.getCategorie());
-        voiture.setGarantie(voitureRequestDTO1.getGarantie());
         voiture.setPhotoVoiture(compressBytes(File.getBytes()));
         voiture.setTypePhotoVoiture(File.getContentType());
         voiture.setNomPhotoVoiture(File.getOriginalFilename());
         carRepository.save(voiture);
+        log.info("car added successfully-----------------");
     }
 
     @Override
     public Voiture findCarById(Long id) {
-        return carRepository.findById(id).get();
+        return carRepository.findById(id).orElseThrow(() -> new RuntimeException("Voiture not found"));
+    }
+
+    public void updateCar(String dto, MultipartFile file, Long id) throws IOException {
+        Voiture voiture = carRepository.findById(id).orElse(null);
+        if (voiture != null) {
+            VoitureRequestDTO voitureRequestDTO1 = objectMapper.readValue(dto, VoitureRequestDTO.class);
+            if (voitureRequestDTO1.getGarantie() != null) {
+                voiture.setGarantie(voitureRequestDTO1.getGarantie());
+            }
+            if (voitureRequestDTO1.getImmatriculation() != null && !voitureRequestDTO1.getImmatriculation().isEmpty()) {
+                voiture.setImmatriculation(voitureRequestDTO1.getImmatriculation());
+            }
+            if (voitureRequestDTO1.getMarque() != null && !voitureRequestDTO1.getMarque().isEmpty()) {
+                voiture.setMarque(voitureRequestDTO1.getMarque());
+            }
+            if (voitureRequestDTO1.getPrix() != null) {
+                voiture.setPrix(voitureRequestDTO1.getPrix());
+            }
+            if (voitureRequestDTO1.getCouleur() != null && !voitureRequestDTO1.getCouleur().isEmpty()) {
+                voiture.setCouleur(voitureRequestDTO1.getCouleur());
+            }
+            if (voitureRequestDTO1.getCategorie() != null && !voitureRequestDTO1.getCategorie().isEmpty()) {
+                voiture.setCategorie(voitureRequestDTO1.getCategorie());
+            }
+            if (file != null && file.getBytes().length > 0) {
+                voiture.setPhotoVoiture(compressBytes(file.getBytes()));
+                voiture.setTypePhotoVoiture(file.getContentType());
+                voiture.setNomPhotoVoiture(file.getOriginalFilename());
+            }
+            carRepository.save(voiture);
+            log.info("update car with id: {} done!-------------------------", id);
+        } else {
+            log.warn("Attempted to update a car with id: {} that does not exist-----------------------", id);
+        }
     }
 
     @Override
-    public void updateCar(String voitureRequestDTO, MultipartFile File) throws IOException {
-        VoitureRequestDTO voitureRequestDTO1 = new ObjectMapper().readValue(voitureRequestDTO,
-                VoitureRequestDTO.class);
-        Voiture voiture = new Voiture();
-        if (voitureRequestDTO1.getGarantie() != 0) {
-            voiture.setGarantie(voitureRequestDTO1.getGarantie());
+    public void deleteCar(Long id) {
+        Voiture car = carRepository.findById(id).orElse(null);
+        if (car != null) {
+            carRepository.delete(car);
+            log.info("Deleted car with id: {}---------------------------", id);
+        } else {
+            log.warn("Attempted to delete a car with id: {} that does not exist----------------------", id);
         }
-        if (voitureRequestDTO1.getImmatriculation() != "") {
-            voiture.setImmatriculation(voitureRequestDTO1.getImmatriculation());
-        }
-        if (voitureRequestDTO1.getMarque() != "") {
-            voiture.setMarque(voitureRequestDTO1.getMarque());
-        }
-        if (voitureRequestDTO1.getPrix() != null) {
-            voiture.setPrix(voitureRequestDTO1.getPrix());
-        }
-        if (voitureRequestDTO1.getCouleur() != "") {
-            voiture.setCouleur(voitureRequestDTO1.getCouleur());
-        }
-        if (voitureRequestDTO1.getCategorie() != "") {
-            voiture.setCategorie(voitureRequestDTO1.getCategorie());
-        }
-        if (compressBytes(File.getBytes()) != null) {
-            voiture.setPhotoVoiture(compressBytes(File.getBytes()));
-        }
-        if (File.getContentType() != "") {
-            voiture.setTypePhotoVoiture(File.getContentType());
-        }
-        if (voitureRequestDTO1.getNomPhotoVoiture() != "") {
-            voiture.setNomPhotoVoiture(voitureRequestDTO1.getNomPhotoVoiture());
-        }
-
-        carRepository.save(voiture);
     }
 
     // compressing and decompressing files
@@ -112,6 +116,7 @@ public class VoitureServiceImpl implements VoitureService {
         try {
             outputStream.close();
         } catch (IOException e) {
+            e.printStackTrace();
         }
         System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
 
@@ -129,10 +134,9 @@ public class VoitureServiceImpl implements VoitureService {
                 outputStream.write(buffer, 0, count);
             }
             outputStream.close();
-        } catch (IOException ioe) {
-        } catch (DataFormatException e) {
+        } catch (IOException | DataFormatException e) {
+            e.printStackTrace();
         }
         return outputStream.toByteArray();
     }
-
 }

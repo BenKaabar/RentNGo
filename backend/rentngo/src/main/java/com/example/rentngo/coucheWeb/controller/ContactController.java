@@ -6,70 +6,84 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.rentngo.DAO.entites.Contact;
 import com.example.rentngo.coucheService.Services.ServiceContact;
+import com.example.rentngo.coucheWeb.DTO.ContactRequestDTO;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-@AllArgsConstructor
 @RestController
-@CrossOrigin("*") // Purpose: It allows any domain to make requests to your API. The * wildcard
-                  // indicates that requests from all origins are permitted.
+@CrossOrigin("*")
 @RequestMapping(path = "/contact")
+@Slf4j
 public class ContactController {
     @Autowired
     private ServiceContact serviceContact;
 
-    // select all Contact
+    // Select all Contacts
     @GetMapping(path = "/all")
-    public List<Contact> getAllContact() {
-        return serviceContact.getAllContact();
+    public ResponseEntity<List<Contact>> getAllContact() {
+        List<Contact> contacts = serviceContact.getAllContact();
+        return ResponseEntity.ok(contacts);
     }
 
-    // select Contact by id
-    @GetMapping(path = "/{id}")
-    public Contact getContactById(@PathVariable("id") Long id) {
-        return serviceContact.getContactById(id);
-    }
-
-    // add Contact
-    @PostMapping(path = "/add")
-    public ResponseEntity<?> addContact(@RequestParam("ContactRequestDTO") String contactRequestDTO)
-            throws IOException {
+    // Select Contact by id
+    @GetMapping(path = "/by/{id}")
+    public ResponseEntity<Contact> getContactById(@PathVariable("id") Long id) {
         try {
-            serviceContact.addContact(contactRequestDTO);
+            Contact contact = serviceContact.getContactById(id);
+            return ResponseEntity.ok(contact);
+        } catch (Exception e) {
+            log.error("Contact with id {} not found", id, e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    // Add Contact
+    @PostMapping(path = "/add")
+    public ResponseEntity<String> addContact(@RequestBody ContactRequestDTO contactRequestDTO, Long idClient) {
+        try {
+            serviceContact.addContact(contactRequestDTO, idClient);
             return ResponseEntity.ok("Contact added successfully");
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
+            log.error("Error adding contact: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
+        } catch (Exception e) {
+            log.error("Unexpected error occurred while adding contact: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
         }
     }
 
-    // update Contact
+    // Update Contact
     @PutMapping(path = "/update/{id}")
-    public ResponseEntity<?> updateContact(@RequestBody String contactRequestDTO) throws IOException {
+    public ResponseEntity<String> updateContact(@PathVariable Long id,
+            @RequestBody ContactRequestDTO contactRequestDTO, Long idClient) {
         try {
-            serviceContact.updateContact(contactRequestDTO);
+            serviceContact.updateContact(contactRequestDTO, id, idClient);
             return ResponseEntity.ok("Contact updated successfully");
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
+            log.error("Error updating contact with id {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
+        } catch (Exception e) {
+            log.error("Unexpected error occurred while updating contact with id {}: {}", id, e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
         }
     }
 
-    // delete by id
+    // Delete Contact by id
     @DeleteMapping(path = "/delete/{id}")
-    public void deleteContact(@RequestParam Long id) {
-        serviceContact.deleteContact(id);
+    public ResponseEntity<String> deleteContact(@PathVariable Long id) {
+        try {
+            serviceContact.deleteContact(id);
+            return ResponseEntity.ok("Contact deleted successfully");
+        } catch (Exception e) {
+            log.error("Contact with id {} not found for deletion", id, e);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Contact not found with id: " + id);
+        }
     }
-
 }

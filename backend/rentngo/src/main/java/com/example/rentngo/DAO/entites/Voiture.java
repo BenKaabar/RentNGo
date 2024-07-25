@@ -17,32 +17,33 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 public class Voiture {
-    public Voiture(String name,String type,byte[] picbyte){
-        this.nomPhotoVoiture=name;
-        this.typePhotoVoiture=type;
-        this.PhotoVoiture=picbyte;
-      }
+  public Voiture(String name, String type, byte[] picbyte) {
+    this.nomPhotoVoiture = name;
+    this.typePhotoVoiture = type;
+    this.PhotoVoiture = picbyte;
+  }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String immatriculation;
-    private String marque;
-    private Long prix;
-    private String couleur;
-    private String categorie;
-    private long garantie;
-    private String nomPhotoVoiture;
-    @Column(name = "type")
-    private String typePhotoVoiture;
-    @Column(name = "picbyte", length = 50000000)
-    private byte[] PhotoVoiture;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  private String immatriculation;
+  private String marque;
+  private Long prix;
+  private String couleur;
+  private String categorie;
+  private long garantie;
+  private Boolean estDisponible;
+  private String nomPhotoVoiture;
+  @Column(name = "type")
+  private String typePhotoVoiture;
+  @Column(name = "picbyte", length = 50000000)
+  private byte[] PhotoVoiture;
 
-    @ManyToOne
-    @JoinColumn(name = "id_admin")
-    private Admin admin;
+  @ManyToOne
+  @JoinColumn(name = "id_admin")
+  private Admin admin;
 
-    @OneToOne()
-    // @JoinColumn(name = "reservation")
-    private Reservation reservation;
+  @OneToOne()
+  // @JoinColumn(name = "reservation")
+  private Reservation reservation;
 }

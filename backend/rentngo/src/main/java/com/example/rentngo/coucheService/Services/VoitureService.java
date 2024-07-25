@@ -9,8 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface VoitureService {
     List<Voiture> getAllCars();
+
     void addCar(String voitureRequestDTO, MultipartFile File) throws IOException;
+
     Voiture findCarById(Long id);
-    void updateCar(String voitureRequestDTO, MultipartFile File) throws IOException;
+
+    void updateCar(String voitureRequestDTO, MultipartFile File, Long id) throws IOException;
+
     void deleteCar(Long id);
 }

@@ -14,6 +14,6 @@ public class VoitureRequestDTO {
     private Long prix;
     private String couleur;
     private String categorie;
-    private long garantie;
+    private Long garantie;
     private String nomPhotoVoiture;
 }

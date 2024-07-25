@@ -1,37 +1,45 @@
 package com.example.rentngo.coucheService.ServicesImpl;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentngo.DAO.entites.Client;
 import com.example.rentngo.DAO.repository.ClientRepository;
 import com.example.rentngo.coucheService.Services.ServiceClient;
+import com.example.rentngo.coucheWeb.DTO.ClientRequestDTO;
 
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
 @Service
+@Slf4j
 @Transactional
 public class ServiceClientImpl implements ServiceClient {
-    final ClientRepository clientRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
     @Override
-    public Client addClient(Client client) {
-        if (client == null) {
-            return null;
-        }
-        return this.clientRepository.save(client);
+    public void addClient(ClientRequestDTO clientRequestDTO) throws IOException {
+        Client client = new Client();
+        client.setNom(clientRequestDTO.getEmail());
+        client.setPrenom(clientRequestDTO.getPrenom());
+        client.setEmail(clientRequestDTO.getEmail());
+        client.setMotDePasse(clientRequestDTO.getMotDePasse());
+        client.setTelephone(clientRequestDTO.getTelephone());
+        client.setAddress(clientRequestDTO.getAddress());
+        clientRepository.save(client);
+        log.info("client added successfully----------------------");
     }
 
     @Override
     public Client getClientById(Long id) {
-        if (id == null) {
-            return null;
-        }
-        return this.clientRepository.getClientById(id);
+        return clientRepository.findById(id).orElseThrow(() -> new RuntimeException("client not found"));
     }
 
     @Override
@@ -40,37 +48,46 @@ public class ServiceClientImpl implements ServiceClient {
     }
 
     @Override
-    public Client updateClient(Client client, Long id) {
-        Client existingClient = clientRepository.findById(id).orElse(null);
-        if (existingClient == null) {
-            return null;
+    public void updateClient(ClientRequestDTO clientRequestDTO, Long id) {
+        Client client = clientRepository.findById(id).orElse(null);
+        if (client != null) {
+            if (clientRequestDTO.getNom() != "") {
+                client.setNom(client.getNom());
+            }
+            if (clientRequestDTO.getPrenom() != "") {
+                client.setPrenom(client.getPrenom());
+            }
+            if (clientRequestDTO.getEmail() != "") {
+                client.setEmail(client.getEmail());
+            }
+            if (clientRequestDTO.getMotDePasse() != "") {
+                client.setMotDePasse(client.getMotDePasse());
+            }
+            if (clientRequestDTO.getTelephone() != null) {
+                client.setTelephone(client.getTelephone());
+            }
+            if (clientRequestDTO.getAddress() != "") {
+                client.setAddress(client.getAddress());
+            }
+            log.info("update client with id: {} done!--------------------", id);
+        } else {
+            log.warn("Attempted to update a client with id: {} that does not exist----------------------", id);
         }
-        existingClient.setNom(client.getNom());
-        existingClient.setPrenom(client.getPrenom());
-        existingClient.setEmail(client.getEmail());
-        existingClient.setMotDePasse(client.getMotDePasse());
-        existingClient.setTelephone(client.getTelephone());
-        existingClient.setAddress(client.getAddress());
-
-        return clientRepository.save(existingClient);
     }
 
     @Override
     public void deleteClientById(Long id) {
-        if (id == null) {
-            return;
+        Client client = clientRepository.findById(id).orElse(null);
+        if (client != null) {
+            clientRepository.delete(client);
+            log.info("Deleted client with id: {}----------------------", id);
         } else {
-            this.clientRepository.deleteById(id);
+            log.warn("Attempted to delete a client with id: {} that does not exist--------------------", id);
         }
     }
 
     @Override
     public List<Client> findByNom(String nom) {
-        if (nom == null) {
-            return null;
-        } else {
-            return this.clientRepository.findByNom(nom);
-        }
+        return clientRepository.findByNom(nom);
     }
-
 }
