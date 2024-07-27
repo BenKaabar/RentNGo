@@ -3,38 +3,36 @@
 
         <div class="col py-3">
             <!-- Contenu spécifique au composant -->
-            <h1 class="h2">Gestion des Réservations</h1>
+            <h1 class="h2">Gestion des Clients</h1>
             <div class="main-content">
-                <!-- Contenu spécifique à la gestion des réservations -->
+                <!-- Contenu spécifique à la gestion des clients -->
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">Client</th>
-                            <th scope="col">Voiture</th>
-                            <th scope="col">Date de début</th>
-                            <th scope="col">Date de fin</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Téléphone</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Achraf joujou</td>
-                            <td>Model S</td>
-                            <td>2024-07-01</td>
-                            <td>2024-07-10</td>
+                            <td>Joujou </td>
+                            <td>joujou@gmail.com</td>
+                            <td>53328233</td>
                             <td>
                                 <!-- Button trigger modal -->
                                 <div>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropConsulterreservation">
+                                        data-bs-target="#staticBackdropConsulterclient">
                                         Consulter
                                     </button>
                                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropmodifierreservation">
+                                        data-bs-target="#staticBackdropmodifierclient">
                                         Modifier
                                     </button>
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropsupprimerreservation">
+                                        data-bs-target="#staticBackdropsupprimerclient">
                                         Supprimer
                                     </button>
                                 </div>
@@ -45,42 +43,38 @@
                     </tbody>
                 </table>
                 <!-- Modal Consulter -->
-<div class="modal fade" id="staticBackdropConsulterreservation" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropConsulterreservationLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdropConsulterclient" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropConsulterclientLabel" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Consulter reservation</h1>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Consulter client</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <table>
                 <tr>
-                    <td>dateDebut : </td>
+                    <td>nom : </td>
                     <td>text here</td>
                 </tr>
                 <tr>
-                    <td>dateFin : </td>
+                    <td>prenom : </td>
                     <td>text here</td>
                 </tr>
                 <tr>
-                    <td>message : </td>
+                    <td>email : </td>
                     <td>text here</td>
                 </tr>
                 <tr>
-                    <td>status : </td>
+                    <td>motDePasse : </td>
                     <td>text here</td>
                 </tr>
                 <tr>
-                    <td>localisation : </td>
+                    <td>telephone : </td>
                     <td>text here</td>
                 </tr>
                 <tr>
-                    <td>voiture : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>client : </td>
+                    <td>address : </td>
                     <td>text here</td>
                 </tr>
 
@@ -94,42 +88,38 @@ tabindex="-1" aria-labelledby="staticBackdropConsulterreservationLabel" aria-hid
 </div>
 
 <!-- Modal modifier -->
-<div class="modal fade" id="staticBackdropmodifierreservation" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropmodifierreservationLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdropmodifierclient" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropmodifierclientLabel" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier reservation</h1>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier client</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <table>
                 <tr>
-                    <td>dateDebut : </td>
+                    <td>nom : </td>
                     <td><input type="text"></td>
                 </tr>
                 <tr>
-                    <td>dateFin : </td>
+                    <td>prenom : </td>
                     <td><input type="text"></td>
                 </tr>
                 <tr>
-                    <td>message : </td>
+                    <td>email : </td>
                     <td><input type="text"></td>
                 </tr>
                 <tr>
-                    <td>status : </td>
+                    <td>motDePasse : </td>
                     <td><input type="text"></td>
                 </tr>
                 <tr>
-                    <td>localisation : </td>
+                    <td>telephone : </td>
                     <td><input type="text"></td>
                 </tr>
                 <tr>
-                    <td>client : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>voiture : </td>
+                    <td>address : </td>
                     <td><input type="text"></td>
                 </tr>
             </table>
@@ -145,12 +135,12 @@ tabindex="-1" aria-labelledby="staticBackdropmodifierreservationLabel" aria-hidd
 <!--  -->
 
 <!-- Modal supprimer -->
-<div class="modal fade" id="staticBackdropsupprimerreservation" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropsupprimerreservationLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdropsupprimerclient" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropsupprimerclientLabel" aria-hidden="true">
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer reservation</h1>
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer client</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

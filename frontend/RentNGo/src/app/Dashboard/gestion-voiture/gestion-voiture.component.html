@@ -1,1 +1,170 @@
-<p>gestion-voiture works!</p>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+
+        <div class="col py-3">
+            <!-- Contenu spécifique au composant -->
+            <h1 class="h2">Gestion des Voitures</h1>
+            <div class="main-content">
+                <!-- Contenu spécifique à la gestion des voitures -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Modèle</th>
+                            <th scope="col">Marque</th>
+                            <th scope="col">Année</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Model S</td>
+                            <td>Tesla</td>
+                            <td>2022</td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <div>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdropConsultervoiture">
+                                        Consulter
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdropmodifiervoiture">
+                                        Modifier
+                                    </button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdropsupprimervoiture">
+                                        Supprimer
+                                    </button>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <!-- Ajoutez d'autres lignes ici -->
+                    </tbody>
+                </table>
+                <!-- Modal Consulter -->
+<div class="modal fade" id="staticBackdropConsultervoiture" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropConsultervoitureLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Consulter voiture</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <h6>Immatriculation :</h6>
+            <h6>Marque :</h6>
+            <h6>Prix :</h6>
+            <h6>Couleur :</h6>
+            <h6>Categorie :</h6>
+            <h6>Garantie :</h6>
+            <h6>EstDisponible :</h6>
+            <h6>Image voiture :</h6>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Modal modifier -->
+<div class="modal fade" id="staticBackdropmodifiervoiture" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropmodifiervoitureLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg"> <!-- Modified class here -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier voiture</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table>
+                <tr>
+                    <td>Immatriculation : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Marque : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Prix : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Couleur : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Categorie : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Garantie : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>EstDisponible : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>Image voiture : </td>
+                    <td>
+                        <!-- <img src="" alt=""> -->
+                    </td>
+                    <td><input type="file"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Modifier</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Modal supprimer -->
+<div class="modal fade" id="staticBackdropsupprimervoiture" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropsupprimervoitureLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer voiture</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table>
+
+                <tr>
+                    <td>Numero : </td>
+                    <td>text here </td>
+                </tr>
+                <tr>
+                    <td>Immatriculation : </td>
+                    <td>text here </td>
+                </tr>
+                <tr>
+                    <td>EstDisponible : </td>
+                    <td>text here</td>
+                </tr>
+                <tr>
+                    <td>Image voiture : </td>
+                    <td>
+                        <!-- <img src="" alt=""> -->
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger">Suprrimer</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+
+        </div>
+    </div>
+   </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>

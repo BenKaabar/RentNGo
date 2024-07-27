@@ -1,1 +1,127 @@
-<p>compte-client works!</p>
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+       
+        <div class="col py-3">
+
+            <div class="container-fluid">
+                <div class="row">
+                  <div class="col-12">
+                    <h1 class="h2">Mon Compte</h1>
+                    <div class="main-content">
+                      <!-- Informations Personnelles -->
+                      <div class="card mb-3">
+                        <div class="card-body">
+                          <h5 class="card-title">Informations Personnelles</h5>
+                          <form>
+                            <div class="mb-3">
+                              <label for="name" class="form-label">Nom</label>
+                              <input type="text" class="form-control" id="name" value="Joujou">
+                            </div>
+                            <div class="mb-3">
+                              <label for="email" class="form-label">Email</label>
+                              <input type="email" class="form-control" id="email" value="joujou@gmail.com">
+                            </div>
+                            <div class="mb-3">
+                              <label for="phone" class="form-label">Téléphone</label>
+                              <input type="tel" class="form-control" id="phone" value="53328233">
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateModal">
+                              Mettre à jour
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                      <!-- Modal Mettre à jour -->
+                      <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="updateModalLabel">Mettre à jour les informations</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <table>
+                                <tr>
+                                  <td>Nom : </td>
+                                  <td><input type="text" value="Joujou"></td>
+                                </tr>
+                                <tr>
+                                  <td>Email : </td>
+                                  <td><input type="email" value="joujou@gmail.com"></td>
+                                </tr>
+                                <tr>
+                                  <td>Téléphone : </td>
+                                  <td><input type="tel" value="53328233"></td>
+                                </tr>
+                              </table>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                              <button type="button" class="btn btn-primary">Sauvegarder</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Modifier le mot de passe -->
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Modifier le mot de passe</h5>
+                          <form>
+                            <div class="mb-3">
+                              <label for="currentPassword" class="form-label">Mot de passe actuel</label>
+                              <input type="password" class="form-control" id="currentPassword">
+                            </div>
+                            <div class="mb-3">
+                              <label for="newPassword" class="form-label">Nouveau mot de passe</label>
+                              <input type="password" class="form-control" id="newPassword">
+                            </div>
+                            <div class="mb-3">
+                              <label for="confirmPassword" class="form-label">Confirmer le nouveau mot de passe</label>
+                              <input type="password" class="form-control" id="confirmPassword">
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                              Changer le mot de passe
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                      <!-- Modal Changer le mot de passe -->
+                      <div class="modal fade" id="passwordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="passwordModalLabel">Changer le mot de passe</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <table>
+                                <tr>
+                                  <td>Mot de passe actuel : </td>
+                                  <td><input type="password"></td>
+                                </tr>
+                                <tr>
+                                  <td>Nouveau mot de passe : </td>
+                                  <td><input type="password"></td>
+                                </tr>
+                                <tr>
+                                  <td>Confirmer le nouveau mot de passe : </td>
+                                  <td><input type="password"></td>
+                                </tr>
+                              </table>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                              <button type="button" class="btn btn-primary">Sauvegarder</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+        </div>
+        
+</div>
