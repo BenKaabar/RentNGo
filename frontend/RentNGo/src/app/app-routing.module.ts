@@ -10,6 +10,7 @@ import { ReservationComponent } from './Reservation/reservation.component';
 import { SignInComponent } from './SignIn-SignUp/sign-in/sign-in.component';
 import { SignUpComponent } from './SignIn-SignUp/sign-up/sign-up.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
   { path: 'Accueil', component: PageAccueilComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'Reservation', component: ReservationComponent },
   { path: 'SignIn', component: SignInComponent },
   { path: 'SignUp', component: SignUpComponent },
+  { path: 'test', component: TestComponent },
   { path: '', redirectTo: '/Accueil', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];
