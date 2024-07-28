@@ -27,7 +27,7 @@ public class Contact {
     @JoinColumn(name = "id_client")
     private Client client;
 
-    @ManyToOne
-    @JoinColumn(name = "id_admin")
-    private Admin admin;
+    // @ManyToOne
+    // @JoinColumn(name = "id_admin")
+    // private Admin admin;
 }

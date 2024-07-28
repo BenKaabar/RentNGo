@@ -15,7 +15,6 @@ import { VoitureComponent } from './Voiture/voiture.component';
 import { AproposComponent } from './About/apropos/apropos.component';
 import { FaqComponent } from './About/faq/faq.component';
 
-import { ReservationComponent } from './Reservation/reservation.component';
 import { GestionContactComponent } from './Dashboard/gestion-contact/gestion-contact.component';
 import { GestionReservationComponent } from './Dashboard/gestion-reservation/gestion-reservation.component';
 import { GestionTemoignagesComponent } from './Dashboard/gestion-temoignages/gestion-temoignages.component';
@@ -30,6 +29,14 @@ import { Composant4Component } from './PageAccueil/ComposantsAccueil/composant4/
 import { Composant1Component } from './PageAccueil/ComposantsAccueil/composant1/composant1.component';
 import { Composant2Component } from './PageAccueil/ComposantsAccueil/composant2/composant2.component';
 import { Composant3Component } from './PageAccueil/ComposantsAccueil/composant3/composant3.component';
+import { Etape2Component } from './ReservationPage/composantsReservation/etapes/etape2/etape2.component';
+import { Etape3Component } from './ReservationPage/composantsReservation/etapes/etape3/etape3.component';
+import { GestionClientComponent } from './Dashboard/gestion-client/gestion-client.component';
+import { DashboardComponent } from './Dashboard/dashboard/dashboard.component';
+import { GestionTemoignageComponent } from './CompteClient/gestion-temoignage/gestion-temoignage.component';
+import { DashboardClientComponent } from './CompteClient/dashboard-client/dashboard-client.component';
+import { GestionReservationsComponent } from './CompteClient/gestion-reservations/gestion-reservations.component';
+import { ReservationComponent } from './ReservationPage/Reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -55,9 +62,15 @@ import { Composant3Component } from './PageAccueil/ComposantsAccueil/composant3/
     Composant4Component,
     Composant3Component,
     Composant2Component,
-    Composant1Component
-
-
+    Composant1Component,
+    Etape2Component,
+    Etape3Component,
+    GestionClientComponent,
+    DashboardComponent,
+    GestionTemoignageComponent,
+    DashboardClientComponent,
+    GestionReservationsComponent,
+    CompteClientComponent 
   ],
   imports: [
     BrowserModule,

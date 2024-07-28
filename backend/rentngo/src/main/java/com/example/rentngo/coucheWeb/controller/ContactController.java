@@ -12,7 +12,6 @@ import com.example.rentngo.DAO.entites.Contact;
 import com.example.rentngo.coucheService.Services.ServiceContact;
 import com.example.rentngo.coucheWeb.DTO.ContactRequestDTO;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController

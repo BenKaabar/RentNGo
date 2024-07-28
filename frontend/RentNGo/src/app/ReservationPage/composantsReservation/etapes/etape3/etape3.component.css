@@ -1,0 +1,40 @@
+.container {
+    max-width: 800px;
+  }
+  
+  .card {
+    margin-top: 20px;
+    border-color: #ddd;
+  }
+  
+  .card-header {
+    background-color: #6b9100; /* Green color matching the header */
+    color: white;
+  }
+  
+  .card-body {
+    background-color: #f9f9f9; /* Light grey background for the card body */
+  }
+  
+  h5 {
+    color: #333; /* Darker text color for headings */
+  }
+  
+  p {
+    color: #555; /* Medium text color for paragraphs */
+  }
+  
+  strong {
+    color: #000; /* Black color for strong text */
+  }
+  
+  .btn-primary {
+    background-color: #6b9100; /* Orange color for the button */
+    border-color: #6b9100;
+  }
+  
+  .btn-primary:hover {
+    background-color: #6b9100; /* Darker orange on hover */
+    border-color: #6b9100;
+  }
+  

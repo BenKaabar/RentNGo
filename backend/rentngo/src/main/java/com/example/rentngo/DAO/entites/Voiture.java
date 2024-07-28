@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -39,11 +37,6 @@ public class Voiture {
   @Column(name = "picbyte", length = 50000000)
   private byte[] PhotoVoiture;
 
-  @ManyToOne
-  @JoinColumn(name = "id_admin")
-  private Admin admin;
-
-  @OneToOne()
-  // @JoinColumn(name = "reservation")
+  @OneToOne(mappedBy = "voiture")
   private Reservation reservation;
 }

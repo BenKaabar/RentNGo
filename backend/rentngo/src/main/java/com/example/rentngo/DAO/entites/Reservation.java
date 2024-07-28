@@ -32,15 +32,15 @@ public class Reservation {
     private String localisation;
   
 
-    @OneToOne(mappedBy = "reservation")
-    // @JoinColumn
+    @OneToOne
+    @JoinColumn(name = "id_voiture") // Clé étrangère pour Voiture
     private Voiture voiture;
 
     @ManyToOne
     @JoinColumn(name = "id_client")
     private Client client;
 
-    @ManyToOne
-    @JoinColumn(name = "id_admin")
-    private Admin admin;
+    // @ManyToOne
+    // @JoinColumn(name = "id_admin")
+    // private Admin admin;
 }

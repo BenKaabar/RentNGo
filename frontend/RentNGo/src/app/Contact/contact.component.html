@@ -1,2 +1,218 @@
 <app-nav-bar></app-nav-bar>
+
+<div class="title">
+  <h3>À propos Clients</h3>
+</div>
+
+<section class="bg-light py-3  d-md-none d-lg-none">
+  <div class="container">
+    <div class="row filter  px-2">
+      <div class="col-6 pr-1-sm border-right ">
+        <a class="text-dark font-weight-500 font-14" data-toggle="collapse" href="#col-agency-1" aria-expanded="false"
+          aria-controls="col-agency-1"> <i class="fas fa-map-marked-alt pr-1"></i>Agence Hammamet</a>
+      </div>
+      <div class="col-6 pr-1-sm  border-left ">
+        <a class="text-dark  font-weight-500 font-14" data-toggle="collapse" href="#col-agency-2" aria-expanded="false"
+          aria-controls="col-agency-2">
+          <i class="fas fa-map-marked-alt pr-1"></i> Agence Djerba</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-md-5">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-5">
+                <h1 class="h3 text-orange">Nous contacter</h1>
+                <p class="hidden-sm">N'hésitez pas à contacter notre service clientèle pour tous renseignements ou pour
+                  toutes questions relative à la location automobile.
+                  RentNGo agence de location de voitures, est à votre entière disposition tous les jours de <span
+                    class="font-weight-500">8h00 à 20h00</span>.
+                  <br>
+                  Notre mission : mettre en œuvre tout ce qui est possible pour votre satisfaction. Vous pouvez nous
+                  joindre par courrier, par téléphone ou compléter le formulaire qui suit.
+                  En vous adressant à une agence de location reconnue, vous êtes assuré de bénéficier d'un service de
+                  location de voiture discount et de qualité.
+                </p>
+              </div>
+              <div class="col-md-7">
+                <form name="contactForm" id="contactForm" action="/app/contact-action.cfm" method="post">
+                  <input type="hidden" name="token" value="4B53699BC5FFBDCF0E4EA8E92734A71649BA6E05">
+                  <div class="d-flex">
+                    <div class="mr-3 form-group validator-log">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="title" value="Mr" checked="" required="">
+                        <label class="form-check-label">
+                          Mr
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-group validator-log">
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="title" value="Mme" required="">
+                        <label class="form-check-label">
+                          Mme
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <span>Nom de famille</span>
+                        <input type="text" class=" form-control" placeholder="Nom de famille*" name="firstName"
+                          required="">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <span>Prénom</span>
+                        <input type="text" class="form-control" placeholder="Prénom*" name="lastName" required="">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 form-group">
+                      <span>Email</span>
+                      <input type="text" class="form-control " placeholder="Votre e-mail*" name="email" required="">
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <span>Téléphone</span>
+                      <input type="tel" class="form-control" name="tel" id="tel" required=""
+                        placeholder="Votre Télephone" autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <span>Message</span>
+                        <textarea class="form-control" name="message" id="message" rows="5"
+                          placeholder="Ecrire un message">
+                      </textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3 mb-3">
+                    <div class="col-md-12">
+                      <div class="text-md-right">
+                        <button type="submit" class="btn btn-warning rounded-0  btn-sm-block">Envoyer</button>
+                        <div id="result-contact"></div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row ">
+      <div class="col-md-6">
+        <div class="d-md-block collapse" id="col-agency-1">
+          <div class="card shadow mb-4">
+            <div class="px-3 py-2 border-bottom  mb-2 d-block d-sm-none">
+              <div class="d-flex">
+                <span class="text-primary font-weight-600"> Agence Hammamet</span>
+                <a class="ml-auto text-danger" data-toggle="collapse" href="#col-agency-1" aria-expanded="true"
+                  aria-controls="col-agency-1">
+                  <i class="fas fa-times fa-lg"></i>
+                </a>
+              </div>
+            </div>
+            <div class="d-md-flex">
+              <ul class="links p-3 list-unstyled   mb-md-0 ">
+                <li class="mb-2">
+                  <h4> <i class="fas fa-map-marker-alt pr-2 text-warning"></i> Adresse Hammamet</h4>
+                  <div class="pl-4"> RentNGo, Avenue Moncef Bey Hammamet 8050.
+                  </div>
+                </li>
+                <li class="mb-2">
+                  <h4><i class="fas fa-envelope-open-text pr-2 text-warning"></i> Email</h4>
+                  <div class="pl-4">
+                    <script type="text/javascript">
+                      var emailriddlerarray = [105, 110, 102, 111, 64, 109, 97, 109, 105, 99, 97, 114, 46, 99, 111, 109]
+                      var encryptedemail_id78 = ''
+                      for (var i = 0; i < emailriddlerarray.length; i++)
+                        encryptedemail_id78 += String.fromCharCode(emailriddlerarray[i])
+                      document.write('<a href="mailto:' + encryptedemail_id78 + '" class="text-dark ">info@RentNGo.com</a>') 
+                    </script>
+                  </div>
+                </li>
+                <li class="mb-2">
+                  <h4><i class="fa fa-phone-alt pr-2 text-warning"></i> Contact </h4>
+                  <div class="pl-4"> <a href="tel:+21698227234" class="text-dark"> +216 98 227 234 </a> / <a
+                      href="tel:+21627260040" class="text-dark "> +216 27 26 00 40 </a> / <a href="tel:+21672310773"
+                      class="text-dark"> +216 72 310 773 </a></div>
+                </li>
+              </ul>
+              <div class="">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3211.2413704129253!2d10.566913315625612!3d36.403355097636194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd617c57a009fd%3A0x49e170bce01ee2ad!2sMAMICAR%20Hammamet!5e0!3m2!1sfr!2stn!4v1584009075043!5m2!1sfr!2stn"
+                  width="100%" height="280" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
+                  tabindex="0"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 ">
+        <div class="d-md-block collapse" id="col-agency-2">
+          <div class="card shadow mb-4">
+            <div class="px-3 py-2 border-bottom  mb-2 d-block d-sm-none">
+              <div class="d-flex">
+                <span class="text-primary font-weight-600"> Agence Djerba</span>
+                <a class="ml-auto text-danger" data-toggle="collapse" href="#col-agency-2" aria-expanded="true"
+                  aria-controls="col-agency-2">
+                  <i class="fas fa-times fa-lg"></i>
+                </a>
+              </div>
+            </div>
+            <div class="d-md-flex">
+              <ul class="links p-3 list-unstyled mb-md-0">
+                <li class="mb-2">
+                  <h4> <i class="fas fa-map-marker-alt pr-2 text-warning"></i> Adresse Djerba</h4>
+                  <div class="pl-4"> RentNGo Djerba, Mellita l'aéroport, Centre Barbouch, Rez de chaussée, Bureau N&deg;
+                    3, 4120 Djerba.</div>
+                </li>
+                <li class="mb-2">
+                  <h4><i class="fas fa-envelope-open-text  pr-2 text-warning"></i> Email</h4>
+                  <div class="pl-4">
+                    <script type="text/javascript">
+                      var emailriddlerarray = [105, 110, 102, 111, 64, 109, 97, 109, 105, 99, 97, 114, 46, 99, 111, 109]
+                      var encryptedemail_id78 = ''
+                      for (var i = 0; i < emailriddlerarray.length; i++)
+                        encryptedemail_id78 += String.fromCharCode(emailriddlerarray[i])
+                      document.write('<a href="mailto:' + encryptedemail_id78 + '" class="text-dark">info@RentNGo.com</a>') 
+                    </script>
+                  </div>
+                </li>
+                <li class="mb-2">
+                  <h4><i class="fa fa-phone-alt pr-2 text-warning"></i> Contact </h4>
+                  <div class="pl-4"> <a href="tel:+21698227234" class="text-dark"> +216 98 227 234 </a> / <a
+                      href="tel:+21627260040" class="text-dark"> +216 27 26 00 40 </a> / <a href="tel:+21672310773"
+                      class="text-dark"> +216 72 310 773 </a></div>
+                </li>
+              </ul>
+              <div class="">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3312.804169823918!2d10.7777131!3d33.8689374!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xbc994d045f50120d!2sMAMICAR%20Djerba!5e0!3m2!1sfr!2stn!4v1642028025666!5m2!1sfr!2stn"
+                  width="100%" height="280" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</section>
 <app-footer></app-footer>

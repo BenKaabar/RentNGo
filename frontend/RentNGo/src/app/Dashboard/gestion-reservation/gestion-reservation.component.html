@@ -1,1 +1,175 @@
-<p>gestion-reservation works!</p>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+
+        <div class="col py-3">
+            <!-- Contenu spécifique au composant -->
+            <h1 class="h2">Gestion des Réservations</h1>
+            <div class="main-content">
+                <!-- Contenu spécifique à la gestion des réservations -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Client</th>
+                            <th scope="col">Voiture</th>
+                            <th scope="col">Date de début</th>
+                            <th scope="col">Date de fin</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Achraf joujou</td>
+                            <td>Model S</td>
+                            <td>2024-07-01</td>
+                            <td>2024-07-10</td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <div>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdropConsulterreservation">
+                                        Consulter
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdropmodifierreservation">
+                                        Modifier
+                                    </button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdropsupprimerreservation">
+                                        Supprimer
+                                    </button>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <!-- Ajoutez d'autres lignes ici -->
+                    </tbody>
+                </table>
+                <!-- Modal Consulter -->
+<div class="modal fade" id="staticBackdropConsulterreservation" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropConsulterreservationLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Consulter reservation</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table>
+                <tr>
+                    <td>dateDebut : </td>
+                    <td>text here</td>
+                </tr>
+                <tr>
+                    <td>dateFin : </td>
+                    <td>text here</td>
+                </tr>
+                <tr>
+                    <td>message : </td>
+                    <td>text here</td>
+                </tr>
+                <tr>
+                    <td>status : </td>
+                    <td>text here</td>
+                </tr>
+                <tr>
+                    <td>localisation : </td>
+                    <td>text here</td>
+                </tr>
+                <tr>
+                    <td>voiture : </td>
+                    <td>text here</td>
+                </tr>
+                <tr>
+                    <td>client : </td>
+                    <td>text here</td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Modal modifier -->
+<div class="modal fade" id="staticBackdropmodifierreservation" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropmodifierreservationLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier reservation</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table>
+                <tr>
+                    <td>dateDebut : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>dateFin : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>message : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>status : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>localisation : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>client : </td>
+                    <td><input type="text"></td>
+                </tr>
+                <tr>
+                    <td>voiture : </td>
+                    <td><input type="text"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Modifier</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+
+        </div>
+    </div>
+</div>
+</div>
+<!--  -->
+
+<!-- Modal supprimer -->
+<div class="modal fade" id="staticBackdropsupprimerreservation" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropsupprimerreservationLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer reservation</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table>
+                <tr>
+                    <td>Numero : </td>
+                    <td>text here </td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger">Suprrimer</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+
+        </div>
+    </div>
+   </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>

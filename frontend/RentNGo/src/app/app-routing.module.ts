@@ -6,11 +6,20 @@ import { TemoignagesComponent } from './Temoignages/temoignages.component';
 import { AproposComponent } from './About/apropos/apropos.component';
 import { FaqComponent } from './About/faq/faq.component';
 import { ContactComponent } from './Contact/contact.component';
-import { ReservationComponent } from './Reservation/reservation.component';
 import { SignInComponent } from './SignIn-SignUp/sign-in/sign-in.component';
 import { SignUpComponent } from './SignIn-SignUp/sign-up/sign-up.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { TestComponent } from './test/test.component';
+import { CompteClientComponent } from './CompteClient/compte-client/compte-client.component';
+import { DashboardClientComponent } from './CompteClient/dashboard-client/dashboard-client.component';
+import { GestionReservationsComponent } from './CompteClient/gestion-reservations/gestion-reservations.component';
+import { GestionTemoignageComponent } from './CompteClient/gestion-temoignage/gestion-temoignage.component';
+import { DashboardComponent } from './Dashboard/dashboard/dashboard.component';
+import { GestionClientComponent } from './Dashboard/gestion-client/gestion-client.component';
+import { GestionContactComponent } from './Dashboard/gestion-contact/gestion-contact.component';
+import { GestionReservationComponent } from './Dashboard/gestion-reservation/gestion-reservation.component';
+import { GestionTemoignagesComponent } from './Dashboard/gestion-temoignages/gestion-temoignages.component';
+import { GestionVoitureComponent } from './Dashboard/gestion-voiture/gestion-voiture.component';
+import { ReservationComponent } from './ReservationPage/Reservation/reservation.component';
 
 const routes: Routes = [
   { path: 'Accueil', component: PageAccueilComponent },
@@ -23,11 +32,28 @@ const routes: Routes = [
   { path: 'Reservation', component: ReservationComponent },
   { path: 'SignIn', component: SignInComponent },
   { path: 'SignUp', component: SignUpComponent },
-  { path: 'test', component: TestComponent },
   { path: '', redirectTo: '/Accueil', pathMatch: 'full' },
+ 
+  {
+    path: 'admin', component: DashboardComponent, children: [
+      { path: 'gestion-client', component: GestionClientComponent },
+      { path: 'gestion-contact', component: GestionContactComponent },
+      { path: 'gestion-reservation', component: GestionReservationComponent },
+      { path: 'gestion-temoignages', component: GestionTemoignagesComponent },
+      { path: 'gestion-voiture', component: GestionVoitureComponent },
+      { path: '', redirectTo: 'gestion-client', pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'client', component: DashboardClientComponent, children: [
+      { path: 'compte-client', component: CompteClientComponent },
+      { path: 'gestion-reservations', component: GestionReservationsComponent },
+      { path: 'gestion-temoignage', component: GestionTemoignageComponent },
+      { path: '', redirectTo: 'compte-client', pathMatch: 'full' }
+    ]
+  },
   { path: '**', component: NotFoundComponent },
 ];
-
   // {path:'',redirectTo:'/produits',pathMatch:'full'}
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

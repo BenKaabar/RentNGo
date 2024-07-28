@@ -1,7 +1,5 @@
 package com.example.rentngo.coucheWeb.DTO;
 
-import java.util.Date;
-
 import com.example.rentngo.DAO.enums.Status;
 
 import lombok.AllArgsConstructor;

@@ -1,0 +1,108 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="h2">Mes Réservations</h1>
+        <div class="main-content">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Numéro</th>
+                <th scope="col">Réservation</th>
+                <th scope="col">Date</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Réservation 1</td>
+                <td>2023-07-25</td>
+                <td>Confirmé</td>
+                <td>
+                  <button class="btn btn-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#viewReservationModal1">Consulter</button>
+                  <button class="btn btn-secondary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editReservationModal1">Modifier</button>
+                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelReservationModal1">Annuler</button>
+                </td>
+              </tr>
+              <!-- Ajoutez d'autres lignes ici -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Consulter Réservation -->
+  <div class="modal fade" id="viewReservationModal1" tabindex="-1" aria-labelledby="viewReservationModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewReservationModalLabel1">Détails de la Réservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Informations détaillées de la réservation 1...</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Modifier Réservation -->
+  <div class="modal fade" id="editReservationModal1" tabindex="-1" aria-labelledby="editReservationModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editReservationModalLabel1">Modifier Réservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="reservationName" class="form-label">Nom de la réservation</label>
+              <input type="text" class="form-control" id="reservationName" value="Réservation 1">
+            </div>
+            <div class="mb-3">
+              <label for="reservationDate" class="form-label">Date de la réservation</label>
+              <input type="date" class="form-control" id="reservationDate" value="2023-07-25">
+            </div>
+            <div class="mb-3">
+              <label for="reservationStatus" class="form-label">Statut</label>
+              <select class="form-control" id="reservationStatus">
+                <option selected>Confirmé</option>
+                <option>En attente</option>
+                <option>Annulé</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-primary">Sauvegarder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Annuler Réservation -->
+  <div class="modal fade" id="cancelReservationModal1" tabindex="-1" aria-labelledby="cancelReservationModalLabel1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cancelReservationModalLabel1">Annuler Réservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Êtes-vous sûr de vouloir annuler la réservation 1 ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
+          <button type="button" class="btn btn-danger">Oui, annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

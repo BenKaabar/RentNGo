@@ -1,0 +1,14 @@
+.title {
+    height: 84px;
+    background-color: rgb(107, 145, 0);
+    display: flex;
+    padding-left: 200px;
+    align-items: center;
+}
+h3 {
+    color: white;
+}
+
+.text-orange {
+    color : #ff6f00!important
+} 

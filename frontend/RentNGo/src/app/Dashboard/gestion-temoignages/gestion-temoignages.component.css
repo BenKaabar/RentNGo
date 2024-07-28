@@ -1,0 +1,49 @@
+/* Couleur des liens de navigation */
+.nav-link {
+    color: #7fb03e !important;
+}
+
+/* Couleur des liens de navigation lorsqu'ils sont actifs */
+.nav-link.active {
+    background-color: #7fb03e !important;
+    border-color: #7fb03e !important;
+    color: white !important;
+}
+
+/* Autres styles pour la table et les boutons */
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn {
+    margin-right: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+.px-3 {
+    padding-right: 0rem !important;
+    padding-left: 0rem !important;
+}
+
+textarea{
+    width: 100%;
+}

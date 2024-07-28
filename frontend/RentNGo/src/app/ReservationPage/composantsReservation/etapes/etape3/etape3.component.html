@@ -1,0 +1,39 @@
+<p>etape3 works!</p>
+<div class="container mt-5">
+  <div class="card">
+    <div class="card-header text-white">
+      <h3>Confirmation de la Réservation</h3>
+    </div>
+    <div class="card-body">
+      <p>Merci pour votre réservation ! Voici les détails de votre demande :</p>
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Détails du véhicule</h5>
+          <p><strong>Modèle:</strong> Dacia Duster 4X4 DCI 2024</p>
+          <p><strong>Prix:</strong> 720.00 TND</p>
+          <p><strong>Durée:</strong> 2 jours</p>
+        </div>
+        <div class="col-md-6">
+          <h5>Informations du conducteur</h5>
+          <p><strong>Nom:</strong> {{ reservationDetails.nom }}</p>
+          <p><strong>Email:</strong> {{ reservationDetails.email }}</p>
+          <p><strong>Numéro de Téléphone:</strong> {{ reservationDetails.mobile }}</p>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <h5>Options supplémentaires</h5>
+          <p><strong>Siège bébé:</strong> {{ reservationDetails.siegeBebe ? 'Oui' : 'Non' }}</p>
+          <p><strong>Rehausseur:</strong> {{ reservationDetails.rehausseur ? 'Oui' : 'Non' }}</p>
+        </div>
+        <div class="col-md-6">
+          <h5>Informations sur la livraison</h5>
+          <p><strong>Numéro de Vol:</strong> {{ reservationDetails.numeroVol }}</p>
+        </div>
+      </div>
+      <div class="mt-4">
+        <button class="btn btn-primary" (click)="goToHomePage()">Retour à l'accueil</button>
+      </div>
+    </div>
+  </div>
+</div>

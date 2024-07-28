@@ -4,7 +4,8 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-   
+    background-image: url("/assets/images/login/background1.jpg");
+    background-size: cover;
 
 }
 
@@ -57,10 +58,11 @@ h5 {
 .signup {
     background-color: blanchedalmond;
     width: 60%;
-    
+
     padding: 30px;
 }
-.signupform{
+
+.signupform {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 10px;
@@ -79,6 +81,8 @@ h5 {
 
 .input-group-sm .form-control,
 .input-group-sm .input-group-text {
-  height: 2.5rem; /* Adjust to your desired height */
-  font-size: 0.875rem; /* Adjust font size if needed */
+    height: 2.5rem;
+    /* Adjust to your desired height */
+    font-size: 0.875rem;
+    /* Adjust font size if needed */
 }

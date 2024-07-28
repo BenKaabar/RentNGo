@@ -7,8 +7,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -32,9 +30,9 @@ public class Client {
     private String address;
 
    
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
+    // @ManyToOne
+    // @JoinColumn(name = "admin_id")
+    // private Admin admin;
 
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private List<Contact> contacts;
