@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.rentngo.DAO.entites.Contact;
 import com.example.rentngo.coucheService.Services.ServiceContact;
-import com.example.rentngo.coucheWeb.DTO.ContactRequestDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,7 +42,7 @@ public class ContactController {
 
     // Add Contact
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addContact(@RequestBody ContactRequestDTO contactRequestDTO, Long idClient) {
+    public ResponseEntity<String> addContact(@RequestBody String contactRequestDTO, Long idClient) {
         try {
             serviceContact.addContact(contactRequestDTO, idClient);
             return ResponseEntity.ok("Contact added successfully");
@@ -60,7 +59,7 @@ public class ContactController {
     // Update Contact
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<String> updateContact(@PathVariable Long id,
-            @RequestBody ContactRequestDTO contactRequestDTO, Long idClient) {
+            @RequestBody String contactRequestDTO, Long idClient) {
         try {
             serviceContact.updateContact(contactRequestDTO, id, idClient);
             return ResponseEntity.ok("Contact updated successfully");

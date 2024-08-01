@@ -1,14 +1,13 @@
 <div class="container-fluid">
     <div class="row flex-nowrap">
-    
         <div class="col py-3">
-            <!-- Contenu spécifique au composant -->
             <h1 class="h2">Gestion des Témoignages</h1>
             <div class="main-content">
-                <!-- Contenu spécifique à la gestion des témoignages -->
+                <button type="button" class="btn btn-success">Ajouter temoignage</button>
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th scope="col">Numéro</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Témoignage</th>
                             <th scope="col">Date</th>
@@ -16,95 +15,64 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Joujouu</td>
-                            <td>Service excellent!</td>
-                            <td>2024-07-25</td>
+                        <tr *ngFor="let temoignage of temoignages; let i=index">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ temoignage.client.nom }}</td>
+                            <td>{{ temoignage.messageTemoignage }}</td>
+                            <td>{{ temoignage.dateTemoignage }}</td>
                             <td>
-                             <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdropConsulter">
-    Consulter
-</button>
-<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdropmidifier">
-    Modifier
-</button>
-<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropsupprimer">
-    Supprimer
-</button>
-
-<!-- Modal Consulter -->
-<div class="modal fade" id="staticBackdropConsulter" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropConsulterLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Consulter temoignage</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h4>sghaier (18/07/2024) 5/5</h4>
-                <h6>Honnêtement, j'apprécie la livraison de la voiture à l'endroit exact, cela m'a rendu la tâche très
-                    facile</h6>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal midifier -->
-<div class="modal fade" id="staticBackdropmidifier" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropmidifierLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier temoignage</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h4>sghaier (18/07/2024) 5/5</h4>
-                <textarea>Honnêtement, j'apprécie la livraison de la voiture à l'endroit exact, cela m'a rendu la tâche très
-                    facile</textarea>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Modifier</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-                
-            </div>
-        </div>
-    </div>
-</div>
-<!--  -->
-
-<!-- Modal supprimer -->
-<div class="modal fade" id="staticBackdropsupprimer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropsupprimerLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer temoignage</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h6>Numero : </h6>
-                <h6>Honnêtement, j'apprécie la livraison de la voiture à l'endroit exact, cela m'a rendu la tâche très
-                    facile</h6>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Suprrimer</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-                
-            </div>
-        </div>
-    </div>
-</div>
+                                <!-- Bouton Consulter -->
+                                <button type="button" class="btn btn-primary" (click)="openConsultModal(temoignage)" [disabled]="isDeleteModalOpen">
+                                    Consulter
+                                </button>
+                                <!-- Bouton Supprimer avec modal -->
+                                <button type="button" class="btn btn-danger" (click)="openDeleteModal(temoignage)" [disabled]="isConsultModalOpen">
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
-                        <!-- Ajoutez d'autres lignes ici -->
                     </tbody>
                 </table>
-                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Consulter -->
+<div *ngIf="selectedTemoignage && isConsultModalOpen" class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Consulter témoignage</h1>
+                <button type="button" class="btn-close" (click)="closeConsultModal()"></button>
+            </div>
+            <div class="modal-body">
+                <h4>{{ selectedTemoignage.client.nom }}, {{ selectedTemoignage.client.prenom }}</h4>
+                <h6>{{ selectedTemoignage.dateTemoignage }}</h6>
+                <h6>{{ selectedTemoignage.messageTemoignage }}</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeConsultModal()">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Supprimer -->
+<div class="modal fade" id="staticBackdropsupprimer" tabindex="-1" aria-labelledby="staticBackdropsupprimerLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropsupprimerLabel">Supprimer témoignage</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Numéro : {{ selectedTemoignage?.id }}</h6>
+                <h6>{{ selectedTemoignage?.messageTemoignage }}</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="deleteTemoignage(selectedTemoignage?.id)">Supprimer</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeDeleteModal()">Fermer</button>
             </div>
         </div>
     </div>

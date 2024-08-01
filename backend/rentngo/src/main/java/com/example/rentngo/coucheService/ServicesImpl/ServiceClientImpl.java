@@ -10,6 +10,7 @@ import com.example.rentngo.DAO.entites.Client;
 import com.example.rentngo.DAO.repository.ClientRepository;
 import com.example.rentngo.coucheService.Services.ServiceClient;
 import com.example.rentngo.coucheWeb.DTO.ClientRequestDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,23 +24,26 @@ import lombok.extern.slf4j.Slf4j;
 public class ServiceClientImpl implements ServiceClient {
     @Autowired
     private ClientRepository clientRepository;
+    
+    private final ObjectMapper objectMapper = new ObjectMapper(); // Create an instance of ObjectMapper
 
     @Override
-    public void addClient(ClientRequestDTO clientRequestDTO) throws IOException {
+    public void addClient(String dto) throws IOException {
         Client client = new Client();
-        client.setNom(clientRequestDTO.getEmail());
-        client.setPrenom(clientRequestDTO.getPrenom());
-        client.setEmail(clientRequestDTO.getEmail());
-        client.setMotDePasse(clientRequestDTO.getMotDePasse());
-        client.setTelephone(clientRequestDTO.getTelephone());
-        client.setAddress(clientRequestDTO.getAddress());
+        ClientRequestDTO clientRequestDTO1 = objectMapper.readValue(dto, ClientRequestDTO.class);
+        client.setNom(clientRequestDTO1.getNom());
+        client.setPrenom(clientRequestDTO1.getPrenom());
+        client.setEmail(clientRequestDTO1.getEmail());
+        client.setMotDePasse(clientRequestDTO1.getMotDePasse());
+        client.setTelephone(clientRequestDTO1.getTelephone());
+        client.setAddress(clientRequestDTO1.getAddress());
         clientRepository.save(client);
-        log.info("client added successfully----------------------");
+        log.info("Client added successfully----------------------");
     }
 
     @Override
     public Client getClientById(Long id) {
-        return clientRepository.findById(id).orElseThrow(() -> new RuntimeException("client not found"));
+        return clientRepository.findById(id).orElseThrow(() -> new RuntimeException("Client not found"));
     }
 
     @Override
@@ -48,28 +52,30 @@ public class ServiceClientImpl implements ServiceClient {
     }
 
     @Override
-    public void updateClient(ClientRequestDTO clientRequestDTO, Long id) {
+    public void updateClient(String dto, Long id) throws IOException {
         Client client = clientRepository.findById(id).orElse(null);
         if (client != null) {
-            if (clientRequestDTO.getNom() != "") {
-                client.setNom(client.getNom());
+            ClientRequestDTO clientRequestDTO1 = objectMapper.readValue(dto, ClientRequestDTO.class);
+            if (!clientRequestDTO1.getNom().isEmpty()) {
+                client.setNom(clientRequestDTO1.getNom());
             }
-            if (clientRequestDTO.getPrenom() != "") {
-                client.setPrenom(client.getPrenom());
+            if (!clientRequestDTO1.getPrenom().isEmpty()) {
+                client.setPrenom(clientRequestDTO1.getPrenom());
             }
-            if (clientRequestDTO.getEmail() != "") {
-                client.setEmail(client.getEmail());
+            if (!clientRequestDTO1.getEmail().isEmpty()) {
+                client.setEmail(clientRequestDTO1.getEmail());
             }
-            if (clientRequestDTO.getMotDePasse() != "") {
-                client.setMotDePasse(client.getMotDePasse());
+            if (!clientRequestDTO1.getMotDePasse().isEmpty()) {
+                client.setMotDePasse(clientRequestDTO1.getMotDePasse());
             }
-            if (clientRequestDTO.getTelephone() != null) {
-                client.setTelephone(client.getTelephone());
+            if (clientRequestDTO1.getTelephone() != null) {
+                client.setTelephone(clientRequestDTO1.getTelephone());
             }
-            if (clientRequestDTO.getAddress() != "") {
-                client.setAddress(client.getAddress());
+            if (!clientRequestDTO1.getAddress().isEmpty()) {
+                client.setAddress(clientRequestDTO1.getAddress());
             }
-            log.info("update client with id: {} done!--------------------", id);
+            clientRepository.save(client);
+            log.info("Updated client with id: {} done!--------------------", id);
         } else {
             log.warn("Attempted to update a client with id: {} that does not exist----------------------", id);
         }

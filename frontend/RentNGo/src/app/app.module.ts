@@ -37,6 +37,8 @@ import { GestionTemoignageComponent } from './CompteClient/gestion-temoignage/ge
 import { DashboardClientComponent } from './CompteClient/dashboard-client/dashboard-client.component';
 import { GestionReservationsComponent } from './CompteClient/gestion-reservations/gestion-reservations.component';
 import { ReservationComponent } from './ReservationPage/Reservation/reservation.component';
+import { HttpClientModule } from '@angular/common/http';
+import { TruncatePipe } from './Services/Truncate/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -70,14 +72,16 @@ import { ReservationComponent } from './ReservationPage/Reservation/reservation.
     GestionTemoignageComponent,
     DashboardClientComponent,
     GestionReservationsComponent,
-    CompteClientComponent 
+    CompteClientComponent,
+    TruncatePipe 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

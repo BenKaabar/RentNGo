@@ -1,13 +1,10 @@
 package com.example.rentngo.DAO.entites;
 
-import java.util.List;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,12 +31,12 @@ public class Client {
     // @JoinColumn(name = "admin_id")
     // private Admin admin;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    private List<Contact> contacts;
+    // @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    // private List<Contact> contacts;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    private List<Temoignage> temoignages;
+    // @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    // private List<Temoignage> temoignages;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    private List<Reservation> reservations;
+    // @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    // private List<Reservation> reservations;
 }

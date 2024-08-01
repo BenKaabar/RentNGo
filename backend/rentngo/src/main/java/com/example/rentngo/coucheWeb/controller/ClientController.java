@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.rentngo.DAO.entites.Client;
 import com.example.rentngo.coucheService.Services.ServiceClient;
-import com.example.rentngo.coucheWeb.DTO.ClientRequestDTO;
 
 import lombok.AllArgsConstructor;
 
@@ -61,7 +60,7 @@ public class ClientController {
 
     // Add client
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+    public ResponseEntity<String> addClient(@RequestBody String clientRequestDTO) {
         try {
             serviceClient.addClient(clientRequestDTO);
             return ResponseEntity.ok("Client added successfully");
@@ -76,7 +75,7 @@ public class ClientController {
 
     // Update client
     @PutMapping(path = "/update/{id}")
-    public ResponseEntity<String> updateClient(@PathVariable Long id, @RequestBody ClientRequestDTO clientRequestDTO) {
+    public ResponseEntity<String> updateClient(@PathVariable Long id, @RequestBody String clientRequestDTO) {
         try {
             serviceClient.updateClient(clientRequestDTO, id);
             return ResponseEntity.ok("Client updated successfully");

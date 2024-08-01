@@ -1,7 +1,5 @@
 package com.example.rentngo.DAO.entites;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +20,7 @@ public class Temoignage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime dateTemoignage;
+    private String dateTemoignage;
     private String messageTemoignage;
 
     @ManyToOne

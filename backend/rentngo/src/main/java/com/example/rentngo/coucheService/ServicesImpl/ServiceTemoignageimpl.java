@@ -28,7 +28,7 @@ public class ServiceTemoignageImpl implements ServiceTemoignage {
     private TemoignageRepository temoignageRepository;
 
     @Override
-    public void addTemoignage(TemoignageRequestDTO temoignageRequestDTO, Long idClient) throws IOException {
+    public void addTemoignage(TemoignageRequestDTO temoignageRequestDTO) throws IOException {
         Client client = clientRepository.findById(temoignageRequestDTO.getIdClient()).orElse(null);
         if (client != null) {
             Temoignage temoignage = new Temoignage();
@@ -36,7 +36,7 @@ public class ServiceTemoignageImpl implements ServiceTemoignage {
             temoignage.setMessageTemoignage(temoignageRequestDTO.getMessageTemoignage());
             temoignage.setClient(client);
             temoignageRepository.save(temoignage);
-            log.info("Added new temoignage to client id {} ----------------------", idClient);
+            log.info("Added new temoignage to client id {} ----------------------");
         } else {
             log.warn("Attempted to add a temoignage failed--------------------");
         }
@@ -50,14 +50,20 @@ public class ServiceTemoignageImpl implements ServiceTemoignage {
 
     @Override
     public List<Temoignage> getAllTemoignage() {
-        return temoignageRepository.findAll();
+        try {
+            return temoignageRepository.findAll(); // Assurez-vous que cette ligne ne génère pas d'exception
+        } catch (Exception e) {
+            // Log l'erreur pour diagnostiquer les problèmes potentiels
+            log.error("Error retrieving all temoignages", e);
+            throw new RuntimeException("Could not retrieve temoignages", e);
+        }
     }
 
     @Override
     public void deleteTemoignage(Long id) {
         Temoignage temoignage = temoignageRepository.findById(id).orElse(null);
 
-        if (temoignage != null) {
+        if (temoignage == null) {
             log.error("Temoignage with id {} not found for deletion", id);
             throw new RuntimeException("Temoignage with id " + id + " not found");
         }

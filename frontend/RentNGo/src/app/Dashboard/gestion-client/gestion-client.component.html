@@ -1,14 +1,14 @@
 <div class="container-fluid">
     <div class="row flex-nowrap">
-
         <div class="col py-3">
-            <!-- Contenu spécifique au composant -->
             <h1 class="h2">Gestion des Clients</h1>
             <div class="main-content">
-                <!-- Contenu spécifique à la gestion des clients -->
+                <button type="button" class="btn btn-success">Ajouter client</button>
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th scope="col">Numéro</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Email</th>
                             <th scope="col">Téléphone</th>
@@ -16,149 +16,118 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Joujou </td>
-                            <td>joujou@gmail.com</td>
-                            <td>53328233</td>
+                        <tr *ngFor="let client of clients; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ client.nom }}</td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.telephone }}</td>
                             <td>
-                                <!-- Button trigger modal -->
-                                <div>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropConsulterclient">
-                                        Consulter
-                                    </button>
-                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropmodifierclient">
-                                        Modifier
-                                    </button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropsupprimerclient">
-                                        Supprimer
-                                    </button>
-                                </div>
-
+                                <button type="button" class="btn btn-primary" (click)="openConsultModal(client)"
+                                    [disabled]="isDeleteModalOpen">
+                                    Consulter
+                                </button>
+                                <button type="button" class="btn btn-secondary" (click)="openUpdateModal(client)"
+                                    [disabled]="isDeleteModalOpen">
+                                    Modifier
+                                </button>
+                                <button type="button" class="btn btn-danger" (click)="openDeleteModal(client)"
+                                    [disabled]="isConsultModalOpen">
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
-                        <!-- Ajoutez d'autres lignes ici -->
                     </tbody>
                 </table>
-                <!-- Modal Consulter -->
-<div class="modal fade" id="staticBackdropConsulterclient" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropConsulterclientLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Consulter client</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table>
-                <tr>
-                    <td>nom : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>prenom : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>email : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>motDePasse : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>telephone : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>address : </td>
-                    <td>text here</td>
-                </tr>
-
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+            </div>
         </div>
     </div>
 </div>
-</div>
 
-<!-- Modal modifier -->
-<div class="modal fade" id="staticBackdropmodifierclient" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropmodifierclientLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier client</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table>
-                <tr>
-                    <td>nom : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>prenom : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>email : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>motDePasse : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>telephone : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>address : </td>
-                    <td><input type="text"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Modifier</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-
+<!-- Modal Consulter -->
+<div class="modal fade" id="consultModal" tabindex="-1" aria-labelledby="consultModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="consultModalLabel">Consulter client</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeConsultModal()"></button>
+            </div>
+            <div class="modal-body">
+                <h4>{{ selectedClient?.nom }}, {{ selectedClient?.prenom }}</h4>
+                <h6>Email : {{ selectedClient?.email }}</h6>
+                <h6>telephone : {{ selectedClient?.telephone }}</h6>
+                <h6>Mot de passe : {{ selectedClient?.motdepasse }}</h6>
+                <h6>Address : {{ selectedClient?.address }}</h6>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeConsultModal()">Fermer</button>
+            </div>
         </div>
     </div>
 </div>
-</div>
-<!--  -->
 
-<!-- Modal supprimer -->
-<div class="modal fade" id="staticBackdropsupprimerclient" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropsupprimerclientLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer client</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table>
-                <tr>
-                    <td>Numero : </td>
-                    <td>text here </td>
-                </tr>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger">Suprrimer</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-
+<!-- Modal Modifier -->
+<!-- <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">Modifier client</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeUpdateModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="nom" class="form-label">Nom</label>
+                        <input [(ngModel)]="selectedClient.nom" id="nom" class="form-control" />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="prenom" class="form-label">Prénom</label>
+                        <input [(ngModel)]="selectedClient.prenom" id="prenom" class="form-control" />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="email" class="form-label">Email</label>
+                        <input [(ngModel)]="selectedClient.email" id="email" class="form-control" />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="motdepasse" class="form-label">Mot de passe</label>
+                        <input [(ngModel)]="selectedClient.motdepasse" id="motdepasse" type="text"
+                            class="form-control" />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="telephone" class="form-label">Téléphone</label>
+                        <input [(ngModel)]="selectedClient.telephone" id="telephone" class="form-control" />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="address" class="form-label">Adresse</label>
+                        <input [(ngModel)]="selectedClient.address" id="address" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="updateClient()">Modifier</button>
+                <button type="button" class="btn btn-secondary" (click)="closeUpdateModal()">Fermer</button>
+            </div>
         </div>
     </div>
-   </div>
-</div>
+</div> -->
+
+
+<!-- Modal Supprimer -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteModalLabel">Supprimer client</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Numéro : {{ selectedClient?.id }}</h6>
+                <h6>{{ selectedClient?.nom }} {{ selectedClient?.prenom }}</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger"
+                    (click)="deleteClient(selectedClient?.id)">Supprimer</button>
+                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Fermer</button>
             </div>
         </div>
     </div>

@@ -13,10 +13,12 @@ import com.example.rentngo.coucheService.Services.ServiceTemoignage;
 import com.example.rentngo.coucheWeb.DTO.TemoignageRequestDTO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")
+@Slf4j
 @RequestMapping(path = "/temoignage")
 public class TemoignageController {
     @Autowired
@@ -25,6 +27,7 @@ public class TemoignageController {
     // Select all Temoignage
     @GetMapping(path = "/all")
     public List<Temoignage> getAllTemoignage() {
+        log.info("Request received to get all temoignages");
         return serviceTemoignage.getAllTemoignage();
     }
 
@@ -41,9 +44,10 @@ public class TemoignageController {
 
     // Add Temoignage
     @PostMapping(path = "/add")
-    public ResponseEntity<?> addTemoignage(@RequestBody TemoignageRequestDTO temoignageRequestDTO, Long idClient) {
+    public ResponseEntity<?> addTemoignage(@RequestBody TemoignageRequestDTO temoignageRequestDTO) {
         try {
-            serviceTemoignage.addTemoignage(temoignageRequestDTO, idClient);
+            // Supposons que idClient est une propriété de TemoignageRequestDTO
+            serviceTemoignage.addTemoignage(temoignageRequestDTO);
             return ResponseEntity.ok("Temoignage added successfully");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
@@ -63,4 +67,5 @@ public class TemoignageController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
 }

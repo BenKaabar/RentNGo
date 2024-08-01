@@ -1,115 +1,78 @@
 <div class="container-fluid">
     <div class="row flex-nowrap">
-
         <div class="col py-3">
-            <!-- Contenu spécifique au composant -->
             <h1 class="h2">Gestion des Contacts</h1>
             <div class="main-content">
-                <!-- Contenu spécifique à la gestion des contacts -->
+                <button type="button" class="btn btn-success">Ajouter contact</button>
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th scope="col">Numéro</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Téléphone</th>
+                            <th scope="col">Message</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Achraf habibii</td>
-                            <td>habibi@gmail.com</td>
-                            <td>53328233</td>
+                        <tr *ngFor="let contact of contacts; let i=index">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ contact.client.nom }}</td>
+                            <td>{{ contact.email }}</td>
+                            <td>{{ contact.message }}</td>
                             <td>
-                                <!-- Button trigger modal -->
-                                <div>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropConsultercontact">
-                                        Consulter
-                                    </button>
-                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropmodifiercontact">
-                                        Modifier
-                                    </button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropsupprimercontact">
-                                        Supprimer
-                                    </button>
-                                </div>
-
+                                <!-- Bouton Consulter -->
+                                <button type="button" class="btn btn-primary" (click)="openConsultModal(contact)" [disabled]="isDeleteModalOpen">
+                                    Consulter
+                                </button>
+                                <!-- Bouton Supprimer avec modal -->
+                                <button type="button" class="btn btn-danger" (click)="openDeleteModal(contact)" [disabled]="isConsultModalOpen">
+                                    Supprimer
+                                </button>
                             </td>
                         </tr>
-                        <!-- Ajoutez d'autres lignes ici -->
                     </tbody>
                 </table>
-                <!-- Modal Consulter -->
-<div class="modal fade" id="staticBackdropConsultercontact" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropConsultercontactLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Consulter contact</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <h6>client1@gmail.com</h6>
-            <h6>RentNGo Tunisie est une agence de location voiture Tunisie depuis 2007, assurant un service sérieux
-                et de qualité sur tous les aéroports tunisiens</h6>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+            </div>
         </div>
     </div>
 </div>
-</div>
 
-<!-- Modal modifier -->
-<div class="modal fade" id="staticBackdropmodifiercontact" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropmodifiercontactLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier contact</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <h6>client1@gmail.com</h6>
-            <textarea>RentNGo Tunisie est une agence de location voiture Tunisie depuis 2007, assurant un service sérieux
-                et de qualité sur tous les aéroports tunisiens</textarea>
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Modifier</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-
+<!-- Modal Consulter -->
+<div *ngIf="selectedContact && isConsultModalOpen" class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Consulter contact</h1>
+                <button type="button" class="btn-close" (click)="closeConsultModal()"></button>
+            </div>
+            <div class="modal-body">
+                <!-- <h4>{{ selectedContact.client.nom }}, {{ selectedContact.client.prenom }}</h4> -->
+                <h6>{{ selectedContact.email }}</h6>
+                <h6>{{ selectedContact.message }}</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeConsultModal()">Fermer</button>
+            </div>
         </div>
     </div>
 </div>
-</div>
-<!--  -->
 
-<!-- Modal supprimer -->
-<div class="modal fade" id="staticBackdropsupprimercontact" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropsupprimercontactLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer contact</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <h6>Numero</h6>
-            <h6>RentNGo Tunisie est une agence de location voiture Tunisie depuis 2007, assurant un service sérieux
-                et de qualité sur tous les aéroports tunisiens</h6>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger">Suprrimer</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-
-        </div>
-    </div>
-   </div>
-</div>
+<!-- Modal Supprimer -->
+<div class="modal fade" id="staticBackdropsupprimer" tabindex="-1" aria-labelledby="staticBackdropsupprimerLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropsupprimerLabel">Supprimer contact</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Numéro : {{ selectedContact?.id }}</h6>
+                <h6>{{ selectedContact?.message }}</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="deleteContact(selectedContact?.id)">Supprimer</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeDeleteModal()">Fermer</button>
             </div>
         </div>
     </div>
