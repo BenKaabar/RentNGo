@@ -12,4 +12,5 @@ export class DashboardClientComponent {
   navigateTo(dashboard: string) {
     this.currentdashboard = dashboard;
   }
+  
 }

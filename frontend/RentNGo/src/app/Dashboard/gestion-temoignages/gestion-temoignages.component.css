@@ -39,11 +39,22 @@
     background-color: #dc3545;
     border-color: #dc3545;
 }
+
 .px-3 {
     padding-right: 0rem !important;
     padding-left: 0rem !important;
 }
 
-textarea{
+textarea {
     width: 100%;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.paginations {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

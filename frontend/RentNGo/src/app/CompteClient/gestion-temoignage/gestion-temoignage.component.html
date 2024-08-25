@@ -1,29 +1,29 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <h1 class="h2">Mes Témoignages</h1>
+            <h3>Mes Témoignages</h3>
             <div class="main-content">
-                <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addTemoignageModal">
-                    Ajouter un Témoignage
+                <button type="button" class="btn btn-success" (click)="openAddModal()">
+                    Ajouter témoignage
                 </button>
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Numéro</th>
-                            <th scope="col">Titre</th>
-                            <th scope="col">Contenu</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Message</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Témoignage 1</td>
-                            <td>Contenu du témoignage 1...</td>
+                        <tr *ngFor="let temoignage of paginatedtemoignages let i= index">
+                            <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
+                            <td>{{temoignage.dateTemoignage}}</td>
+                            <td>{{ truncateMessage(temoignage.messageTemoignage) }}</td>
                             <td>
-                                <button class="btn btn-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#viewTemoignageModal1">Consulter</button>
-                                <button class="btn btn-secondary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editTemoignageModal1">Modifier</button>
-                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteTemoignageModal1">Supprimer</button>
+                                <button class="btn btn-primary"
+                                    (click)="openConsultModal(temoignage)">Consulter</button>
+                                <button class="btn btn-danger" (click)="openDeleteModal(temoignage)">Supprimer</button>
                             </td>
                         </tr>
                         <!-- Ajoutez d'autres lignes ici -->
@@ -34,94 +34,80 @@
     </div>
 </div>
 
-<!-- Modal Ajouter Témoignage -->
-<div class="modal fade" id="addTemoignageModal" tabindex="-1" aria-labelledby="addTemoignageModalLabel" aria-hidden="true">
+<!-- Modal Ajouter -->
+<div class="modal fade" id="staticBackdropajouter" tabindex="-1" aria-labelledby="staticBackdropajouterLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addTemoignageModalLabel">Ajouter un Témoignage</h5>
+                <h1 class="modal-title fs-5" id="staticBackdropajouterLabel">Ajouter témoignage</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form (ngSubmit)="addTemoignage(temoignageForm)" #temoignageForm="ngForm">
                     <div class="mb-3">
-                        <label for="temoignageTitle" class="form-label">Titre</label>
-                        <input type="text" class="form-control" id="temoignageTitle" placeholder="Titre du témoignage">
+                        <label for="messageTemoignage" class="form-label"><strong>Témoignage</strong></label>
+                        <textarea class="form-control" id="messageTemoignage"
+                            [(ngModel)]="newTemoignage.messageTemoignage" name="messageTemoignage" required></textarea>
                     </div>
                     <div class="mb-3">
-                        <label for="temoignageContent" class="form-label">Contenu</label>
-                        <textarea class="form-control" id="temoignageContent" rows="4" placeholder="Contenu du témoignage"></textarea>
+                        <label for="dateTemoignage" class="form-label"><strong>Date</strong></label>
+                        <input type="date" class="form-control" id="dateTemoignage"
+                            [(ngModel)]="newTemoignage.dateTemoignage" name="dateTemoignage" required>
                     </div>
+                    <button type="submit" class="btn btn-success" [disabled]="temoignageForm.invalid"
+                        [routerLink]="['/admin/gestion-temoignages']">Ajouter</button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-success">Ajouter</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="closeAddModal()">Fermer</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal Consulter Témoignage -->
-<div class="modal fade" id="viewTemoignageModal1" tabindex="-1" aria-labelledby="viewTemoignageModalLabel1" aria-hidden="true">
+<!-- Modal Consulter -->
+<div class="modal fade" id="staticBackdropconsulter" tabindex="-1" aria-labelledby="staticBackdropconsulterLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewTemoignageModalLabel1">Détails du Témoignage</h5>
+                <h1 class="modal-title fs-5" id="staticBackdropconsulterLabel">Consulter témoignage</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p>Informations détaillées du témoignage 1...</p>
+            <div class="modal-body" *ngIf="selectedTemoignage">
+                <p><strong>Client:</strong> {{ selectedTemoignage.client.nom }} {{ selectedTemoignage.client.prenom }}
+                </p>
+                <p><strong>Date:</strong> {{ selectedTemoignage.dateTemoignage }}</p>
+                <p><strong>Message:</strong> {{ selectedTemoignage.messageTemoignage }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="closeConsultModal()">Fermer</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal Modifier Témoignage -->
-<div class="modal fade" id="editTemoignageModal1" tabindex="-1" aria-labelledby="editTemoignageModalLabel1" aria-hidden="true">
+<!-- Modal Supprimer -->
+<div class="modal fade" id="staticBackdropsupprimer" tabindex="-1" aria-labelledby="staticBackdropsupprimerLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editTemoignageModalLabel1">Modifier Témoignage</h5>
+                <h1 class="modal-title fs-5" id="staticBackdropsupprimerLabel">Supprimer témoignage</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="editTemoignageTitle" class="form-label">Titre</label>
-                        <input type="text" class="form-control" id="editTemoignageTitle" value="Titre du témoignage 1">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editTemoignageContent" class="form-label">Contenu</label>
-                        <textarea class="form-control" id="editTemoignageContent" rows="4">Contenu du témoignage 1...</textarea>
-                    </div>
-                </form>
+                <p>Êtes-vous sûr de vouloir supprimer ce témoignage?</p>
+                <p><strong>Message:</strong> {{ selectedTemoignage?.messageTemoignage }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                <button type="button" class="btn btn-primary">Sauvegarder</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Supprimer Témoignage -->
-<div class="modal fade" id="deleteTemoignageModal1" tabindex="-1" aria-labelledby="deleteTemoignageModalLabel1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteTemoignageModalLabel1">Supprimer Témoignage</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Êtes-vous sûr de vouloir supprimer le témoignage 1 ?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-                <button type="button" class="btn btn-danger">Oui, supprimer</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="closeDeleteModal()">Annuler</button>
+                <button type="button" class="btn btn-danger" (click)="deleteTemoignage(selectedTemoignage?.id)"
+                    [routerLink]="['/admin/gestion-temoignages']">Supprimer</button>
             </div>
         </div>
     </div>

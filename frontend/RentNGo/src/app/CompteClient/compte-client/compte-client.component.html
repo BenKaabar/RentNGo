@@ -1,127 +1,115 @@
-
 <div class="container-fluid">
-    <div class="row flex-nowrap">
-       
-        <div class="col py-3">
+  <div class="row flex-nowrap">
+    <div class="col py-3">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <h3>Mon Compte</h3>
+            <div class="main-content">
+              <!-- Informations Personnelles -->
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h5 class="card-title">Informations Personnelles</h5>
 
-            <div class="container-fluid">
-                <div class="row">
-                  <div class="col-12">
-                    <h1 class="h2">Mon Compte</h1>
-                    <div class="main-content">
-                      <!-- Informations Personnelles -->
-                      <div class="card mb-3">
-                        <div class="card-body">
-                          <h5 class="card-title">Informations Personnelles</h5>
-                          <form>
-                            <div class="mb-3">
-                              <label for="name" class="form-label">Nom</label>
-                              <input type="text" class="form-control" id="name" value="Joujou">
-                            </div>
-                            <div class="mb-3">
-                              <label for="email" class="form-label">Email</label>
-                              <input type="email" class="form-control" id="email" value="joujou@gmail.com">
-                            </div>
-                            <div class="mb-3">
-                              <label for="phone" class="form-label">Téléphone</label>
-                              <input type="tel" class="form-control" id="phone" value="53328233">
-                            </div>
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateModal">
-                              Mettre à jour
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                      <!-- Modal Mettre à jour -->
-                      <div class="modal fade" id="updateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="updateModalLabel">Mettre à jour les informations</h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <table>
-                                <tr>
-                                  <td>Nom : </td>
-                                  <td><input type="text" value="Joujou"></td>
-                                </tr>
-                                <tr>
-                                  <td>Email : </td>
-                                  <td><input type="email" value="joujou@gmail.com"></td>
-                                </tr>
-                                <tr>
-                                  <td>Téléphone : </td>
-                                  <td><input type="tel" value="53328233"></td>
-                                </tr>
-                              </table>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                              <button type="button" class="btn btn-primary">Sauvegarder</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Modifier le mot de passe -->
-                      <div class="card">
-                        <div class="card-body">
-                          <h5 class="card-title">Modifier le mot de passe</h5>
-                          <form>
-                            <div class="mb-3">
-                              <label for="currentPassword" class="form-label">Mot de passe actuel</label>
-                              <input type="password" class="form-control" id="currentPassword">
-                            </div>
-                            <div class="mb-3">
-                              <label for="newPassword" class="form-label">Nouveau mot de passe</label>
-                              <input type="password" class="form-control" id="newPassword">
-                            </div>
-                            <div class="mb-3">
-                              <label for="confirmPassword" class="form-label">Confirmer le nouveau mot de passe</label>
-                              <input type="password" class="form-control" id="confirmPassword">
-                            </div>
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#passwordModal">
-                              Changer le mot de passe
-                            </button>
-                          </form>
-                        </div>
-                      </div>
-                      <!-- Modal Changer le mot de passe -->
-                      <div class="modal fade" id="passwordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="passwordModalLabel">Changer le mot de passe</h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <table>
-                                <tr>
-                                  <td>Mot de passe actuel : </td>
-                                  <td><input type="password"></td>
-                                </tr>
-                                <tr>
-                                  <td>Nouveau mot de passe : </td>
-                                  <td><input type="password"></td>
-                                </tr>
-                                <tr>
-                                  <td>Confirmer le nouveau mot de passe : </td>
-                                  <td><input type="password"></td>
-                                </tr>
-                              </table>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                              <button type="button" class="btn btn-primary">Sauvegarder</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <table *ngIf="client">
+                    <tr>
+                      <td>
+                        Nom :
+                      </td>
+                      <td>
+                        {{client.nom}}, {{client.prenom}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Email :
+                      </td>
+                      <td>
+                        {{client.email}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Telephone :
+                      </td>
+                      <td>
+                        {{client.telephone}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        address
+                      </td>
+                      <td>
+                        {{client.address}}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <button class="btn btn-warning me-2" (click)="openUpdateModal(client)"> Mettre à jour</button>
+                      </td>
+                    </tr>
+                  </table>
                 </div>
               </div>
-              
+            </div>
+          </div>
         </div>
-        
+      </div>
+
+    </div>
+
+  </div>
+
+
+<!-- Modal Modifier Client -->
+<div class="modal fade" id="updateClientModal" tabindex="-1" aria-labelledby="updateClientModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateClientModalLabel">Modifier client</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeUpdateClientModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form #updateClientForm="ngForm" (ngSubmit)="updateClient(updateClientForm)">
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientNom" class="form-label">Nom</label>
+                        <input [(ngModel)]="selectedClient.nom" id="updateClientNom" name="nom" class="form-control"
+                            required />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientPrenom" class="form-label">Prénom</label>
+                        <input [(ngModel)]="selectedClient.prenom" id="updateClientPrenom" name="prenom"
+                            class="form-control" required />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientEmail" class="form-label">Email</label>
+                        <input [(ngModel)]="selectedClient.email" id="updateClientEmail" name="email" class="form-control"
+                            required />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientMotDePasse" class="form-label">Mot de passe</label>
+                        <input [(ngModel)]="selectedClient.motdepasse" id="updateClientMotDePasse" name="motDePasse"
+                            type="password" class="form-control" />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientTelephone" class="form-label">Téléphone</label>
+                        <input [(ngModel)]="selectedClient.telephone" id="updateClientTelephone" name="telephone"
+                            class="form-control" required />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientAddress" class="form-label">Adresse</label>
+                        <input [(ngModel)]="selectedClient.address" id="updateClientAddress" name="address"
+                            class="form-control" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                        <button type="button" class="btn btn-secondary"
+                            (click)="closeUpdateClientModal()">Fermer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

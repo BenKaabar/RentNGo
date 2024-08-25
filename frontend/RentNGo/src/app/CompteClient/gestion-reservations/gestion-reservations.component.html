@@ -1,108 +1,169 @@
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="h2">Mes Réservations</h1>
-        <div class="main-content">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th scope="col">Numéro</th>
-                <th scope="col">Réservation</th>
-                <th scope="col">Date</th>
-                <th scope="col">Statut</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>Réservation 1</td>
-                <td>2023-07-25</td>
-                <td>Confirmé</td>
-                <td>
-                  <button class="btn btn-primary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#viewReservationModal1">Consulter</button>
-                  <button class="btn btn-secondary btn-sm me-1" data-bs-toggle="modal" data-bs-target="#editReservationModal1">Modifier</button>
-                  <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelReservationModal1">Annuler</button>
-                </td>
-              </tr>
-              <!-- Ajoutez d'autres lignes ici -->
-            </tbody>
-          </table>
-        </div>
+  <div class="row">
+    <div class="col-12">
+      <h3>Mes Réservations</h3>
+      <div class="main-content">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Numéro</th>
+              <th scope="col">Date fin</th>
+              <th scope="col">Date debut</th>
+              <th scope="col">Statut</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reservation of paginatedReservations let i= index">
+              <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
+              <td>{{reservation.dateDebut}}</td>
+              <td>{{reservation.dateFin}}</td>
+              <td>{{reservation.status}}</td>
+              <td>
+                <button type="button" class="btn btn-primary" (click)="consultingReservation(reservation)">
+                  Consulter
+                </button>
+                <button type="button" class="btn btn-warning" (click)="openUpdateModal(reservation)">
+                  Modifier
+                </button>
+                <button type="button" class="btn btn-danger" (click)="openDeleteModal(reservation)">
+                  Supprimer
+                </button>
+              </td>
+            </tr>
+            <!-- Ajoutez d'autres lignes ici -->
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  
-  <!-- Modal Consulter Réservation -->
-  <div class="modal fade" id="viewReservationModal1" tabindex="-1" aria-labelledby="viewReservationModalLabel1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewReservationModalLabel1">Détails de la Réservation</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Informations détaillées de la réservation 1...</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-        </div>
+</div>
+
+<!-- consulting Reservation Modal -->
+<div class="modal fade" id="consultingReservationModal" tabindex="-1" aria-labelledby="consultingReservationModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="consultingReservationModalLabel">Consulter Réservation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeConsultModal()"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+          <tr>
+            <td>Nom client:</td>
+            <td *ngIf="selectedReservation">{{ selectedReservation.client.nom }} {{
+              selectedReservation.client.prenom }}</td>
+          </tr>
+          <tr>
+            <td>Immatriculation voiture:</td>
+            <td *ngIf="selectedReservation">{{ selectedReservation.voiture.immatriculation }}</td>
+          </tr>
+          <tr>
+            <td>Date de début:</td>
+            <td *ngIf="selectedReservation">{{ selectedReservation.dateDebut }}</td>
+          </tr>
+          <tr>
+            <td>Date de fin:</td>
+            <td *ngIf="selectedReservation">{{ selectedReservation.dateFin }}</td>
+          </tr>
+          <tr>
+            <td>Message:</td>
+            <td *ngIf="selectedReservation">{{ selectedReservation.message }}</td>
+          </tr>
+          <tr>
+            <td>Status:</td>
+            <td *ngIf="selectedReservation">{{ selectedReservation.status }}</td>
+          </tr>
+          <tr>
+            <td>Localisation:</td>
+            <td *ngIf="selectedReservation">{{ selectedReservation.localisation }}</td>
+          </tr>
+          <tr>
+            <td>Photo voiture :</td>
+            <td *ngIf="selectedReservation"><img
+                src="assets/images/voitures/{{ selectedReservation.voiture.nomPhotoVoiture }}"
+                alt="{{ selectedReservation.voiture.nomPhotoVoiture }}"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          (click)="closeConsultModal()">Fermé</button>
       </div>
     </div>
   </div>
-  
-  <!-- Modal Modifier Réservation -->
-  <div class="modal fade" id="editReservationModal1" tabindex="-1" aria-labelledby="editReservationModalLabel1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editReservationModalLabel1">Modifier Réservation</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="reservationName" class="form-label">Nom de la réservation</label>
-              <input type="text" class="form-control" id="reservationName" value="Réservation 1">
-            </div>
-            <div class="mb-3">
-              <label for="reservationDate" class="form-label">Date de la réservation</label>
-              <input type="date" class="form-control" id="reservationDate" value="2023-07-25">
-            </div>
-            <div class="mb-3">
-              <label for="reservationStatus" class="form-label">Statut</label>
-              <select class="form-control" id="reservationStatus">
-                <option selected>Confirmé</option>
-                <option>En attente</option>
-                <option>Annulé</option>
-              </select>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-          <button type="button" class="btn btn-primary">Sauvegarder</button>
-        </div>
+</div>
+
+<!-- update Reservation Modal -->
+<div class="modal fade" id="updateReservationModal" tabindex="-1" aria-labelledby="updateReservationModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="updateReservationModalLabel">Modifier Réservation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeUpdateModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="updateReservation(updateForm)" #updateForm="ngForm">
+          <div class="mb-3" *ngIf="selectedReservation">
+            Client : {{ selectedReservation.client.nom }} {{selectedReservation.client.prenom }}
+
+          </div>
+          <div class="mb-3" *ngIf="selectedReservation">
+            Voiture : {{ selectedReservation.voiture.marque }}
+          </div>
+          <div class="mb-3" *ngIf="selectedReservation">
+            <label for="dateDebut" class="form-label">Date de début</label>
+            <input type="date" [(ngModel)]="selectedReservation.dateDebut" name="dateDebut" class="form-control">
+          </div>
+          <div class="mb-3" *ngIf="selectedReservation">
+            <label for="dateFin" class="form-label">Date de fin</label>
+            <input type="date" [(ngModel)]="selectedReservation.dateFin" name="dateFin" class="form-control">
+          </div>
+          <div class="mb-3" *ngIf="selectedReservation">
+            <label for="message" class="form-label">Message</label>
+            <textarea type="text" [(ngModel)]="selectedReservation.message" name="message"
+              class="form-control"></textarea>
+          </div>
+          <div class="mb-3" *ngIf="selectedReservation">
+            <label for="localisation" class="form-label">Localisation</label>
+            <input type="text" [(ngModel)]="selectedReservation.localisation" name="localisation" class="form-control">
+          </div>
+
+          <button type="submit" class="btn btn-primary" [routerLink]="['/admin/gestion-reservation']">Modifier</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          (click)="closeUpdateModal()">Fermé</button>
       </div>
     </div>
   </div>
-  
-  <!-- Modal Annuler Réservation -->
-  <div class="modal fade" id="cancelReservationModal1" tabindex="-1" aria-labelledby="cancelReservationModalLabel1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="cancelReservationModalLabel1">Annuler Réservation</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Êtes-vous sûr de vouloir annuler la réservation 1 ?</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Non</button>
-          <button type="button" class="btn btn-danger">Oui, annuler</button>
-        </div>
+</div>
+
+<!-- Delete Reservation Modal -->
+<div class="modal fade" id="deleteReservationModal" tabindex="-1" aria-labelledby="deleteReservationModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteReservationModalLabel">Supprimer Réservation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeDeleteModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p>Voulez-vous vraiment supprimer cette réservation?</p>
+        <div>client : {{ selectedReservation?.client?.nom}}, {{ selectedReservation?.client?.prenom}}</div>
+        <div> voiture : {{ selectedReservation?.voiture?.immatriculation}}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="deletevoiture(selectedReservation?.id)">Supprimer</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+          (click)="closeDeleteModal()">Annuler</button>
       </div>
     </div>
   </div>
-  
+</div>

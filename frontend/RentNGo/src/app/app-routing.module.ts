@@ -18,8 +18,8 @@ import { GestionClientComponent } from './Dashboard/gestion-client/gestion-clien
 import { GestionContactComponent } from './Dashboard/gestion-contact/gestion-contact.component';
 import { GestionReservationComponent } from './Dashboard/gestion-reservation/gestion-reservation.component';
 import { GestionTemoignagesComponent } from './Dashboard/gestion-temoignages/gestion-temoignages.component';
-import { GestionVoitureComponent } from './Dashboard/gestion-voiture/gestion-voiture.component';
 import { ReservationComponent } from './ReservationPage/Reservation/reservation.component';
+import { GestionVoitureComponent } from './Dashboard/gestion-voiture/gestion-voiture.component';
 
 const routes: Routes = [
   { path: 'Accueil', component: PageAccueilComponent },
@@ -40,7 +40,7 @@ const routes: Routes = [
       { path: 'gestion-contact', component: GestionContactComponent },
       { path: 'gestion-reservation', component: GestionReservationComponent },
       { path: 'gestion-temoignages', component: GestionTemoignagesComponent },
-      { path: 'gestion-voiture', component: GestionVoitureComponent },
+      { path: 'gestion-voiture', component: GestionVoitureComponent},
       { path: '', redirectTo: 'gestion-client', pathMatch: 'full' }
     ]
   },
@@ -54,7 +54,7 @@ const routes: Routes = [
   },
   { path: '**', component: NotFoundComponent },
 ];
-  // {path:'',redirectTo:'/produits',pathMatch:'full'}
+
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

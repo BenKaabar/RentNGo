@@ -1,14 +1,13 @@
 <div class="container-fluid">
     <div class="row flex-nowrap">
-
         <div class="col py-3">
-            <!-- Contenu spécifique au composant -->
             <h1 class="h2">Gestion des Réservations</h1>
             <div class="main-content">
-                <!-- Contenu spécifique à la gestion des réservations -->
+                <button type="button" class="btn btn-success" (click)="openCreateModal()">Ajouter Reservation</button>
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th scope="col">Numero</th>
                             <th scope="col">Client</th>
                             <th scope="col">Voiture</th>
                             <th scope="col">Date de début</th>
@@ -17,158 +16,275 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Achraf joujou</td>
-                            <td>Model S</td>
-                            <td>2024-07-01</td>
-                            <td>2024-07-10</td>
+                        <tr *ngFor="let reservation of paginatedReservations let i= index">
+                            <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
+                            <td>{{ reservation.client.nom }} {{ reservation.client.prenom }}</td>
+                            <td>{{ reservation.voiture.immatriculation }}</td>
+                            <td>{{ reservation.dateDebut }}</td>
+                            <td>{{ reservation.dateFin }}</td>
+
                             <td>
-                                <!-- Button trigger modal -->
                                 <div>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropConsulterreservation">
+                                    <button type="button" class="btn btn-primary"
+                                        (click)="consultingReservation(reservation)">
                                         Consulter
                                     </button>
-                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropmodifierreservation">
+                                    <button type="button" class="btn btn-warning"
+                                        (click)="openUpdateModal(reservation)">
                                         Modifier
                                     </button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropsupprimerreservation">
+                                    <button type="button" class="btn btn-danger" (click)="openDeleteModal(reservation)">
                                         Supprimer
                                     </button>
                                 </div>
-
                             </td>
                         </tr>
-                        <!-- Ajoutez d'autres lignes ici -->
                     </tbody>
                 </table>
-                <!-- Modal Consulter -->
-<div class="modal fade" id="staticBackdropConsulterreservation" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropConsulterreservationLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Consulter reservation</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table>
-                <tr>
-                    <td>dateDebut : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>dateFin : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>message : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>status : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>localisation : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>voiture : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>client : </td>
-                    <td>text here</td>
-                </tr>
-
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+                <!-- Pagination -->
+                <div class="paginations" *ngIf="totalPages > 1"> <!--  *ngIf="totalPages > 1" -->
+                    <nav aria-label="Page-navigation">
+                        <ul class="pagination">
+                            <li class="page-item cursor-pointer" [ngClass]="{'disabled': isPreviousPageDisabled}">
+                                <a class="page-link" (click)="goToPreviousPage()" tabindex="-1">Précédent</a>
+                            </li>
+                            <li class="page-item disabled cursor-pointer"><span class="page-link">Page {{ page }} sur {{
+                                    totalPages
+                                    }}</span></li>
+                            <li class="page-item cursor-pointer" [ngClass]="{'disabled': isNextPageDisabled}">
+                                <a class="page-link" (click)="goToNextPage()">Suivant</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-</div>
 
-<!-- Modal modifier -->
-<div class="modal fade" id="staticBackdropmodifierreservation" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropmodifierreservationLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier reservation</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table>
-                <tr>
-                    <td>dateDebut : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>dateFin : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>message : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>status : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>localisation : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>client : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>voiture : </td>
-                    <td><input type="text"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Modifier</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-
+<!-- consulting Reservation Modal -->
+<div class="modal fade" id="consultingReservationModal" tabindex="-1" aria-labelledby="consultingReservationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="consultingReservationModalLabel">Consulter Réservation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeConsultModal()"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped" *ngIf="selectedReservation">
+                    <tr>
+                        <td>Nom client:</td>
+                        <td>{{ selectedReservation.client.nom }} {{
+                            selectedReservation.client.prenom }}</td>
+                    </tr>
+                    <tr>
+                        <td>Immatriculation voiture:</td>
+                        <td>{{ selectedReservation.voiture.immatriculation }}</td>
+                    </tr>
+                    <tr>
+                        <td>Date de début:</td>
+                        <td>{{ selectedReservation.dateDebut }}</td>
+                    </tr>
+                    <tr>
+                        <td>Date de fin:</td>
+                        <td>{{ selectedReservation.dateFin }}</td>
+                    </tr>
+                    <tr>
+                        <td>Message:</td>
+                        <td>{{ selectedReservation.message }}</td>
+                    </tr>
+                    <tr>
+                        <td>Status:</td>
+                        <td>{{ selectedReservation.status }}</td>
+                    </tr>
+                    <tr>
+                        <td>Localisation:</td>
+                        <td>{{ selectedReservation.localisation }}</td>
+                    </tr>
+                    <tr>
+                        <td>Photo voiture :</td>
+                        <td><img *ngIf="selectedReservation.voiture.photoVoiture"
+                                [src]="selectedReservation.voiture.photoVoiture"
+                                alt="{{ selectedReservation.voiture.nomPhotoVoiture }}" /></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="closeConsultModal()">Fermé</button>
+            </div>
         </div>
     </div>
 </div>
-</div>
-<!--  -->
 
-<!-- Modal supprimer -->
-<div class="modal fade" id="staticBackdropsupprimerreservation" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropsupprimerreservationLabel" aria-hidden="true">
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer reservation</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table>
-                <tr>
-                    <td>Numero : </td>
-                    <td>text here </td>
-                </tr>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger">Suprrimer</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
+<!-- update Reservation Modal -->
+<div class="modal fade" id="updateReservationModal" tabindex="-1" aria-labelledby="updateReservationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateReservationModalLabel">Modifier Réservation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeUpdateModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="updateReservation(updateForm)" #updateForm="ngForm">
+                    <div class="mb-3" *ngIf="selectedReservation">
+                        <label for="client" class="form-label">Client</label>
+                        <select [(ngModel)]="selectedReservation.client.id" name="client" id="client"
+                            class="form-control" required>
+                            <option *ngFor="let client of clients" [ngValue]="client.id">{{ client.nom }} {{
+                                client.prenom }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" *ngIf="selectedReservation">
+                        <label for="voiture" class="form-label">Voiture</label>
+                        <select [(ngModel)]="selectedReservation.voiture.id" name="voiture" id="voiture"
+                            class="form-control" required>
+                            <option *ngFor="let voiture of voitures" [ngValue]="voiture.id">{{ voiture.marque }}, {{
+                                voiture.immatriculation }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" *ngIf="selectedReservation">
+                        <label for="dateDebut" class="form-label">Date de début</label>
+                        <input type="date" [(ngModel)]="selectedReservation.dateDebut" name="dateDebut"
+                            class="form-control">
+                    </div>
+                    <div class="mb-3" *ngIf="selectedReservation">
+                        <label for="dateFin" class="form-label">Date de fin</label>
+                        <input type="date" [(ngModel)]="selectedReservation.dateFin" name="dateFin"
+                            class="form-control">
+                    </div>
+                    <div class="mb-3" *ngIf="selectedReservation">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea type="text" [(ngModel)]="selectedReservation.message" name="message"
+                            class="form-control"></textarea>
+                    </div>
+                    <div class="mb-3" *ngIf="selectedReservation">
+                        <label for="status" class="form-label">Status</label>
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" [(ngModel)]="selectedReservation.status"
+                                    name="status" id="statusEnAttente" value="EN_ATTENTE">
+                                <label class="form-check-label" for="statusEnAttente">
+                                    EN ATTENTE
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" [(ngModel)]="selectedReservation.status"
+                                    name="status" id="statusValider" value="VALIDER">
+                                <label class="form-check-label" for="statusValider">
+                                    VALIDER
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" [(ngModel)]="selectedReservation.status"
+                                    name="status" id="statusRefuser" value="REFUSER">
+                                <label class="form-check-label" for="statusRefuser">
+                                    REFUSER
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="mb-3" *ngIf="selectedReservation">
+                        <label for="localisation" class="form-label">Localisation</label>
+                        <input type="text" [(ngModel)]="selectedReservation.localisation" name="localisation"
+                            class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"
+                        [routerLink]="['/admin/gestion-reservation']">Modifier</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="closeUpdateModal()">Fermé</button>
+            </div>
         </div>
     </div>
-   </div>
 </div>
+
+<!-- Delete Reservation Modal -->
+<div class="modal fade" id="deleteReservationModal" tabindex="-1" aria-labelledby="deleteReservationModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteReservationModalLabel">Supprimer Réservation</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="closeDeleteModal()"></button>
+            </div>
+            <div class="modal-body">
+                <p>Voulez-vous vraiment supprimer cette réservation?</p>
+                <div>client : {{ selectedReservation?.client?.nom}}, {{ selectedReservation?.client?.prenom}}</div>
+                <div> voiture : {{ selectedReservation?.voiture?.immatriculation}}</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger"
+                    (click)="deletevoiture(selectedReservation?.id)">Supprimer</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="closeDeleteModal()">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ajouter -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createModalLabel">Ajouter contact</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeCreateModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="createReservation(createForm)" #createForm="ngForm">
+                    <div class="mb-3">
+                        <label for="client" class="form-label">Client</label>
+                        <select [(ngModel)]="newReservation.client.id" name="client" id="client" class="form-control"
+                            required>
+                            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }} {{ client.prenom
+                                }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="client" class="form-label">Voiture</label>
+                        <select [(ngModel)]="newReservation.voiture.id" name="client" id="client" class="form-control"
+                            required>
+                            <option *ngFor="let voiture of voitures" [value]="voiture.id">{{ voiture.marque }}, {{
+                                voiture.immatriculation }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="datedebut" class="form-label">datedebut</label>
+                        <input type="date" [(ngModel)]="newReservation.dateDebut" name="datedebut" id="datedebut"
+                            class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="datefin" class="form-label">datefin</label>
+                        <input type="date" [(ngModel)]="newReservation.dateFin" name="datefin" id="datefin"
+                            class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="localisation" class="form-label">localisation</label>
+                        <textarea [(ngModel)]="newReservation.localisation" name="localisation" id="localisation"
+                            class="form-control" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea [(ngModel)]="newReservation.message" name="message" id="message" class="form-control"
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success"
+                        [routerLink]="['/admin/gestion-reservation']">Ajouter</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeCreateModal()">Fermer</button>
             </div>
         </div>
     </div>

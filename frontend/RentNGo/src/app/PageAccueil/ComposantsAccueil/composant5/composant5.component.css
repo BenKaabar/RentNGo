@@ -16,6 +16,7 @@ h5 {
 
 p {
     font-size: 14px;
+    margin-bottom: 6px;
 }
 
 .side1 p,
@@ -50,14 +51,16 @@ img {
     height: 100%;
     object-fit: cover;
 }
-button{
+
+button {
     background-color: rgb(255, 188, 12);
     padding: 10px;
     border: none;
     border-radius: 20px;
     color: black;
 }
-.top p{
+
+.top p {
     color: white;
     font-size: 22px;
 }
@@ -67,10 +70,12 @@ button{
     background-color: rgb(255, 111, 0);
     padding: 40px;
 }
-.bottom p{
+
+.bottom p {
     color: white;
     font-size: 14px;
 }
+
 .carousel-indicators {
     position: absolute;
     bottom: -30px;
@@ -80,7 +85,17 @@ button{
     display: flex;
     justify-content: center;
 }
-.carousel-card p{
+
+.carousel-card p {
     color: white;
     font-size: 16px;
+}
+
+.nomclient {
+    color: white;
+}
+
+.messageclient {
+    color: white;
+    height: 100px;
 }

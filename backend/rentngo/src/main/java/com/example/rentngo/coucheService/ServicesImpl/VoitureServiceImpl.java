@@ -6,21 +6,20 @@ import com.example.rentngo.coucheService.Services.VoitureService;
 import com.example.rentngo.coucheWeb.DTO.VoitureRequestDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 @Slf4j
 @Transactional
@@ -30,25 +29,26 @@ public class VoitureServiceImpl implements VoitureService {
 
     @Override
     public List<Voiture> getAllCars() {
-        log.info("List of car------------------------");
+        log.info("List of cars------------------------");
         return carRepository.findAll();
     }
 
     @Override
-    public void addCar(String voitureRequestDTO, MultipartFile File) throws IOException {
+    public void addCar(VoitureRequestDTO voitureRequestDTO, MultipartFile file) throws IOException {
         Voiture voiture = new Voiture();
-        VoitureRequestDTO voitureRequestDTO1 = objectMapper.readValue(voitureRequestDTO, VoitureRequestDTO.class);
-        voiture.setGarantie(voitureRequestDTO1.getGarantie());
-        voiture.setImmatriculation(voitureRequestDTO1.getImmatriculation());
-        voiture.setMarque(voitureRequestDTO1.getMarque());
-        voiture.setPrix(voitureRequestDTO1.getPrix());
-        voiture.setCouleur(voitureRequestDTO1.getCouleur());
-        voiture.setCategorie(voitureRequestDTO1.getCategorie());
-        voiture.setPhotoVoiture(compressBytes(File.getBytes()));
-        voiture.setTypePhotoVoiture(File.getContentType());
-        voiture.setNomPhotoVoiture(File.getOriginalFilename());
+        voiture.setImmatriculation(voitureRequestDTO.getImmatriculation());
+        voiture.setMarque(voitureRequestDTO.getMarque());
+        voiture.setPrix(voitureRequestDTO.getPrix());
+        voiture.setCouleur(voitureRequestDTO.getCouleur());
+        voiture.setCategorie(voitureRequestDTO.getCategorie());
+        voiture.setGarantie(voitureRequestDTO.getGarantie());
+        voiture.setEstDisponible(true);
+        voiture.setTypePhotoVoiture("voiture");
+        voiture.setNomPhotoVoiture(file.getOriginalFilename());
+        voiture.setPhotoVoiture(file.getBytes()); // Compression
+        // log.info("Added new taswira: {}", file.getBytes());
         carRepository.save(voiture);
-        log.info("car added successfully-----------------");
+        log.info("Added new car: {}", voiture);
     }
 
     @Override
@@ -56,10 +56,11 @@ public class VoitureServiceImpl implements VoitureService {
         return carRepository.findById(id).orElseThrow(() -> new RuntimeException("Voiture not found"));
     }
 
-    public void updateCar(String dto, MultipartFile file, Long id) throws IOException {
+    @Override
+    public void updateCar(VoitureRequestDTO voitureRequestDTO1, MultipartFile file, Long id) throws IOException {
         Voiture voiture = carRepository.findById(id).orElse(null);
         if (voiture != null) {
-            VoitureRequestDTO voitureRequestDTO1 = objectMapper.readValue(dto, VoitureRequestDTO.class);
+            // VoitureRequestDTO voitureRequestDTO1 = objectMapper.readValue(voitureRequestDTO, VoitureRequestDTO.class);
             if (voitureRequestDTO1.getGarantie() != null) {
                 voiture.setGarantie(voitureRequestDTO1.getGarantie());
             }
@@ -78,15 +79,15 @@ public class VoitureServiceImpl implements VoitureService {
             if (voitureRequestDTO1.getCategorie() != null && !voitureRequestDTO1.getCategorie().isEmpty()) {
                 voiture.setCategorie(voitureRequestDTO1.getCategorie());
             }
-            if (file != null && file.getBytes().length > 0) {
-                voiture.setPhotoVoiture(compressBytes(file.getBytes()));
+            if (file != null && !file.isEmpty()) {
+                voiture.setPhotoVoiture(file.getBytes()); // Compression si nécessaire
                 voiture.setTypePhotoVoiture(file.getContentType());
                 voiture.setNomPhotoVoiture(file.getOriginalFilename());
             }
             carRepository.save(voiture);
-            log.info("update car with id: {} done!-------------------------", id);
+            log.info("Updated car with id: {} done!", id);
         } else {
-            log.warn("Attempted to update a car with id: {} that does not exist-----------------------", id);
+            log.warn("Attempted to update a car with id: {} that does not exist", id);
         }
     }
 
@@ -101,7 +102,6 @@ public class VoitureServiceImpl implements VoitureService {
         }
     }
 
-    // compressing and decompressing files
     public static byte[] compressBytes(byte[] data) {
         Deflater deflater = new Deflater();
         deflater.setInput(data);
@@ -116,9 +116,8 @@ public class VoitureServiceImpl implements VoitureService {
         try {
             outputStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
         }
-        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+        System.out.println("Compressed Image Byte Size - ******************************" + outputStream.toByteArray().length);
 
         return outputStream.toByteArray();
     }
@@ -134,9 +133,16 @@ public class VoitureServiceImpl implements VoitureService {
                 outputStream.write(buffer, 0, count);
             }
             outputStream.close();
-        } catch (IOException | DataFormatException e) {
-            e.printStackTrace();
+        } catch (IOException ioe) {
+        } catch (DataFormatException e) {
         }
         return outputStream.toByteArray();
+    }
+
+    public static String RandomCodeGenerator() {
+        Random random = new Random();
+        int code = random.nextInt(100000);
+        String codeStr = String.format("%05d", code);
+        return codeStr;
     }
 }

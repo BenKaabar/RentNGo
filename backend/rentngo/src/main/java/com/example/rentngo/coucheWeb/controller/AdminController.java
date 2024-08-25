@@ -11,17 +11,14 @@ import com.example.rentngo.coucheWeb.DTO.AdminRequestDTO;
 
 import java.io.IOException;
 import java.util.List;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
     private final AdminService adminService;
-
-    // Constructor injection for better immutability and testability
-    public AdminController(AdminService adminService) {
-        this.adminService = adminService;
-    }
 
     // Get all admins
     @GetMapping("/all")

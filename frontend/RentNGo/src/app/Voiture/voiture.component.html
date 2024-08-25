@@ -1,58 +1,68 @@
 <app-nav-bar></app-nav-bar>
 <div class="card-grid">
-  <div class="card" *ngFor="let item of paginatedItems">
-      <div class="card-top">
-          <img src="/assets/images/voitures/Hyundai Grand I10 2024.jpg" alt="Voiture">
-          <h4>Hyundai Grand I10 2024</h4>
-      </div>
-      <div class="card-middle">
-          <div>
-              <button type="button" class="custom-popover" data-bs-toggle="popover" title="Climatiseur" data-bs-placement="top">
-                  <img src="/assets/images/voitures/climatiseur.png" alt="Climatiseur">
-              </button>
-              <button type="button" class="custom-popover" data-bs-toggle="popover" title="Essence" data-bs-placement="top">
-                  <img src="/assets/images/voitures/essence.png" alt="Essence">
-              </button>
-              <button type="button" class="custom-popover" data-bs-toggle="popover" title="5 Portes" data-bs-placement="top">
-                  <img src="/assets/images/voitures/porte.png" alt="5 Portes">
-              </button>
-              <button type="button" class="custom-popover" data-bs-toggle="popover" title="2 bagages" data-bs-placement="top">
-                  <img src="/assets/images/voitures/bagages.png" alt="2 bagages">
-              </button>
-              <button type="button" class="custom-popover" data-bs-toggle="popover" title="5 Place" data-bs-placement="top">
-                  <img src="/assets/images/voitures/place.png" alt="5 Place">
-              </button>
-              <button type="button" class="custom-popover" data-bs-toggle="popover" title="Boite manuelle" data-bs-placement="top">
-                  <img src="/assets/images/voitures/boite.png" alt="Boite manuelle">
-              </button>
-          </div>
-          <div class="description">
-              <p style="color: rgb(255, 111, 0); margin-left: 0;">Ce prix inclut</p>
-              <p>TVA / Taxes locales(19%)</p>
-              <p>Assurances de base (RC, Incendie)</p>
-              <p>Taxes aéroport ou gare</p>
-              <p>KM illimité</p>
-              <p>Dépot de garantie de <strong>3000 TND</strong></p>
-              <button type="button" class="custom-popover" data-bs-toggle="popover" title="RC, Vol, incendie" data-bs-placement="bottom">
-                  <p style="background-color: #f36a01; color: white; width: 135px;">Assurances aux tiers</p>
-              </button>
-          </div>
-      </div>
-      <div class="card-bottom">
-          <button class="button" routerLink="/Reservation">Réserver</button>
-      </div>
-  </div>
+    <div class="card" *ngFor="let voiture of paginatedItems">
+        <div class="card-top">
+            <img *ngIf="voiture.photoVoiture" [src]="voiture.photoVoiture" alt="{{ voiture.nomPhotoVoiture }}" />
+            <div class="info">
+                <div class="marque">{{ voiture.marque }}</div>
+                <div class="categorie">{{ voiture.categorie }}</div>
+            </div>
+        </div>
+        <div class="card-middle">
+            <div>
+                <button type="button" class="custom-popover" data-bs-toggle="popover" title="Climatiseur"
+                    data-bs-placement="top">
+                    <img src="/assets/images/voitures/climatiseur.png" alt="Climatiseur">
+                </button>
+                <button type="button" class="custom-popover" data-bs-toggle="popover" title="Essence"
+                    data-bs-placement="top">
+                    <img src="/assets/images/voitures/essence.png" alt="Essence">
+                </button>
+                <button type="button" class="custom-popover" data-bs-toggle="popover" title="5 Portes"
+                    data-bs-placement="top">
+                    <img src="/assets/images/voitures/porte.png" alt="5 Portes">
+                </button>
+                <button type="button" class="custom-popover" data-bs-toggle="popover" title="2 bagages"
+                    data-bs-placement="top">
+                    <img src="/assets/images/voitures/bagages.png" alt="2 bagages">
+                </button>
+                <button type="button" class="custom-popover" data-bs-toggle="popover" title="5 Place"
+                    data-bs-placement="top">
+                    <img src="/assets/images/voitures/place.png" alt="5 Place">
+                </button>
+                <button type="button" class="custom-popover" data-bs-toggle="popover" title="Boite manuelle"
+                    data-bs-placement="top">
+                    <img src="/assets/images/voitures/boite.png" alt="Boite manuelle">
+                </button>
+            </div>
+            <div class="description">
+                <p style="color: rgb(255, 111, 0); margin-left: 0;">Ce prix inclut</p>
+                <p>TVA / Taxes locales(19%)</p>
+                <p>Assurances de base (RC, Incendie)</p>
+                <p>Taxes aéroport ou gare</p>
+                <p>Couleur : {{ voiture.couleur }}</p>
+                <p>Prix de location <strong> {{ voiture.prix}} TND/J</strong></p>
+                <button type="button" class="custom-popover" data-bs-toggle="popover" title="RC, Vol, incendie"
+                    data-bs-placement="bottom">
+                    <p style="background-color: #f36a01; color: white; width: 135px;">Assurances aux tiers</p>
+                </button>
+            </div>
+        </div>
+        <div class="card-bottom">
+            <button class="button" routerLink="/Reservation">Réserver</button>
+        </div>
+    </div>
 </div>
 
 <div class="pagination">
-  <button (click)="prevPage()" [disabled]="currentPage === 1">Précédent</button>
-  
-  <div class="page-numbers">
-      <button *ngFor="let page of pageNumbers" (click)="goToPage(page)" [class.active]="page === currentPage">
-          {{ page }}
-      </button>
-  </div>
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Précédent</button>
 
-  <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+    <div class="page-numbers">
+        <button *ngFor="let page of pageNumbers" (click)="goToPage(page)" [class.active]="page === currentPage">
+            {{ page }}
+        </button>
+    </div>
+
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
 </div>
 <app-footer></app-footer>

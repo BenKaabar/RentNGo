@@ -1,170 +1,220 @@
 <div class="container-fluid">
-    <div class="row flex-nowrap">
+  <div class="row flex-nowrap">
+    <div class="col py-3">
+      <h1 class="h2">Gestion des Voitures</h1>
+      <div class="main-content">
+        <button type="button" class="btn btn-success" (click)="openCreateModal()">Ajouter voiture</button>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Numero</th>
+              <th scope="col">Immatriculation</th>
+              <th scope="col">Marque</th>
+              <th scope="col">Catégorie</th>
+              <th scope="col">Garantie</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let voiture of paginatedVoitures; let i = index">
+              <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
+              <td>{{ voiture.immatriculation }}</td>
+              <td>{{ voiture.marque }}</td>
+              <td>{{ voiture.categorie }}</td>
+              <td>{{ voiture.garantie }} moins</td>
+              <td>
+                <button type="button" class="btn btn-primary" (click)="openConsultModal(voiture)">Consulter</button>
+                <button type="button" class="btn btn-warning" (click)="openUpdateModal(voiture)">Modifier</button>
+                <button type="button" class="btn btn-danger" (click)="openDeleteModal(voiture)">Supprimer</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="paginations" *ngIf="totalPages > 1">
+          <nav aria-label="Page-navigation">
+            <ul class="pagination">
+              <li class="page-item cursor-pointer" [ngClass]="{'disabled': isPreviousPageDisabled}">
+                <a class="page-link" (click)="goToPreviousPage()" tabindex="-1">Précédent</a>
+              </li>
+              <li class="page-item disabled cursor-pointer"><span class="page-link">Page {{ page }} sur {{
+                  totalPages
+                  }}</span></li>
+              <li class="page-item cursor-pointer" [ngClass]="{'disabled': isNextPageDisabled}">
+                <a class="page-link" (click)="goToNextPage()">Suivant</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div class="col py-3">
-            <!-- Contenu spécifique au composant -->
-            <h1 class="h2">Gestion des Voitures</h1>
-            <div class="main-content">
-                <!-- Contenu spécifique à la gestion des voitures -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Modèle</th>
-                            <th scope="col">Marque</th>
-                            <th scope="col">Année</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Model S</td>
-                            <td>Tesla</td>
-                            <td>2022</td>
-                            <td>
-                                <!-- Button trigger modal -->
-                                <div>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropConsultervoiture">
-                                        Consulter
-                                    </button>
-                                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropmodifiervoiture">
-                                        Modifier
-                                    </button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdropsupprimervoiture">
-                                        Supprimer
-                                    </button>
-                                </div>
-
-                            </td>
-                        </tr>
-                        <!-- Ajoutez d'autres lignes ici -->
-                    </tbody>
-                </table>
-                <!-- Modal Consulter -->
-<div class="modal fade" id="staticBackdropConsultervoiture" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropConsultervoitureLabel" aria-hidden="true">
-<div class="modal-dialog">
+<!-- Modal Consulter -->
+<div class="modal fade" id="consultingVoitureModal" tabindex="-1" aria-labelledby="consultingVoitureModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Consulter voiture</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <h6>Immatriculation :</h6>
-            <h6>Marque :</h6>
-            <h6>Prix :</h6>
-            <h6>Couleur :</h6>
-            <h6>Categorie :</h6>
-            <h6>Garantie :</h6>
-            <h6>EstDisponible :</h6>
-            <h6>Image voiture :</h6>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-        </div>
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="consultingVoitureModalLabel">Consulter voiture</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeConsultModal()"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedVoiture">
+        <p><strong>Immatriculation:</strong> {{ selectedVoiture.immatriculation }}</p>
+        <p><strong>Marque:</strong> {{ selectedVoiture.marque }}</p>
+        <p><strong>Prix:</strong> {{ selectedVoiture.prix }} TND</p>
+        <p><strong>Couleur:</strong> {{ selectedVoiture.couleur }}</p>
+        <p><strong>Catégorie:</strong> {{ selectedVoiture.categorie }}</p>
+        <p><strong>Garantie:</strong> {{ selectedVoiture.garantie }} mois</p>
+        <p><strong>Photo Voiture:</strong>
+          <img *ngIf="selectedVoiture.photoVoiture" [src]="selectedVoiture.photoVoiture"
+            alt="{{ selectedVoiture.nomPhotoVoiture }}" />
+
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeConsultModal()">Fermer</button>
+      </div>
     </div>
-</div>
+  </div>
 </div>
 
-<!-- Modal modifier -->
-<div class="modal fade" id="staticBackdropmodifiervoiture" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropmodifiervoitureLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg"> <!-- Modified class here -->
+
+<!-- Modal Ajouter -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modifier voiture</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table>
-                <tr>
-                    <td>Immatriculation : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>Marque : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>Prix : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>Couleur : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>Categorie : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>Garantie : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>EstDisponible : </td>
-                    <td><input type="text"></td>
-                </tr>
-                <tr>
-                    <td>Image voiture : </td>
-                    <td>
-                        <!-- <img src="" alt=""> -->
-                    </td>
-                    <td><input type="file"></td>
-                </tr>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Modifier</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-        </div>
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="createModalLabel">Ajouter voiture</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeCreateModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form #createForm="ngForm" (ngSubmit)="createVoiture(createForm)">
+          <div class="mb-3">
+            <label for="immatriculation" class="form-label">Immatriculation</label>
+            <input type="text" id="immatriculation" name="immatriculation" [(ngModel)]="newVoiture.immatriculation"
+              class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="marque" class="form-label">Marque</label>
+            <input type="text" id="marque" name="marque" [(ngModel)]="newVoiture.marque" class="form-control"
+              required />
+          </div>
+          <div class="mb-3">
+            <label for="prix" class="form-label">Prix</label>
+            <input type="number" id="prix" name="prix" [(ngModel)]="newVoiture.prix" class="form-control" required />
+          </div>
+          <div class="mb-3">
+            <label for="couleur" class="form-label">Couleur</label>
+            <input type="text" id="couleur" name="couleur" [(ngModel)]="newVoiture.couleur" class="form-control"
+              required />
+          </div>
+          <div class="mb-3">
+            <label for="categorie" class="form-label">Catégorie</label>
+            <input type="text" id="categorie" name="categorie" [(ngModel)]="newVoiture.categorie" class="form-control"
+              required />
+          </div>
+          <div class="mb-3">
+            <label for="garantie" class="form-label">Garantie</label>
+            <input type="number" id="garantie" name="garantie" [(ngModel)]="newVoiture.garantie" class="form-control"
+              required />
+          </div>
+          <div class="mb-3">
+            <label for="photoVoiture" class="form-label">Nom Photo Voiture</label>
+            <input type="file" id="photoVoiture" name="photoVoiture" class="form-control"
+              (change)="onImageChange($event)" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary" [routerLink]="['/admin/gestion-voiture']">Ajouter</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeCreateModal()">Fermer</button>
+      </div>
     </div>
-</div>
+  </div>
 </div>
 
-<!-- Modal supprimer -->
-<div class="modal fade" id="staticBackdropsupprimervoiture" data-bs-backdrop="static" data-bs-keyboard="false"
-tabindex="-1" aria-labelledby="staticBackdropsupprimervoitureLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg">
+<!-- Modal Modifier -->
+<div class="modal fade" id="updateVoitureModal" tabindex="-1" aria-labelledby="deleteVoitureModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
     <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="staticBackdropLabel">Supprimer voiture</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <table>
-
-                <tr>
-                    <td>Numero : </td>
-                    <td>text here </td>
-                </tr>
-                <tr>
-                    <td>Immatriculation : </td>
-                    <td>text here </td>
-                </tr>
-                <tr>
-                    <td>EstDisponible : </td>
-                    <td>text here</td>
-                </tr>
-                <tr>
-                    <td>Image voiture : </td>
-                    <td>
-                        <!-- <img src="" alt=""> -->
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger">Suprrimer</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermé</button>
-
-        </div>
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="updateModalLabel">Modifier voiture</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeUpdateModal()"></button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm" (ngSubmit)="updateVoiture(updateForm)">
+          <div class="mb-3" *ngIf="selectedVoiture">
+            <label for="updateImmatriculation" class="form-label">Immatriculation</label>
+            <input type="text" id="updateImmatriculation" name="immatriculation"
+              [(ngModel)]="selectedVoiture.immatriculation" class="form-control" required />
+          </div>
+          <div class="mb-3" *ngIf="selectedVoiture">
+            <label for="updateMarque" class="form-label">Marque</label>
+            <input type="text" id="updateMarque" name="marque" [(ngModel)]="selectedVoiture.marque" class="form-control"
+              required />
+          </div>
+          <div class="mb-3" *ngIf="selectedVoiture">
+            <label for="updatePrix" class="form-label">Prix</label>
+            <input type="number" id="updatePrix" name="prix" [(ngModel)]="selectedVoiture.prix" class="form-control"
+              required />
+          </div>
+          <div class="mb-3" *ngIf="selectedVoiture">
+            <label for="updateCouleur" class="form-label">Couleur</label>
+            <input type="text" id="updateCouleur" name="couleur" [(ngModel)]="selectedVoiture.couleur"
+              class="form-control" required />
+          </div>
+          <div class="mb-3" *ngIf="selectedVoiture">
+            <label for="updateCategorie" class="form-label">Catégorie</label>
+            <input type="text" id="updateCategorie" name="categorie" [(ngModel)]="selectedVoiture.categorie"
+              class="form-control" required />
+          </div>
+          <div class="mb-3" *ngIf="selectedVoiture">
+            <label for="updateGarantie" class="form-label">Garantie</label>
+            <input type="number" id="updateGarantie" name="garantie" [(ngModel)]="selectedVoiture.garantie"
+              class="form-control" required />
+          </div>
+          <div class="mb-3" *ngIf="selectedVoiture">
+            <label for="updatePhotoVoiture" class="form-label">Nom Photo Voiture</label>
+            <input type="file" id="updatePhotoVoiture" name="photoVoiture" class="form-control"
+              (change)="onImageChange($event)" />
+          </div>
+          <button type="submit" class="btn btn-primary" [routerLink]="['/admin/gestion-voiture']">Modifier</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeUpdateModal()">Fermer</button>
+      </div>
     </div>
-   </div>
+  </div>
 </div>
-            </div>
-        </div>
+
+<!-- Modal Supprimer -->
+<div class="modal fade" id="deleteVoitureModal" tabindex="-1" aria-labelledby="deleteVoitureModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Supprimer voiture</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
+      </div>
+      <div class="modal-body" *ngIf="selectedVoiture">
+        <p>Voulez-vous vraiment supprimer cette voiture ?</p>
+        <p><strong>Immatriculation:</strong> {{ selectedVoiture.immatriculation }}</p>
+        <p><strong>Marque:</strong> {{ selectedVoiture.marque }}</p>
+        <p><strong>Prix:</strong> {{ selectedVoiture.prix }}</p>
+        <p><strong>Couleur:</strong> {{ selectedVoiture.couleur }}</p>
+        <p><strong>Catégorie:</strong> {{ selectedVoiture.categorie }}</p>
+        <p><strong>Garantie:</strong> {{ selectedVoiture.garantie }}</p>
+        <p><strong>Nom Photo Voiture:</strong> {{ selectedVoiture.nomPhotoVoiture }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Annuler</button>
+        <button type="button" class="btn btn-danger" (click)="deleteVoiture(selectedVoiture?.id)">Supprimer</button>
+      </div>
     </div>
+  </div>
 </div>

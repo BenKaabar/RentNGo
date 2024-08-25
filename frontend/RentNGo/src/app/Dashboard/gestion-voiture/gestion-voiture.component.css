@@ -39,7 +39,20 @@
     background-color: #dc3545;
     border-color: #dc3545;
 }
+
 .px-3 {
     padding-right: 0rem !important;
     padding-left: 0rem !important;
+}
+
+img {
+    width: 300px;
+    object-fit: cover;
+    margin-left: 10px;
+}
+
+.paginations {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

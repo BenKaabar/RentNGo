@@ -3,7 +3,7 @@
         <div class="col py-3">
             <h1 class="h2">Gestion des Contacts</h1>
             <div class="main-content">
-                <button type="button" class="btn btn-success">Ajouter contact</button>
+                <button type="button" class="btn btn-success" (click)="openCreateModal()">Ajouter contact</button>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -15,31 +15,45 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let contact of contacts; let i=index">
-                            <td>{{ i+1 }}</td>
+                        <tr *ngFor="let contact of paginatedContacts; let i = index">
+                            <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
                             <td>{{ contact.client.nom }}</td>
                             <td>{{ contact.email }}</td>
-                            <td>{{ contact.message }}</td>
+                            <td>{{ truncateMessage(contact.message) }}</td>
                             <td>
-                                <!-- Bouton Consulter -->
-                                <button type="button" class="btn btn-primary" (click)="openConsultModal(contact)" [disabled]="isDeleteModalOpen">
-                                    Consulter
-                                </button>
-                                <!-- Bouton Supprimer avec modal -->
-                                <button type="button" class="btn btn-danger" (click)="openDeleteModal(contact)" [disabled]="isConsultModalOpen">
-                                    Supprimer
-                                </button>
+                                <button type="button" class="btn btn-primary"
+                                    (click)="openConsultModal(contact)">Consulter</button>
+                                <button type="button" class="btn btn-warning"
+                                    (click)="openUpdateModal(contact)">Modifier</button>
+                                <button type="button" class="btn btn-danger"
+                                    (click)="openDeleteModal(contact)">Supprimer</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <!-- Pagination -->
+                <div class="paginations" *ngIf="totalPages > 1">
+                    <nav aria-label="Page-navigation">
+                        <ul class="pagination">
+                            <li class="page-item cursor-pointer" [ngClass]="{'disabled': isPreviousPageDisabled}">
+                                <a class="page-link" (click)="goToPreviousPage()" tabindex="-1">Précédent</a>
+                            </li>
+                            <li class="page-item disabled cursor-pointer"><span class="page-link">Page {{ page }} sur {{
+                                    totalPages }}</span></li>
+                            <li class="page-item cursor-pointer" [ngClass]="{'disabled': isNextPageDisabled}">
+                                <a class="page-link" (click)="goToNextPage()">Suivant</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Modal Consulter -->
-<div *ngIf="selectedContact && isConsultModalOpen" class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+<div id="consultingModal" class="modal fade" tabindex="-1" aria-labelledby="consultingModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -47,9 +61,11 @@
                 <button type="button" class="btn-close" (click)="closeConsultModal()"></button>
             </div>
             <div class="modal-body">
-                <!-- <h4>{{ selectedContact.client.nom }}, {{ selectedContact.client.prenom }}</h4> -->
-                <h6>{{ selectedContact.email }}</h6>
-                <h6>{{ selectedContact.message }}</h6>
+                <h6><strong>Id contact :</strong> {{ selectedContact?.id }}</h6>
+                <h6><strong>Client :</strong> {{ selectedContact?.client?.nom }}, {{ selectedContact?.client?.prenom }}
+                </h6>
+                <h6><strong>Email :</strong> {{ selectedContact?.email }}</h6>
+                <h6><strong>Message :</strong> {{ selectedContact?.message }}</h6>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closeConsultModal()">Fermer</button>
@@ -57,9 +73,9 @@
         </div>
     </div>
 </div>
-
 <!-- Modal Supprimer -->
-<div class="modal fade" id="staticBackdropsupprimer" tabindex="-1" aria-labelledby="staticBackdropsupprimerLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="staticBackdropsupprimerLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,12 +83,76 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h6>Numéro : {{ selectedContact?.id }}</h6>
-                <h6>{{ selectedContact?.message }}</h6>
+                <h6><strong>Id contact :</strong> {{ tempContact?.id }}</h6>
+                <h6><strong>Client :</strong> {{ tempContact?.client?.nom }}, {{ tempContact?.client?.prenom }}</h6>
+                <h6><strong>Message :</strong> {{ tempContact?.message }}</h6>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" (click)="deleteContact(selectedContact?.id)">Supprimer</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeDeleteModal()">Fermer</button>
+                <button type="button" class="btn btn-danger" (click)="deleteContactbyid(tempContact?.id)"
+                    [routerLink]="['/admin/gestion-contact']">Supprimer</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                    (click)="closeDeleteModal()">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Modifier -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="updateModalLabel">Modifier contact</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeUpdateModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="updateContact(updateForm)" #updateForm="ngForm">
+                    <p>Email : {{tempContact?.email}}</p>
+                    <div class="mb-3" *ngIf="tempContact">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea [(ngModel)]="tempContact.message" name="message" id="message" class="form-control"
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary"
+                        [routerLink]="['/admin/gestion-contact']">Modifier</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeUpdateModal()">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Ajouter -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createModalLabel">Ajouter contact</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeCreateModal()"></button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="createContact(createForm)" #createForm="ngForm">
+                    <div class="mb-3">
+                        <label for="client" class="form-label">Client</label>
+                        <select [(ngModel)]="newContact.client.id" name="client" id="client" class="form-control"
+                            required>
+                            <option *ngFor="let client of clients" [value]="client.id">{{ client.nom }} {{ client.prenom
+                                }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea [(ngModel)]="newContact.message" name="message" id="message" class="form-control"
+                            required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success"
+                        [routerLink]="['/admin/gestion-contact']">Ajouter</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeCreateModal()">Fermer</button>
             </div>
         </div>
     </div>

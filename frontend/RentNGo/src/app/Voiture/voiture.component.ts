@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Popover } from 'bootstrap';
+import { VoitureService } from '../Services/Voiture/voiture.service';
+import { Voiture } from '../models/Voiture';
 @Component({
   selector: 'app-voiture',
   templateUrl: './voiture.component.html',
@@ -16,15 +18,33 @@ export class VoitureComponent implements AfterViewInit, OnInit {
       delay: { show: 500, hide: 100 }
     }));
   }
+  voitures: any[] = []; // Change type according to your model
+  baseUrl: string = 'data:image/jpeg;base64,'; // Change MIME type according to your image type
 
-  items: any[] = []; 
+  selectedVoiture: Voiture | null = null;
+  selectedFile: File | null = null;
+  newVoiture: Voiture = {
+    id: 0,
+    immatriculation: '',
+    marque: '',
+    prix: 0,
+    couleur: '',
+    categorie: '',
+    garantie: 0,
+    nomPhotoVoiture: '',
+    estDisponible: true,
+    typePhotoVoiture: '',
+    photoVoiture: new Uint8Array()
+  };
+  fileToUpload: File | null = null;
+  items: any[] = [];
   paginatedItems: any[] = [];
   currentPage: number = 1;
-  itemsPerPage: number = 9;
+  itemsPerPage: number = 6;
   totalPages: number = 0;
   pageNumbers: number[] = [];
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private voitureService: VoitureService, private router: Router) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -32,17 +52,21 @@ export class VoitureComponent implements AfterViewInit, OnInit {
       this.currentPage = pageParam ? +pageParam : 1;
       this.loadItems();
     });
+    this.loadVoitures();
+  }
+  
+  loadVoitures(): void {
+    this.voitureService.getAllCars().subscribe(data => {
+      this.voitures = data.map(voiture => ({
+        ...voiture,
+        photoVoiture: this.baseUrl + voiture.photoVoiture
+      }));
+      this.loadItems();
+    });
   }
 
   loadItems() {
-    // Simulate loading data
-    this.items = Array.from({ length: 30 }, (_, i) => ({
-      title: `Item ${i + 1}`,
-      description: `Description for item ${i + 1}`,
-      image: `/assets/images/voitures/Hyundai Grand I10 2024.jpg`
-    }));
-
-    this.totalPages = Math.ceil(this.items.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(this.voitures.length / this.itemsPerPage);
     this.updatePageNumbers();
     this.updatePage();
   }
@@ -50,7 +74,7 @@ export class VoitureComponent implements AfterViewInit, OnInit {
   updatePage() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
-    this.paginatedItems = this.items.slice(start, end);
+    this.paginatedItems = this.voitures.slice(start, end);
   }
 
   updatePageNumbers() {

@@ -1,27 +1,24 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+// Import your components and services here
 import { SignUpComponent } from './SignIn-SignUp/sign-up/sign-up.component';
-
 import { NavBarComponent } from './Shared/nav-bar/nav-bar.component';
 import { FooterComponent } from './Shared/footer/footer.component';
 import { ContactComponent } from './Contact/contact.component';
 import { TemoignagesComponent } from './Temoignages/temoignages.component';
-import { SignInComponent } from './SignIn-SignUp//sign-in/sign-in.component';
+import { SignInComponent } from './SignIn-SignUp/sign-in/sign-in.component';
 import { VoitureComponent } from './Voiture/voiture.component';
 import { AproposComponent } from './About/apropos/apropos.component';
 import { FaqComponent } from './About/faq/faq.component';
-
 import { GestionContactComponent } from './Dashboard/gestion-contact/gestion-contact.component';
 import { GestionReservationComponent } from './Dashboard/gestion-reservation/gestion-reservation.component';
 import { GestionTemoignagesComponent } from './Dashboard/gestion-temoignages/gestion-temoignages.component';
-import { GestionVoitureComponent } from './Dashboard/gestion-voiture/gestion-voiture.component';
 import { PageAccueilComponent } from './PageAccueil/Accueil/page-accueil.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { CompteClientComponent } from './CompteClient/compte-client/compte-client.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { Composant5Component } from './PageAccueil/ComposantsAccueil/composant5/composant5.component';
@@ -39,6 +36,7 @@ import { GestionReservationsComponent } from './CompteClient/gestion-reservation
 import { ReservationComponent } from './ReservationPage/Reservation/reservation.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TruncatePipe } from './Services/Truncate/truncate.pipe';
+import { GestionVoitureComponent } from './Dashboard/gestion-voiture/gestion-voiture.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +54,6 @@ import { TruncatePipe } from './Services/Truncate/truncate.pipe';
     GestionContactComponent,
     GestionReservationComponent,
     GestionTemoignagesComponent,
-    GestionVoitureComponent,
     CompteClientComponent,
     PageAccueilComponent,
     NotFoundComponent,
@@ -72,8 +69,8 @@ import { TruncatePipe } from './Services/Truncate/truncate.pipe';
     GestionTemoignageComponent,
     DashboardClientComponent,
     GestionReservationsComponent,
-    CompteClientComponent,
-    TruncatePipe 
+    GestionVoitureComponent,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,
@@ -84,7 +81,6 @@ import { TruncatePipe } from './Services/Truncate/truncate.pipe';
     HttpClientModule
   ],
   providers: [],
-  bootstrap: [AppComponent],
-  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

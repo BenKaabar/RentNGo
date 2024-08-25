@@ -8,7 +8,7 @@ import com.example.rentngo.DAO.entites.Temoignage;
 import com.example.rentngo.coucheWeb.DTO.TemoignageRequestDTO;
 
 public interface ServiceTemoignage {
-    void addTemoignage(TemoignageRequestDTO temoignageRequestDTO) throws IOException;
+    Temoignage addTemoignage(TemoignageRequestDTO temoignageRequestDTO, Long idClient) throws IOException;
 
     Temoignage findTemoignageById(Long id);
 

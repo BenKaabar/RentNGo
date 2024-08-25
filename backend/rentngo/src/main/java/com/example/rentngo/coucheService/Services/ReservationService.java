@@ -11,7 +11,7 @@ public interface ReservationService {
 
     Reservation GetRentalById(Long id);
 
-    void addRental(ReservationRequestDTO reservationRequestDTO, Long id_client, Long id_voiture) throws IOException;
+    Reservation addRental(ReservationRequestDTO reservationRequestDTO, Long idClient, Long idVoiture) throws IOException;
 
     void updateRental(ReservationRequestDTO reservationRequestDTO, Long id_client, Long id_voiture,Long id) throws IOException;
 

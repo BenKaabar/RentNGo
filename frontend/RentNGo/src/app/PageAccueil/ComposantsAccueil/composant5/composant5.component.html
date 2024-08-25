@@ -42,24 +42,35 @@
     <div class="right">
         <div class="top">
             <p>Ce qu'en disent nos clients</p>
-            <button  routerLink="/Temoignages">Afficher plus d'avis</button>
+            <button routerLink="/Temoignages">Afficher plus d'avis</button>
         </div>
         <div class="bottom">
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel"  data-bs-config='{"interval":1000 }' data-bs-ride="carousel">
-                
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel"
+                data-bs-config='{"interval":2500 }' data-bs-ride="carousel">
+
                 <div class="carousel-inner">
-                    <div *ngFor="let avis of reviews; let i = index" [class.active]="i === 0" class="carousel-item">
+                    <div *ngFor="let temoignage of temoignages; let i = index" [class.active]="i === 0"
+                        class="carousel-item">
                         <div class="carousel-card">
-                            <p>{{ avis.client }}</p>
-                            <p>{{ avis.cmnt }}</p>
+                            <div class="nomclient">
+                                {{ temoignage.client.nom }}, {{ temoignage.client.prenom }} ( {{ temoignage.dateTemoignage}} )
+                            </div>
+                            <div class="messageclient">
+                                {{ temoignage.messageTemoignage }}
+                            </div>
+
                         </div>
                     </div>
                 </div>
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                        aria-label="Slide 4"></button>
                 </div>
             </div>
         </div>

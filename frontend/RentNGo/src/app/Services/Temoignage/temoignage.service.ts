@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Temoignage } from 'src/app/models/Temoignage';
 
@@ -7,23 +7,26 @@ import { Temoignage } from 'src/app/models/Temoignage';
   providedIn: 'root'
 })
 export class TemoignageService {
-  private baseUrl = 'http://localhost:9798/temoignage'; // URL de l'API
+  private apiUrl = 'http://localhost:9798/temoignage'; // URL de l'API
 
   constructor(private http: HttpClient) { }
 
-  getAllTemoignage(): Observable<Temoignage[]> {
-    return this.http.get<Temoignage[]>(`${this.baseUrl}/all`);
+  getAllTemoignages(): Observable<Temoignage[]> {
+    return this.http.get<Temoignage[]>(`${this.apiUrl}/all`);
   }
 
   getTemoignageById(id: number): Observable<Temoignage> {
-    return this.http.get<Temoignage>(`${this.baseUrl}/ById/${id}`);
+    return this.http.get<Temoignage>(`${this.apiUrl}/ById/${id}`);
   }
-
-  createTemoignage(temoignage: Temoignage): Observable<string> {
-    return this.http.post<string>(`${this.baseUrl}/add`, temoignage);
+  
+  addTemoignage(idClient: number, temoignageRequestDTO: any): Observable<Temoignage> {
+    let params = new HttpParams().set('idClient', idClient.toString());
+    return this.http.post<Temoignage>(`${this.apiUrl}/add`, temoignageRequestDTO, { params });
   }
+  
 
   deleteTemoignage(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
   }
+  
 }

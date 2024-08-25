@@ -1,6 +1,7 @@
 package com.example.rentngo.coucheWeb.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,63 +12,73 @@ import com.example.rentngo.coucheWeb.DTO.ReservationRequestDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @RestController
-@RequestMapping("/reservation")
+@CrossOrigin("*")
+@RequestMapping(path = "/reservation")
 @Slf4j
 public class ReservationController {
     @Autowired
     private ReservationService rentalService;
 
-    @GetMapping("/all")
+    @GetMapping(path = "/all")
     public ResponseEntity<List<Reservation>> getAllRentals() {
         List<Reservation> reservations = rentalService.getAllRentals();
         return ResponseEntity.ok(reservations);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> createRental(@RequestBody ReservationRequestDTO rental, Long idClient, Long idVoiture)
-            throws IOException {
+    public ResponseEntity<?> addRental(
+            @RequestParam("idClient") Long idClient,
+            @RequestParam("idVoiture") Long idVoiture,
+            @RequestBody ReservationRequestDTO reservationRequestDTO) {
         try {
-            rentalService.addRental(rental, idClient, idVoiture);
-            return ResponseEntity.ok("reservation added successfully");
-        } catch (IOException e) {
-            log.error("Error adding reservation: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
+            Reservation reservation = rentalService.addRental(reservationRequestDTO, idClient, idVoiture);
+            return ResponseEntity.ok(reservation);
         } catch (Exception e) {
-            log.error("Unexpected error occurred while adding reservation: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An unexpected error occurred: " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateRental(@PathVariable Long id, ReservationRequestDTO rental, Long idClient,
-            Long idVoiture)
-            throws IOException {
+    public ResponseEntity<Map<String, String>> updateReservation(
+            @PathVariable Long id,
+            @RequestBody ReservationRequestDTO reservationRequest,
+            @RequestParam Long id_client,
+            @RequestParam Long id_voiture) {
+
+        Map<String, String> response = new HashMap<>();
         try {
-            rentalService.updateRental(rental, idClient, idVoiture, id);
-            return ResponseEntity.ok("reservation update successfully");
-        } catch (IOException e) {
-            log.error("Error updated reservation: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
+            rentalService.updateRental(reservationRequest, id_client, id_voiture, id);
+            response.put("message", "Reservation updated successfully");
+            return ResponseEntity.ok(response);
+        } catch (DataIntegrityViolationException e) {
+            response.put("message", "Data integrity violation: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         } catch (Exception e) {
-            log.error("Unexpected error occurred while updated reservation: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An unexpected error occurred: " + e.getMessage());
+            response.put("message", "An unexpected error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteRental(@PathVariable Long rentalId) {
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<Map<String, String>> deleteRental(@PathVariable Long id) {
+        Map<String, String> response = new HashMap<>();
         try {
-            rentalService.deleteRental(rentalId);
-            return ResponseEntity.ok("reservation deleted successfully");
+            rentalService.deleteRental(id);
+            response.put("message", "reservation deleted successfully");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("reservation with id {} not found for deletion", rentalId, e);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("reservation not found with id: " + rentalId);
+            log.error("reservation with id {} not found for deletion", id, e);
+            response.put("message", "reservation not found with id: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
+
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Contact } from 'src/app/models/Contact';
 
@@ -20,15 +20,19 @@ export class ContactService {
     return this.http.get<Contact>(`${this.apiUrl}/by/${id}`);
   }
 
-  addContact(contact: Contact): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/add`, contact);
+  addContact(idClient: number, contact: Contact): Observable<Contact> {
+    let params = new HttpParams().set('idClient', idClient.toString());
+    return this.http.post<Contact>(`${this.apiUrl}/add`, contact, { params });
   }
 
-  updateContact(id: number, contact: Contact): Observable<string> {
-    return this.http.put<string>(`${this.apiUrl}/update/${id}`, contact);
+
+  updateContact(contact: { email: string; message: string }, id: number,  idClient: number): Observable<string> {
+    return this.http.put<string>(`${this.apiUrl}/update/${id}?idClient=${idClient}`, contact);
   }
+  
 
   deleteContact(id: number): Observable<string> {
-    return this.http.delete<string>(`${this.apiUrl}/delete/${id}`);
+    return this.http.delete(`${this.apiUrl}/delete/${id}`, { responseType: 'text' });
   }
+  
 }

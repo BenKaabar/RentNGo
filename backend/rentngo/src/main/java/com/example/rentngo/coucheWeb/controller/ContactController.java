@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.rentngo.DAO.entites.Contact;
 import com.example.rentngo.coucheService.Services.ServiceContact;
+import com.example.rentngo.coucheWeb.DTO.ContactRequestDTO;
 
 import lombok.extern.slf4j.Slf4j;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @RestController
 @CrossOrigin("*")
 @RequestMapping(path = "/contact")
@@ -42,34 +45,38 @@ public class ContactController {
 
     // Add Contact
     @PostMapping(path = "/add")
-    public ResponseEntity<String> addContact(@RequestBody String contactRequestDTO, Long idClient) {
+    public ResponseEntity<Contact> addContact(@RequestBody ContactRequestDTO contactRequestDTO,
+            @RequestParam Long idClient) {
         try {
-            serviceContact.addContact(contactRequestDTO, idClient);
-            return ResponseEntity.ok("Contact added successfully");
+            Contact contact = serviceContact.addContact(contactRequestDTO, idClient);
+            return ResponseEntity.ok(contact);
         } catch (IOException e) {
             log.error("Error adding contact: {}", e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (Exception e) {
             log.error("Unexpected error occurred while adding contact: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An unexpected error occurred: " + e.getMessage());
+                    .build();
         }
     }
 
     // Update Contact
     @PutMapping(path = "/update/{id}")
-    public ResponseEntity<String> updateContact(@PathVariable Long id,
-            @RequestBody String contactRequestDTO, Long idClient) {
+    public ResponseEntity<Contact> updateContact(
+            @PathVariable Long id,
+            @RequestBody ContactRequestDTO contactRequestDTO,
+            @RequestParam Long idClient) {
         try {
-            serviceContact.updateContact(contactRequestDTO, id, idClient);
-            return ResponseEntity.ok("Contact updated successfully");
+            Contact contact = serviceContact.updateContact(contactRequestDTO, id, idClient);
+            return ResponseEntity.ok(contact);
         } catch (IOException e) {
             log.error("Error updating contact with id {}: {}", id, e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .build();
         } catch (Exception e) {
             log.error("Unexpected error occurred while updating contact with id {}: {}", id, e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An unexpected error occurred: " + e.getMessage());
+                    .build();
         }
     }
 

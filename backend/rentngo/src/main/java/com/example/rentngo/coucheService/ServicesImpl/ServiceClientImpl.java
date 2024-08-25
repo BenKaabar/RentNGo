@@ -10,7 +10,6 @@ import com.example.rentngo.DAO.entites.Client;
 import com.example.rentngo.DAO.repository.ClientRepository;
 import com.example.rentngo.coucheService.Services.ServiceClient;
 import com.example.rentngo.coucheWeb.DTO.ClientRequestDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,19 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 public class ServiceClientImpl implements ServiceClient {
     @Autowired
     private ClientRepository clientRepository;
-    
-    private final ObjectMapper objectMapper = new ObjectMapper(); // Create an instance of ObjectMapper
 
     @Override
-    public void addClient(String dto) throws IOException {
+    public void addClient(ClientRequestDTO dto) throws IOException {
         Client client = new Client();
-        ClientRequestDTO clientRequestDTO1 = objectMapper.readValue(dto, ClientRequestDTO.class);
-        client.setNom(clientRequestDTO1.getNom());
-        client.setPrenom(clientRequestDTO1.getPrenom());
-        client.setEmail(clientRequestDTO1.getEmail());
-        client.setMotDePasse(clientRequestDTO1.getMotDePasse());
-        client.setTelephone(clientRequestDTO1.getTelephone());
-        client.setAddress(clientRequestDTO1.getAddress());
+        client.setNom(dto.getNom());
+        client.setPrenom(dto.getPrenom());
+        client.setEmail(dto.getEmail());
+        client.setMotDePasse(dto.getMotdepasse());
+        client.setTelephone(dto.getTelephone());
+        client.setAddress(dto.getAddress());
         clientRepository.save(client);
         log.info("Client added successfully----------------------");
     }
@@ -52,27 +48,26 @@ public class ServiceClientImpl implements ServiceClient {
     }
 
     @Override
-    public void updateClient(String dto, Long id) throws IOException {
+    public void updateClient(ClientRequestDTO dto, Long id) throws IOException {
         Client client = clientRepository.findById(id).orElse(null);
         if (client != null) {
-            ClientRequestDTO clientRequestDTO1 = objectMapper.readValue(dto, ClientRequestDTO.class);
-            if (!clientRequestDTO1.getNom().isEmpty()) {
-                client.setNom(clientRequestDTO1.getNom());
+            if (dto.getNom() != null && !dto.getNom().isEmpty()) {
+                client.setNom(dto.getNom());
             }
-            if (!clientRequestDTO1.getPrenom().isEmpty()) {
-                client.setPrenom(clientRequestDTO1.getPrenom());
+            if (dto.getPrenom() != null && !dto.getPrenom().isEmpty()) {
+                client.setPrenom(dto.getPrenom());
             }
-            if (!clientRequestDTO1.getEmail().isEmpty()) {
-                client.setEmail(clientRequestDTO1.getEmail());
+            if (dto.getEmail() != null && !dto.getEmail().isEmpty()) {
+                client.setEmail(dto.getEmail());
             }
-            if (!clientRequestDTO1.getMotDePasse().isEmpty()) {
-                client.setMotDePasse(clientRequestDTO1.getMotDePasse());
+            if (dto.getMotdepasse() != null && !dto.getMotdepasse().isEmpty()) {
+                client.setMotDePasse(dto.getMotdepasse());
             }
-            if (clientRequestDTO1.getTelephone() != null) {
-                client.setTelephone(clientRequestDTO1.getTelephone());
+            if (dto.getTelephone() != null) {
+                client.setTelephone(dto.getTelephone());
             }
-            if (!clientRequestDTO1.getAddress().isEmpty()) {
-                client.setAddress(clientRequestDTO1.getAddress());
+            if (dto.getAddress() != null && !dto.getAddress().isEmpty()) {
+                client.setAddress(dto.getAddress());
             }
             clientRepository.save(client);
             log.info("Updated client with id: {} done!--------------------", id);

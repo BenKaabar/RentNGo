@@ -1,133 +1,194 @@
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col py-3">
-            <h1 class="h2">Gestion des Clients</h1>
-            <div class="main-content">
-                <button type="button" class="btn btn-success">Ajouter client</button>
-
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Numéro</th>
-                            <th scope="col">Nom</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Téléphone</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let client of clients; let i = index">
-                            <td>{{ i + 1 }}</td>
-                            <td>{{ client.nom }}</td>
-                            <td>{{ client.email }}</td>
-                            <td>{{ client.telephone }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary" (click)="openConsultModal(client)"
-                                    [disabled]="isDeleteModalOpen">
-                                    Consulter
-                                </button>
-                                <button type="button" class="btn btn-secondary" (click)="openUpdateModal(client)"
-                                    [disabled]="isDeleteModalOpen">
-                                    Modifier
-                                </button>
-                                <button type="button" class="btn btn-danger" (click)="openDeleteModal(client)"
-                                    [disabled]="isConsultModalOpen">
-                                    Supprimer
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="container mt-3">
+    <h2>Gestion des Clients</h2>
+    <button type="button" class="btn btn-success" (click)="openCreateModal()">Ajouter client</button>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Numero</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let client of paginatedClient let i=index">
+                <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
+                <td>{{ client.nom }}</td>
+                <td>{{ client.prenom }}</td>
+                <td>{{ client.email }}</td>
+                <td>{{ client.telephone }}</td>
+                <td>
+                    <button class="btn btn-primary me-2" (click)="openConsultModal(client)">Consulter</button>
+                    <button class="btn btn-warning me-2" (click)="openUpdateModal(client)">Modifier</button>
+                    <button class="btn btn-danger" (click)="openDeleteModal(client)">Supprimer</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+     <!-- Pagination -->
+     <div class="paginations" *ngIf="totalPages > 1">
+        <nav aria-label="Page-navigation">
+            <ul class="pagination">
+                <li class="page-item cursor-pointer" [ngClass]="{'disabled': isPreviousPageDisabled}">
+                    <a class="page-link" (click)="goToPreviousPage()" tabindex="-1">Précédent</a>
+                </li>
+                <li class="page-item disabled cursor-pointer"><span class="page-link">Page {{ page }} sur {{
+                        totalPages }}</span></li>
+                <li class="page-item cursor-pointer" [ngClass]="{'disabled': isNextPageDisabled}">
+                    <a class="page-link" (click)="goToNextPage()">Suivant</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 
-<!-- Modal Consulter -->
-<div class="modal fade" id="consultModal" tabindex="-1" aria-labelledby="consultModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Modal Consulter Client -->
+<div class="modal fade" id="consultClientModal" tabindex="-1" aria-labelledby="consultClientModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="consultModalLabel">Consulter client</h1>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeConsultModal()"></button>
+                <h1 class="modal-title fs-5" id="consultClientModalLabel">Détails du client</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeConsultClientModal()"></button>
             </div>
             <div class="modal-body">
-                <h4>{{ selectedClient?.nom }}, {{ selectedClient?.prenom }}</h4>
-                <h6>Email : {{ selectedClient?.email }}</h6>
-                <h6>telephone : {{ selectedClient?.telephone }}</h6>
-                <h6>Mot de passe : {{ selectedClient?.motdepasse }}</h6>
-                <h6>Address : {{ selectedClient?.address }}</h6>
-                
+                <p><strong>ID:</strong> {{ selectedClient?.id }}</p>
+                <p><strong>Nom:</strong> {{ selectedClient?.nom }}</p>
+                <p><strong>Prénom:</strong> {{ selectedClient?.prenom }}</p>
+                <p><strong>Email:</strong> {{ selectedClient?.email }}</p>
+                <p><strong>Téléphone:</strong> {{ selectedClient?.telephone }}</p>
+                <p><strong>Adresse:</strong> {{ selectedClient?.address }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="closeConsultModal()">Fermer</button>
+                <button type="button" class="btn btn-secondary" (click)="closeConsultClientModal()">Fermer</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal Modifier -->
-<!-- <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+
+<!-- Modal Ajouter Client -->
+<div class="modal fade" id="createClientModal" tabindex="-1" aria-labelledby="createClientModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="updateModalLabel">Modifier client</h1>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeUpdateModal()"></button>
+                <h1 class="modal-title fs-5" id="createClientModalLabel">Ajouter un client</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeCreateClientModal()"></button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="nom" class="form-label">Nom</label>
-                        <input [(ngModel)]="selectedClient.nom" id="nom" class="form-control" />
+                <form #clientForm="ngForm" (ngSubmit)="createClient(clientForm)">
+                    <div class="mb-3" >
+                        <label for="createClientNom" class="form-label">Nom</label>
+                        <input [(ngModel)]="newClient.nom" id="createClientNom" name="nom" class="form-control"
+                            required />
                     </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="prenom" class="form-label">Prénom</label>
-                        <input [(ngModel)]="selectedClient.prenom" id="prenom" class="form-control" />
+                    <div class="mb-3" >
+                        <label for="createClientPrenom" class="form-label">Prénom</label>
+                        <input [(ngModel)]="newClient.prenom" id="createClientPrenom" name="prenom" class="form-control"
+                            required />
                     </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="email" class="form-label">Email</label>
-                        <input [(ngModel)]="selectedClient.email" id="email" class="form-control" />
+                    <div class="mb-3" >
+                        <label for="createClientEmail" class="form-label">Email</label>
+                        <input [(ngModel)]="newClient.email" id="createClientEmail" name="email" class="form-control"
+                            required />
                     </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="motdepasse" class="form-label">Mot de passe</label>
-                        <input [(ngModel)]="selectedClient.motdepasse" id="motdepasse" type="text"
-                            class="form-control" />
+                    <div class="mb-3" >
+                        <label for="createClientMotdepasse" class="form-label">Mot de passe</label>
+                        <input type="password" [(ngModel)]="newClient.motdepasse" id="ClientMotdepasse" name="Motdepasse"
+                            class="form-control" required />
                     </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="telephone" class="form-label">Téléphone</label>
-                        <input [(ngModel)]="selectedClient.telephone" id="telephone" class="form-control" />
+                    <div class="mb-3" >
+                        <label for="createClientTelephone" class="form-label">Téléphone</label>
+                        <input [(ngModel)]="newClient.telephone" id="createClientTelephone" name="telephone"
+                            class="form-control" required />
                     </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="address" class="form-label">Adresse</label>
-                        <input [(ngModel)]="selectedClient.address" id="address" class="form-control" />
+                    <div class="mb-3" >
+                        <label for="createClientAddress" class="form-label">Adresse</label>
+                        <input [(ngModel)]="newClient.address" id="createClientAddress" name="address"
+                            class="form-control" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                        <button type="button" class="btn btn-secondary"
+                            (click)="closeCreateClientModal()">Fermer</button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="updateClient()">Modifier</button>
-                <button type="button" class="btn btn-secondary" (click)="closeUpdateModal()">Fermer</button>
-            </div>
         </div>
     </div>
-</div> -->
+</div>
 
-
-<!-- Modal Supprimer -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<!-- Modal Modifier Client -->
+<div class="modal fade" id="updateClientModal" tabindex="-1" aria-labelledby="updateClientModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="deleteModalLabel">Supprimer client</h1>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteModal()"></button>
+                <h1 class="modal-title fs-5" id="updateClientModalLabel">Modifier client</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeUpdateClientModal()"></button>
             </div>
             <div class="modal-body">
-                <h6>Numéro : {{ selectedClient?.id }}</h6>
-                <h6>{{ selectedClient?.nom }} {{ selectedClient?.prenom }}</h6>
+                <form #updateClientForm="ngForm" (ngSubmit)="updateClient(updateClientForm)">
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientNom" class="form-label">Nom</label>
+                        <input [(ngModel)]="selectedClient.nom" id="updateClientNom" name="nom" class="form-control"
+                            required />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientPrenom" class="form-label">Prénom</label>
+                        <input [(ngModel)]="selectedClient.prenom" id="updateClientPrenom" name="prenom"
+                            class="form-control" required />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientEmail" class="form-label">Email</label>
+                        <input [(ngModel)]="selectedClient.email" id="updateClientEmail" name="email" class="form-control"
+                            required />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientMotDePasse" class="form-label">Mot de passe</label>
+                        <input [(ngModel)]="selectedClient.motdepasse" id="updateClientMotDePasse" name="motDePasse"
+                            type="password" class="form-control" />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientTelephone" class="form-label">Téléphone</label>
+                        <input [(ngModel)]="selectedClient.telephone" id="updateClientTelephone" name="telephone"
+                            class="form-control" required />
+                    </div>
+                    <div class="mb-3" *ngIf="selectedClient">
+                        <label for="updateClientAddress" class="form-label">Adresse</label>
+                        <input [(ngModel)]="selectedClient.address" id="updateClientAddress" name="address"
+                            class="form-control" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                        <button type="button" class="btn btn-secondary"
+                            (click)="closeUpdateClientModal()">Fermer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Supprimer Client -->
+<div class="modal fade" id="deleteClientModal" tabindex="-1" aria-labelledby="deleteClientModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteClientModalLabel">Supprimer client</h1>
+                <button type="button" class="btn-close" aria-label="Close" (click)="closeDeleteClientModal()"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer le client {{ selectedClient?.nom }} {{ selectedClient?.prenom }} ?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger"
-                    (click)="deleteClient(selectedClient?.id)">Supprimer</button>
-                <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Fermer</button>
+                <button type="button" class="btn btn-danger" (click)="deleteClient(selectedClient?.id)">Supprimer</button>
+                <button type="button" class="btn btn-secondary" (click)="closeDeleteClientModal()">Annuler</button>
             </div>
         </div>
     </div>

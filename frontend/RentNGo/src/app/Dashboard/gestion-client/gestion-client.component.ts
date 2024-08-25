@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import * as bootstrap from 'bootstrap';
 import { Client } from 'src/app/models/Client';
 import { ClientService } from 'src/app/Services/Client/client.service';
-import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-gestion-client',
@@ -9,115 +10,171 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./gestion-client.component.css']
 })
 export class GestionClientComponent implements OnInit {
-
   clients: Client[] = [];
+  newClient: Client = { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' };
   selectedClient: Client | null = null;
-  isDeleteModalOpen: boolean = false;
-  isConsultModalOpen: boolean = false;
-  isUpdateModalOpen: boolean = false;
+
+  paginatedClients: Client[] = [];
+  page: number = 1;
+  itemsPerPage: number = 5;
 
   constructor(private clientService: ClientService) { }
 
   ngOnInit(): void {
     this.loadClients();
   }
-
+  //  ********************************************************************** load **********************************************************************
   loadClients(): void {
-    this.clientService.getAllClient().subscribe(response => {
-      this.clients = response.map(item => ({
-        id: item.id,
-        nom: item.nom,
-        prenom: item.prenom,
-        email: item.email,
-        telephone: item.telephone,
-        motdepasse: item.motdepasse,
-        address: item.address,
-      }));
+    this.clientService.getAllClient().subscribe({
+      next: (response) => this.clients = response,
+      error: (err) => console.error('Erreur lors de la récupération des clients:', err)
     });
   }
 
+  //  ********************************************************************** consulting **********************************************************************
   openConsultModal(client: Client): void {
     this.selectedClient = client;
-    this.isConsultModalOpen = true;
-    const consultModalElement = document.getElementById('consultModal');
+    const consultModalElement = document.getElementById('consultClientModal');
     if (consultModalElement) {
       const consultModal = new bootstrap.Modal(consultModalElement);
       consultModal.show();
     }
   }
 
-  closeConsultModal(): void {
-    this.isConsultModalOpen = false;
-    this.selectedClient = null;
-    const consultModalElement = document.getElementById('consultModal');
+  closeConsultClientModal(): void {
+    const consultModalElement = document.getElementById('consultClientModal');
     if (consultModalElement) {
       const consultModal = bootstrap.Modal.getInstance(consultModalElement);
       consultModal?.hide();
     }
   }
 
+  //  ********************************************************************** deleting **********************************************************************
+  openDeleteModal(client: Client): void {
+    this.selectedClient = client;
+    const deleteModalElement = document.getElementById('deleteClientModal');
+    if (deleteModalElement) {
+      const deleteModal = new bootstrap.Modal(deleteModalElement);
+      deleteModal.show();
+    }
+  }
+  closeDeleteClientModal(): void {
+    const deleteModalElement = document.getElementById('deleteClientModal');
+    if (deleteModalElement) {
+      const deleteModal = bootstrap.Modal.getInstance(deleteModalElement);
+      deleteModal?.hide();
+    }
+  }
+  deleteClient(id?: number): void {
+    if (id != null) {
+      console.log('id ' + id)
+      this.clientService.deleteClientById(id).subscribe({
+        next: (response) => {
+          this.loadClients();
+          this.closeDeleteClientModal();
+        },
+        error: (err) => console.error('Erreur lors de la suppression du client:', err)
+      });
+    } else {
+      console.error('ID client est undefined');
+    }
+  }
+  // **************************************************************** create ********************************************************************************
+  openCreateModal(): void {
+    this.newClient = { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' };
+    const createModalElement = document.getElementById('createClientModal');
+    if (createModalElement) {
+      const createModal = new bootstrap.Modal(createModalElement);
+      createModal.show();
+    }
+  }
+
+  closeCreateClientModal(): void {
+    const createModalElement = document.getElementById('createClientModal');
+    if (createModalElement) {
+      const createModal = bootstrap.Modal.getInstance(createModalElement);
+      createModal?.hide();
+    }
+  }
+
+  // Methods for CRUD operations
+  createClient(form: NgForm): void {
+    if (form.valid) {
+      this.clientService.addClient(this.newClient).subscribe({
+        next: () => {
+          this.loadClients();
+          this.closeCreateClientModal();
+        },
+        error: (err) => console.error('Erreur lors de l\'ajout du client:', err)
+      });
+    }
+  }
+
+  //  ********************************************************************** update **********************************************************************
   openUpdateModal(client: Client): void {
-    this.selectedClient = client; // create a copy to avoid modifying original client
-    this.isUpdateModalOpen = true;
-    const updateModalElement = document.getElementById('updateModal');
+    this.selectedClient = { ...client };
+    const updateModalElement = document.getElementById('updateClientModal');
     if (updateModalElement) {
       const updateModal = new bootstrap.Modal(updateModalElement);
       updateModal.show();
     }
   }
 
-  closeUpdateModal(): void {
-    this.isUpdateModalOpen = false;
-    this.selectedClient = null;
-    const updateModalElement = document.getElementById('updateModal');
+  closeUpdateClientModal(): void {
+    const updateModalElement = document.getElementById('updateClientModal');
     if (updateModalElement) {
       const updateModal = bootstrap.Modal.getInstance(updateModalElement);
       updateModal?.hide();
     }
   }
 
-  updateClient(): void {
-    if (this.selectedClient) {
-      this.clientService.updateClient(this.selectedClient, this.selectedClient.id).subscribe(() => {
-        this.loadClients();
-        this.closeUpdateModal();
-      }, error => {
-        console.error('Error updating client:', error);
-      });
-    }
-  }
-
-  openDeleteModal(client: Client): void {
-    this.selectedClient = client;
-    this.isDeleteModalOpen = true;
-    const deleteModalElement = document.getElementById('deleteModal');
-    if (deleteModalElement) {
-      const deleteModal = new bootstrap.Modal(deleteModalElement);
-      deleteModal.show();
-    }
-  }
-
-  closeDeleteModal(): void {
-    this.isDeleteModalOpen = false;
-    this.selectedClient = null;
-    const deleteModalElement = document.getElementById('deleteModal');
-    if (deleteModalElement) {
-      const deleteModal = bootstrap.Modal.getInstance(deleteModalElement);
-      deleteModal?.hide();
-    }
-  }
-
-  deleteClient(id?: number): void {
-    if (id !== undefined) {
-      this.clientService.deleteClientById(id).subscribe(() => {
-        this.loadClients();
-        this.closeDeleteModal();
-      }, error => {
-        console.error('Error deleting client:', error);
-        this.closeDeleteModal();
+  updateClient(form: NgForm): void {
+    if (form.valid && this.selectedClient && this.selectedClient.id) {
+      this.clientService.updateClient(this.selectedClient, this.selectedClient.id).subscribe({
+        next: () => {
+          this.loadClients();
+          this.closeUpdateClientModal();
+        },
+        error: (err) => console.error('Erreur lors de la mise à jour du client:', err)
       });
     } else {
-      console.error('Client ID is undefined');
+      console.error('Form is invalid or client ID is missing.');
+    }
+  }
+
+  //  ********************************************************************** pagination **********************************************************************
+  get paginatedClient(): Client[] {
+    const startIndex = (this.page - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.clients.slice(startIndex, endIndex);
+  }
+
+  // Calculate total number of pages
+  get totalPages(): number {
+    return Math.ceil(this.clients.length / this.itemsPerPage);
+  }
+
+  // Determine if the previous page button should be disabled
+  get isPreviousPageDisabled(): boolean {
+    return this.page === 1;
+  }
+
+  // Determine if the next page button should be disabled
+  get isNextPageDisabled(): boolean {
+    return this.page === this.totalPages;
+  }
+
+  // Go to the next page
+  goToNextPage(): void {
+    if (this.page < this.totalPages) {
+      this.page++;
+    }
+  }
+
+  // Go to the previous page
+  goToPreviousPage(): void {
+    if (this.page > 1) {
+      this.page--;
     }
   }
 }

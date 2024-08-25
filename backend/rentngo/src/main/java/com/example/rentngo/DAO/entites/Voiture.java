@@ -1,5 +1,7 @@
 package com.example.rentngo.DAO.entites;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ public class Voiture {
   public Voiture(String name, String type, byte[] picbyte) {
     this.nomPhotoVoiture = name;
     this.typePhotoVoiture = type;
-    this.PhotoVoiture = picbyte;
+    this.photoVoiture = picbyte;
   }
 
   @Id
@@ -29,14 +31,15 @@ public class Voiture {
   private Long prix;
   private String couleur;
   private String categorie;
-  private long garantie;
+  private Long garantie;
   private Boolean estDisponible;
   private String nomPhotoVoiture;
   @Column(name = "type")
   private String typePhotoVoiture;
   @Column(name = "picbyte", length = 50000000)
-  private byte[] PhotoVoiture;
+  private byte[] photoVoiture;
 
   @OneToOne(mappedBy = "voiture")
+  @JsonBackReference
   private Reservation reservation;
 }

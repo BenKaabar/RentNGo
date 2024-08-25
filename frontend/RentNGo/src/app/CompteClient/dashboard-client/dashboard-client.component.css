@@ -1,45 +1,43 @@
-/* Couleur des liens de navigation */
-.nav-link {
-    color: #7fb03e !important;
-}
-
-/* Couleur des liens de navigation lorsqu'ils sont actifs */
-.nav-link.active {
-    background-color: #7fb03e !important;
-    border-color: #7fb03e !important;
-    color: white !important;
-}
-
-/* Autres styles pour la table et les boutons */
-.table {
+/* *********************************************** main *********************************************** */
+.main {
+    display: flex;
     width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
+    height: 91vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.05);
+/* *********************************************** left *********************************************** */
+.left {
+    background-color: rgb(33, 37, 41);
+    width: 250px;
+    padding-top: 30px;
 }
 
-.btn {
-    margin-right: 5px;
+h4 {
+    color: white;
+    text-align: center;
 }
 
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+img {
+    width: 200px;
+    object-fit: cover;
+    margin: 0px 25px 30px 25px;
 }
 
-.btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
+span,
+i {
+    color: rgb(127, 176, 62);
+    padding-left: 16px;
+    cursor: pointer;
 }
 
-.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
+.element {
+    height: 40px;
 }
-.px-3 {
-    padding-right: 0rem !important;
-    padding-left: 0rem !important;
+
+/* *********************************************** right *********************************************** */
+.right {
+    width: 100%;
 }

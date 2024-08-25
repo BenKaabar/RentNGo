@@ -1,31 +1,37 @@
-<app-nav-bar></app-nav-bar>
 <div class="main">
+    <app-nav-bar></app-nav-bar>
     <div class="title">
         <h3>Témoignages Clients</h3>
     </div>
     <div class="top">
-        <button 
-            *ngFor="let year of [2024, 2023, 2022, 2021, 2020, 2019]" 
-            [class.active]="year === activeYear" 
+        <button *ngFor="let year of [2024, 2023, 2022, 2021, 2020, 2019]" [class.active]="year === activeYear"
             (click)="setActiveYear(year)">
             Témoignages {{ year }}
         </button>
     </div>
     <div class="buttom">
-        <div class="card" *ngIf="activeYear === 2024">
-            <div class="left-card">
-                <img src="/assets/images/temoignages/user.png">
-            </div>
-            <div class="right-card">
-                <div class="right-card-top">
-                    <h5>sghaier (18/07/2024) 5/5</h5>
+        <ng-container *ngIf="getTemoignagesForYear().length > 0; else noTemoignage">
+            <div class="card" *ngFor="let temoignage of getTemoignagesForYear() let i = index">
+                <div class="left-card">
+                    <img src="/assets/images/temoignages/men.png">
                 </div>
-                <div class="right-card-buttom">
-                    <p>Honnêtement, j'apprécie la livraison de la voiture à l'endroit exact, cela m'a rendu la tâche très facile</p>
+                <div class="right-card">
+                    <div class="right-card-top">
+                        <h5>{{temoignage.client.nom}} {{temoignage.client.prenom}}, {{temoignage.dateTemoignage |
+                            date:'yyyy-MM-dd'}} 5/5</h5>
+                    </div>
+                    <div class="right-card-buttom">
+                        <p>{{temoignage.messageTemoignage}}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Add more cards here as needed -->
+        </ng-container>
+        <!-- Template pour afficher un message si aucun témoignage n'est disponible -->
+        <ng-template #noTemoignage>
+            <div class="no-temoignage-message">
+                <p>Aucun témoignage disponible pour l'année {{ activeYear }}.</p>
+            </div>
+        </ng-template>
     </div>
 </div>
 <app-footer></app-footer>

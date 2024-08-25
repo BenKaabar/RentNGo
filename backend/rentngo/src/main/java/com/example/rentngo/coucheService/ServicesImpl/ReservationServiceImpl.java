@@ -10,14 +10,20 @@ import com.example.rentngo.DAO.repository.VoitureRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.example.rentngo.coucheService.Services.ReservationService;
 import com.example.rentngo.coucheWeb.DTO.ReservationRequestDTO;
+
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.List;
 
 @Slf4j
 @Service
+@Transactional
+@AllArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private ReservationRepository reservationRepository;
@@ -32,24 +38,29 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void addRental(ReservationRequestDTO rental, Long idClient, Long idVoiture) throws IOException {
-        Client client = clientRepository.findById(rental.getIdClient()).orElse(null);
-        Voiture voiture = voitureRepository.findById(rental.getIdVoiture()).orElse(null);
-
-        if (client != null && voiture != null && voiture.getEstDisponible() == true) {
-            voiture.setEstDisponible(false);
+    public Reservation addRental(ReservationRequestDTO reservationRequestDTO, Long idClient, Long idVoiture)
+            throws IOException {
+        // Retrieve client and car based on provided IDs
+        Client client = clientRepository.findById(idClient).orElse(null);
+        Voiture voiture = voitureRepository.findById(idVoiture).orElse(null);
+        System.out.println("client " + client + " voiture " + voiture);
+        // Check if client and car exist
+        if (client != null && voiture != null) {
+            // Create new reservation
             Reservation reservation = new Reservation();
+            voiture.setEstDisponible(true);
+            reservation.setDateDebut(reservationRequestDTO.getDateDebut());
+            reservation.setDateFin(reservationRequestDTO.getDateFin());
+            reservation.setMessage(reservationRequestDTO.getMessage());
+            reservation.setLocalisation(reservationRequestDTO.getLocalisation());
+            reservation.setStatus(Status.EN_ATTENTE);
             reservation.setClient(client);
             reservation.setVoiture(voiture);
-            reservation.setDateDebut(rental.getDateDebut());
-            reservation.setDateFin(rental.getDateFin());
-            reservation.setMessage(rental.getMessage());
-            reservation.setStatus(Status.EN_ATTENTE);
-            reservation.setLocalisation(rental.getLocalisation());
             reservationRepository.save(reservation);
-            log.info("reservation added successfully");
+            log.info("Reservation created successfully.");
+            return reservation;
         } else {
-            log.warn("Attempted to add a reservation failed");
+            throw new IllegalArgumentException("Client or Car not found.");
         }
     }
 
@@ -59,39 +70,59 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void updateRental(ReservationRequestDTO rental, Long id_client, Long id_voiture,
-            Long id) throws IOException {
-        Client client = clientRepository.findById(rental.getIdClient()).orElse(null);
-        Voiture voiture = voitureRepository.findById(rental.getIdVoiture()).orElse(null);
+    public void updateRental(ReservationRequestDTO rental, Long id_client, Long id_voiture, Long id)
+            throws IOException {
+        Client client = clientRepository.findById(id_client).orElse(null);
+        Voiture voiture = voitureRepository.findById(id_voiture).orElse(null);
         Reservation reservation = reservationRepository.findById(id).orElse(null);
-        if (client != null && voiture != null && voiture.getEstDisponible() == false && reservation != null) {
-            if (rental.getDateDebut() != null) {
-                reservation.setDateDebut(rental.getDateDebut());
+
+        if (client != null && voiture != null && reservation != null) {
+            if (voiture.getEstDisponible()) { // Correction ici
+                if (rental.getDateDebut() != null) {
+                    reservation.setDateDebut(rental.getDateDebut());
+                }
+                if (rental.getDateFin() != null) {
+                    reservation.setDateFin(rental.getDateFin());
+                }
+                if (rental.getMessage() != null) {
+                    reservation.setMessage(rental.getMessage());
+                }
+                if (rental.getLocalisation() != null) {
+                    reservation.setLocalisation(rental.getLocalisation());
+                }
+                if (rental.getStatus() != null) {
+                    reservation.setStatus(rental.getStatus());
+                }
+                reservation.setClient(client);
+                reservation.setVoiture(voiture);
+
+                reservationRepository.save(reservation);
+                log.info("Reservation with id: {} updated successfully.", id);
+            } else {
+                throw new IllegalArgumentException("The car is not available.");
             }
-            if (rental.getDateFin() != null) {
-                reservation.setDateFin(rental.getDateFin());
-            }
-            if (rental.getMessage() != null) {
-                reservation.setMessage(rental.getMessage());
-            }
-            if (rental.getLocalisation() != null) {
-                reservation.setLocalisation(rental.getLocalisation());
-            }
-            reservationRepository.save(reservation);
-            log.info("update reservation with id: {} done!--------------------", id);
         } else {
-            log.warn("Attempted to update a reservation with id: {} that does not exist----------------------", id);
+            throw new IllegalArgumentException("Client, Car, or Reservation not found.");
         }
     }
 
     @Override
     public void deleteRental(Long id) {
-        Reservation reservation = reservationRepository.findById(id).orElse(null);
-        if (reservation != null) {
-            reservationRepository.delete(reservation);
-            log.info("Deleted reservation with id: {}---------------------------", id);
-        } else {
-            log.warn("Attempted to delete a reservation with id: {} that does not exist----------------------", id);
+        try {
+            Reservation reservation = reservationRepository.findById(id).orElse(null);
+            if (reservation != null) {
+                Voiture voiture = voitureRepository.findById(reservation.getVoiture().getId()).orElse(null);
+                voiture.setEstDisponible(true);
+                voitureRepository.save(voiture);
+                reservationRepository.delete(reservation);
+                log.info("Deleted reservation with id: {}", id);
+            } else {
+                log.warn("Attempted to delete a reservation with id: {} that does not exist", id);
+            }
+        } catch (Exception e) {
+            log.error("Error occurred while deleting reservation with id: {}", id, e);
+            throw new RuntimeException("Failed to delete reservation", e); // Re-throw or handle accordingly
         }
     }
+
 }

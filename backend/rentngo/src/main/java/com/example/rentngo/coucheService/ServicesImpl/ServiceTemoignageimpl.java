@@ -14,32 +14,35 @@ import com.example.rentngo.DAO.repository.TemoignageRepository;
 import com.example.rentngo.coucheService.Services.ServiceTemoignage;
 import com.example.rentngo.coucheWeb.DTO.TemoignageRequestDTO;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@AllArgsConstructor
+@Slf4j
 @Service
 @Transactional
-@Slf4j
 public class ServiceTemoignageImpl implements ServiceTemoignage {
+
     @Autowired
     private ClientRepository clientRepository;
+
     @Autowired
     private TemoignageRepository temoignageRepository;
 
     @Override
-    public void addTemoignage(TemoignageRequestDTO temoignageRequestDTO) throws IOException {
-        Client client = clientRepository.findById(temoignageRequestDTO.getIdClient()).orElse(null);
-        if (client != null) {
-            Temoignage temoignage = new Temoignage();
-            temoignage.setDateTemoignage(temoignageRequestDTO.getDateTemoignage());
-            temoignage.setMessageTemoignage(temoignageRequestDTO.getMessageTemoignage());
-            temoignage.setClient(client);
-            temoignageRepository.save(temoignage);
-            log.info("Added new temoignage to client id {} ----------------------");
-        } else {
-            log.warn("Attempted to add a temoignage failed--------------------");
+    public Temoignage addTemoignage(TemoignageRequestDTO dto, Long idClient) throws IOException {
+        Client client = clientRepository.findById(idClient).orElse(null);
+        if (client == null) {
+            log.warn("Client with id {} not found", idClient);
+            return null;
         }
+        
+        Temoignage temoignage = new Temoignage();
+        temoignage.setDateTemoignage(dto.getDateTemoignage());
+        temoignage.setMessageTemoignage(dto.getMessageTemoignage());
+        temoignage.setClient(client);
+        
+        Temoignage savedTemoignage = temoignageRepository.save(temoignage);
+        log.info("Added new temoignage to client id {}", idClient);
+        return savedTemoignage;
     }
 
     @Override
@@ -51,9 +54,8 @@ public class ServiceTemoignageImpl implements ServiceTemoignage {
     @Override
     public List<Temoignage> getAllTemoignage() {
         try {
-            return temoignageRepository.findAll(); // Assurez-vous que cette ligne ne génère pas d'exception
+            return temoignageRepository.findAll();
         } catch (Exception e) {
-            // Log l'erreur pour diagnostiquer les problèmes potentiels
             log.error("Error retrieving all temoignages", e);
             throw new RuntimeException("Could not retrieve temoignages", e);
         }
@@ -61,9 +63,7 @@ public class ServiceTemoignageImpl implements ServiceTemoignage {
 
     @Override
     public void deleteTemoignage(Long id) {
-        Temoignage temoignage = temoignageRepository.findById(id).orElse(null);
-
-        if (temoignage == null) {
+        if (!temoignageRepository.existsById(id)) {
             log.error("Temoignage with id {} not found for deletion", id);
             throw new RuntimeException("Temoignage with id " + id + " not found");
         }
@@ -71,11 +71,3 @@ public class ServiceTemoignageImpl implements ServiceTemoignage {
         log.info("Deleted temoignage with id: {}", id);
     }
 }
-
-// Voiture car = carRepository.findById(id).orElse(null);
-// if (car != null) {
-// carRepository.delete(car);
-// log.info("Deleted car with id: {}", id);
-// } else {
-// log.warn("Attempted to delete a car with id: {} that does not exist", id);
-// }

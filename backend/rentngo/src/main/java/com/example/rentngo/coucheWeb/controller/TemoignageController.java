@@ -1,7 +1,8 @@
 package com.example.rentngo.coucheWeb.controller;
 
-import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,60 +13,63 @@ import com.example.rentngo.DAO.entites.Temoignage;
 import com.example.rentngo.coucheService.Services.ServiceTemoignage;
 import com.example.rentngo.coucheWeb.DTO.TemoignageRequestDTO;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@RequiredArgsConstructor
-@RestController
-@CrossOrigin("*")
 @Slf4j
+@RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path = "/temoignage")
 public class TemoignageController {
+
     @Autowired
     private ServiceTemoignage serviceTemoignage;
 
-    // Select all Temoignage
     @GetMapping(path = "/all")
-    public List<Temoignage> getAllTemoignage() {
+    public ResponseEntity<List<Temoignage>> getAllTemoignages() {
         log.info("Request received to get all temoignages");
-        return serviceTemoignage.getAllTemoignage();
+        List<Temoignage> temoignages = serviceTemoignage.getAllTemoignage();
+        return ResponseEntity.ok(temoignages);
     }
 
-    // Select Temoignage by id
     @GetMapping(path = "/ById/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id) {
         try {
             Temoignage temoignage = serviceTemoignage.findTemoignageById(id);
             return ResponseEntity.ok(temoignage);
         } catch (RuntimeException e) {
+            log.error("Temoignage with id {} not found", id, e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-    // Add Temoignage
     @PostMapping(path = "/add")
-    public ResponseEntity<?> addTemoignage(@RequestBody TemoignageRequestDTO temoignageRequestDTO) {
+    public ResponseEntity<Map<String, String>> addTemoignage(
+            @RequestParam Long idClient,
+            @RequestBody TemoignageRequestDTO temoignageRequestDTO) {
         try {
-            // Supposons que idClient est une propriété de TemoignageRequestDTO
-            serviceTemoignage.addTemoignage(temoignageRequestDTO);
-            return ResponseEntity.ok("Temoignage added successfully");
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request: " + e.getMessage());
+            Temoignage temoignage = serviceTemoignage.addTemoignage(temoignageRequestDTO, idClient);
+            if (temoignage != null) {
+                return ResponseEntity.ok(Collections.singletonMap("message", "Client added successfully"));
+
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An unexpected error occurred: " + e.getMessage());
+            log.error("Error adding temoignage", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    // Delete by id
-    @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<?> deleteTemoignageById(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, String>> deleteTemoignage(@PathVariable Long id) {
         try {
             serviceTemoignage.deleteTemoignage(id);
-            return ResponseEntity.ok("Temoignage deleted successfully");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.ok(Collections.singletonMap("message", "Client deleted successfully"));
+        } catch (Exception e) {
+            log.error("Error deleting temoignage", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Failed to delete client"));
         }
     }
+    
 
 }

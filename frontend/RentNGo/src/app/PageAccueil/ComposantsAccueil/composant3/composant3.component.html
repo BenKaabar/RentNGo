@@ -1,20 +1,25 @@
 <div class="main">
     <div class="container">
-        <h2 style="text-align: center;"><span style="color:rgb(255, 111, 0);">Nos promotions de locations</span> de voitures en Tunisie</h2>
-        <h6>Profitez de nos meilleures offres de location voiture Tunisie chez RentNGo, un des leaders de loueurs de voitures en Tunisie</h6>
+        <h2 style="text-align: center;"><span style="color:rgb(255, 111, 0);">Nos promotions de locations</span> de
+            voitures en Tunisie</h2>
+        <h6>Profitez de nos meilleures offres de location voiture Tunisie chez RentNGo, un des leaders de loueurs de
+            voitures en Tunisie</h6>
         <div class="carousel-wrapper">
             <button (click)="prev()" aria-label="Previous" class="nav-button prev-button">&lt;</button>
             <div class="carousel-content" [style.transform]="transformStyle">
-                <div class="carousel-card" *ngFor="let card of cards">
+                <div class="carousel-card" *ngFor="let voiture of voitures">
                     <div class="top">
-                        <button class="btn btn-danger"  routerLink="/Reservation">Réserver</button>
+                        <img *ngIf="voiture.photoVoiture" [src]="voiture.photoVoiture"
+                            alt="{{ voiture.nomPhotoVoiture }}" />
+
+                        <!-- <button class="btn btn-danger"  routerLink="/Reservation">Réserver</button> -->
                     </div>
                     <div class="card-body">
                         <div style="background-color: #212529; padding: 5px; width: 50%;">
-                            <p class="card-title">Toyota C-HR BVA 2024</p>
+                            <p class="card-title">{{voiture.marque}}</p>
                         </div>
-                        <div style="background-color: rgb(255, 179, 0); padding: 5px; width: 50%;">
-                            <p class="card-text">220.00 TND <br>TTC/Jour*</p>
+                        <div style="background-color: rgb(255, 179, 0); padding: 5px; width: 50%; height: 58px;">
+                            <p class="card-text">{{ voiture.prix}} TND<br>TTC/Jour*</p>
                         </div>
                     </div>
                 </div>
