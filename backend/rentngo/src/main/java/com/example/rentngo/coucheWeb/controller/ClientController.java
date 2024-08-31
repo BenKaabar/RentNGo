@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.rentngo.DAO.entites.Client;
+import com.example.rentngo.DAO.entites.LoginRequest;
 import com.example.rentngo.coucheService.Services.ServiceClient;
 import com.example.rentngo.coucheWeb.DTO.ClientRequestDTO;
 
@@ -100,4 +101,19 @@ public class ClientController {
                     .body("Client not found with id: " + id);
         }
     }
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        String email = loginRequest.getEmail();
+        String motDePasse = loginRequest.getMotDePasse();
+
+        // Assuming you have a method in your service to authenticate the client
+        Client client = serviceClient.authenticate(email, motDePasse);
+
+        if (client != null) {
+            return ResponseEntity.ok("Client authenticated successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
+    }
+    
 }

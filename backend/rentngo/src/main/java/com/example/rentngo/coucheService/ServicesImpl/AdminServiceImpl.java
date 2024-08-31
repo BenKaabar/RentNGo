@@ -58,4 +58,12 @@ public class AdminServiceImpl implements AdminService {
     public Admin findByUsername(String username) {
         return adminRepository.findByUsername(username);
     }
+
+    public Admin authenticate(String username, String motDePasse) {
+        Admin admin = adminRepository.findByUsername(username);
+        if (admin != null && admin.getMotdepasse().equals(motDePasse)) {
+            return admin;
+        }
+        return null;
+    }
 }

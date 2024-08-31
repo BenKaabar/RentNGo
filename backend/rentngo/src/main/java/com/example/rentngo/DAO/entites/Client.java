@@ -1,6 +1,8 @@
 package com.example.rentngo.DAO.entites;
 
 
+import com.example.rentngo.DAO.enums.Role;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +27,7 @@ public class Client {
     private String motDePasse;
     private Long telephone;
     private String address;
-
+    private Role role = Role.CLIENT;
    
     // @ManyToOne
     // @JoinColumn(name = "admin_id")

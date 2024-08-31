@@ -18,4 +18,5 @@ public interface ServiceClient {
     void deleteClientById(Long id);
 
     List<Client> findByNom(String nom);
+    Client authenticate(String email, String motDePasse);
 }

@@ -16,4 +16,6 @@ public interface AdminService {
     void deleteAdmin(Long id);
 
     Admin findByUsername(String username);
+
+    Admin authenticate(String username, String motDePasse);
 }

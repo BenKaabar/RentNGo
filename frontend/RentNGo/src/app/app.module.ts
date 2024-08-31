@@ -5,12 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 // Import your components and services here
-import { SignUpComponent } from './SignIn-SignUp/sign-up/sign-up.component';
+import { SignUpComponent } from './SignIn-SignUp/client/sign-up/sign-up.component';
 import { NavBarComponent } from './Shared/nav-bar/nav-bar.component';
 import { FooterComponent } from './Shared/footer/footer.component';
 import { ContactComponent } from './Contact/contact.component';
 import { TemoignagesComponent } from './Temoignages/temoignages.component';
-import { SignInComponent } from './SignIn-SignUp/sign-in/sign-in.component';
+import { SignInComponent } from './SignIn-SignUp/client/sign-in/sign-in.component';
 import { VoitureComponent } from './Voiture/voiture.component';
 import { AproposComponent } from './About/apropos/apropos.component';
 import { FaqComponent } from './About/faq/faq.component';
@@ -37,6 +37,8 @@ import { ReservationComponent } from './ReservationPage/Reservation/reservation.
 import { HttpClientModule } from '@angular/common/http';
 import { TruncatePipe } from './Services/Truncate/truncate.pipe';
 import { GestionVoitureComponent } from './Dashboard/gestion-voiture/gestion-voiture.component';
+import { SignInAdminComponent } from './SignIn-SignUp/admin/sign-in-admin/sign-in-admin.component';
+import { SignUpAdminComponent } from './SignIn-SignUp/admin/sign-up-admin/sign-up-admin.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import { GestionVoitureComponent } from './Dashboard/gestion-voiture/gestion-voi
     DashboardClientComponent,
     GestionReservationsComponent,
     GestionVoitureComponent,
-    TruncatePipe
+    TruncatePipe,
+    SignInAdminComponent,
+    SignUpAdminComponent
   ],
   imports: [
     BrowserModule,

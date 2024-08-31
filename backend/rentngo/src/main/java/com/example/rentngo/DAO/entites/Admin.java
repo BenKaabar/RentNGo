@@ -1,5 +1,7 @@
 package com.example.rentngo.DAO.entites;
 
+import com.example.rentngo.DAO.enums.Role;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,19 +20,6 @@ public class Admin {
     private Long id;
     private String username;
     private String motdepasse;
+    private Role role = Role.ADMIN;
 
-    // @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    // private List<Contact> contacts;
-
-    // @OneToMany(mappedBy = "admin")
-    // private List<Client> clients;
-
-    // @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    // private List<Temoignage> temoignages;
-
-    // @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    // private List<Voiture> voiture;
-
-    // @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    // private List<Reservation> reservation;
 }

@@ -73,4 +73,13 @@ public class AdminController {
                     .body("Admin not found with id: " + id);
         }
     }
+    @RequestMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String motDePasse) {
+        Admin admin = adminService.authenticate(username, motDePasse);
+        if (admin != null) {
+            return ResponseEntity.ok("Admin authenticated successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
+    }
 }

@@ -8,4 +8,5 @@ import com.example.rentngo.DAO.entites.Client;
 
 public interface ClientRepository extends JpaRepository<Client,Long>{
     List<Client> findByNom(String nom);
+    Client findByEmail(String email);
 }

@@ -86,9 +86,17 @@ public class ServiceClientImpl implements ServiceClient {
             log.warn("Attempted to delete a client with id: {} that does not exist--------------------", id);
         }
     }
-
+//login
     @Override
     public List<Client> findByNom(String nom) {
         return clientRepository.findByNom(nom);
+    }
+
+    public Client authenticate(String email, String motDePasse) {
+        Client client = clientRepository.findByEmail(email);
+        if (client != null && client.getMotDePasse().equals(motDePasse)) {
+            return client;
+        }
+        return null;
     }
 }
