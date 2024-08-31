@@ -17,28 +17,27 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let reservation of paginatedReservations let i= index">
-                            <td>{{ (page - 1) * itemsPerPage + i + 1 }}</td>
+                            <td> {{ (page - 1) * itemsPerPage + i + 1 }}</td>
                             <td>{{ reservation.client.nom }} {{ reservation.client.prenom }}</td>
-                            <td>{{ reservation.voiture.immatriculation }}</td>
-                            <td>{{ reservation.dateDebut }}</td>
-                            <td>{{ reservation.dateFin }}</td>
+                            <td> {{ reservation.voiture.immatriculation }}</td>
+                            <td> {{ reservation.dateDebut }}</td>
+                            <td> {{ reservation.dateFin }}</td>
+
 
                             <td>
-                                <div>
-                                    <button type="button" class="btn btn-primary"
-                                        (click)="consultingReservation(reservation)">
-                                        Consulter
-                                    </button>
-                                    <button type="button" class="btn btn-warning"
-                                        (click)="openUpdateModal(reservation)">
-                                        Modifier
-                                    </button>
-                                    <button type="button" class="btn btn-danger" (click)="openDeleteModal(reservation)">
-                                        Supprimer
-                                    </button>
-                                </div>
+                                <button type="button" class="btn btn-primary"
+                                    (click)="consultingReservation(reservation)">
+                                    Consulter
+                                </button>
+                                <button type="button" class="btn btn-warning" (click)="openUpdateModal(reservation)">
+                                    Modifier
+                                </button>
+                                <button type="button" class="btn btn-danger" (click)="openDeleteModal(reservation)">
+                                    Supprimer
+                                </button>
                             </td>
-                        </tr>
+
+
                     </tbody>
                 </table>
                 <!-- Pagination -->
@@ -72,44 +71,33 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                     (click)="closeConsultModal()"></button>
             </div>
-            <div class="modal-body">
-                <table class="table table-striped" *ngIf="selectedReservation">
-                    <tr>
-                        <td>Nom client:</td>
-                        <td>{{ selectedReservation.client.nom }} {{
-                            selectedReservation.client.prenom }}</td>
-                    </tr>
-                    <tr>
-                        <td>Immatriculation voiture:</td>
-                        <td>{{ selectedReservation.voiture.immatriculation }}</td>
-                    </tr>
-                    <tr>
-                        <td>Date de début:</td>
-                        <td>{{ selectedReservation.dateDebut }}</td>
-                    </tr>
-                    <tr>
-                        <td>Date de fin:</td>
-                        <td>{{ selectedReservation.dateFin }}</td>
-                    </tr>
-                    <tr>
-                        <td>Message:</td>
-                        <td>{{ selectedReservation.message }}</td>
-                    </tr>
-                    <tr>
-                        <td>Status:</td>
-                        <td>{{ selectedReservation.status }}</td>
-                    </tr>
-                    <tr>
-                        <td>Localisation:</td>
-                        <td>{{ selectedReservation.localisation }}</td>
-                    </tr>
-                    <tr>
-                        <td>Photo voiture :</td>
-                        <td><img *ngIf="selectedReservation.voiture.photoVoiture"
-                                [src]="selectedReservation.voiture.photoVoiture"
-                                alt="{{ selectedReservation.voiture.nomPhotoVoiture }}" /></td>
-                    </tr>
-                </table>
+            <div class="modal-body" *ngIf="selectedReservation">
+                <p><strong>Nom client:</strong>
+                    {{ selectedReservation.client.nom }} {{
+                    selectedReservation.client.prenom }}
+                </p>
+                <p><strong>Immatriculation voiture:</strong>
+                    {{ selectedReservation.voiture.immatriculation }}
+                </p>
+                <p><strong>Date de début:</strong>
+                    {{ selectedReservation.dateDebut }}
+                </p>
+                <p><strong>Date de fin:</strong>
+                    {{ selectedReservation.dateFin }}
+                </p>
+                <p><strong>Message:</strong>
+                    {{ selectedReservation.message }}
+                </p>
+                <p><strong>Status:</strong>
+                    {{ selectedReservation.status }}
+                </p>
+                <p><strong>Localisation:</strong>
+                    {{ selectedReservation.localisation }}
+                </p>
+                <p><strong>Photo Voiture:</strong>
+                    <img [src]="selectedReservation.voiture.photoVoiture"
+                        alt="{{ selectedReservation.voiture.marque }}" />
+                </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"

@@ -37,7 +37,7 @@ export class GestionVoitureComponent implements OnInit {
     this.loadVoitures();
   }
 
-  // Load all cars
+  //  ********************************************************************** load **********************************************************************
   loadVoitures(): void {
     this.voitureService.getAllCars().subscribe(data => {
       this.voitures = data.map(voiture => ({
@@ -46,8 +46,8 @@ export class GestionVoitureComponent implements OnInit {
       }));
     });
   }
+  //  ********************************************************************** consulting **********************************************************************
 
-  // Open and close modals
   openConsultModal(voiture: Voiture): void {
     this.selectedVoiture = voiture;
     const consultModalElement = document.getElementById('consultingVoitureModal');
@@ -64,6 +64,7 @@ export class GestionVoitureComponent implements OnInit {
       consultModal?.hide();
     }
   }
+  //  ********************************************************************** delete **********************************************************************
 
   openDeleteModal(voiture: Voiture): void {
     this.selectedVoiture = voiture;
@@ -95,7 +96,7 @@ export class GestionVoitureComponent implements OnInit {
       console.error('ID voiture est undefined');
     }
   }
-
+  //  ********************************************************************** create **********************************************************************
   openCreateModal(): void {
     const addModalElement = document.getElementById('createModal');
     if (addModalElement) {
@@ -131,11 +132,8 @@ export class GestionVoitureComponent implements OnInit {
     }
   }
 
+  //  ********************************************************************** update **********************************************************************
 
-
-
-
-  // Open and close update modal
   openUpdateModal(voiture: Voiture): void {
     this.selectedVoiture = { ...voiture };
     const updateModalElement = document.getElementById('updateVoitureModal');
@@ -163,9 +161,8 @@ export class GestionVoitureComponent implements OnInit {
       }
     }
   }
+  //  ********************************************************************** Pagination **********************************************************************
 
-
-  // Pagination
   get paginatedVoitures(): Voiture[] {
     const startIndex = (this.page - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
@@ -196,7 +193,8 @@ export class GestionVoitureComponent implements OnInit {
     }
   }
 
-  // File handling
+  //  ********************************************************************** file **********************************************************************
+
   onImageChange(event: any): void {
     const file = event.target.files[0];
     if (file) {

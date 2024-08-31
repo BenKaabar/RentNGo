@@ -1,196 +1,204 @@
-/* .custom-card {
-    border-radius: 15px;
-    overflow: hidden;
-  }
-  
-  .card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .card-text {
-    margin-bottom: 0.5rem;
-  }
-  
-  .img-fluid {
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-  }
-  
-  .btn-link {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  .btn-link:hover {
-    color: #0056b3;
-    text-decoration: underline;
-  }
-   */
+/* ************************************************************************** main ************************************************************************** */
+.main {
+    width: 100%;
+}
+
+/* ************************************************************************** top ************************************************************************** */
+.top {
+    display: flex;
+    height: 84px;
+    background-color: rgb(107, 145, 0);
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0 150px;
+}
+
+.top h6 {
+    color: white;
+}
+
+img {
+    padding-right: 15px;
+}
+
+/* ************************************************************************** bottom ************************************************************************** */
+.bottom {
+    display: flex;
+    margin: 30px 250px;
+}
+
+/* ************************************************************************** left ************************************************************************** */
+.left {
+    width: 70%;
+    padding: 20px;
+    border: 2px solid #e1e1e1;
+    margin-right: 20px;
+}
+
+.custom-checkbox {
+    margin-right: 10px;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #ffffff;
+    border: 2px solid #c21515;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.custom-checkbox:checked {
+    background-color: #4caf50;
+    border-color: #4caf50;
+}
+
+.custom-checkbox:checked::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 3px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+.button {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-Retour {
+    background-color: rgb(225, 225, 225);
+    border: none;
+    border-radius: 20px;
+    padding: 8px;
+}
 
 
-   body {  
-    font-family: Arial, sans-serif;  
-    margin: 0;  
-    padding: 0;  
-}  
+/* Style par défaut du bouton */
+.btn-valider {
+    background-color: rgb(107, 145, 0);/* Couleur de fond par défaut */
+    color: white; /* Couleur du texte */
+    border: none; /* Bordure par défaut */
+    padding: 10px 20px; /* Espacement interne */
+    font-size: 16px; /* Taille de la police */
+    cursor: pointer; /* Curseur en forme de main */
+    border-radius: 5px; /* Coins arrondis */
+    transition: background-color 0.3s; /* Transition douce pour les changements de couleur */
+  }
+  
+  /* Style pour le bouton désactivé */
+  .btn-valider:disabled {
+    background-color: #98eab7; /* Couleur de fond lorsqu'il est désactivé */
+    color: #a0a0a0; /* Couleur du texte lorsqu'il est désactivé */
+    cursor: not-allowed; /* Curseur pour indiquer que le bouton est désactivé */
+    opacity: 0.7; /* Opacité réduite pour un effet visuel de désactivation */
+  }
+  
+.facture{
+    height: 220px;
+    object-fit: cover;
+    display: flex;
+    padding: 0% 30%;
+}
+/* ************************************************************************** right ************************************************************************** */
+.right {
+    width: 30%;
+    border: 2px solid #e1e1e1;
+    margin-left: 20px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 
-/* Section 1 - Étapes de réservation */  
-.bg-vert {  
-    background-color: #7A9901; /* Couleur de fond primaire */  
-}  
+}
 
-.btn-primary {
-    color: #fff;
+.right-top {
+    display: flex;
+    flex-direction: column;
+}
+
+.description {
+    display: flex;
+    height: 40px;
+}
+
+.nomvoiture {
+    color: white;
+    background-color: #212529;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.categorievoiture {
+    background-color: rgb(255, 179, 0);
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imagevoiture {
+    width: 100%;
+    padding: 0;
+    object-fit: cover;
+}
+
+.right-bottom {
+    padding:20px;
+    width: 100%;
+    margin: 0px;
+}
+
+.caracteristique1 {
+    display: flex;
+    margin: 5px 0px;
+    justify-content: space-evenly
+}
+
+.caracteristique1 button {
+    background-color: transparent;
+    border: none;
+}
+
+.caracteristique1 img {
+    padding: 0px;
+}
+
+.caracteristique button {
+    background-color: transparent;
+    border: none;
+}
+
+.assurances {
+    font-size: 14px;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.caracteristique2 button {
     background-color: #f36a01;
-    border-color: #f36a01;
-}
-.py-4 {  
-    padding-top: 1.5rem;  
-    padding-bottom: 1.5rem;  
-}  
-
-.text-white {  
-    color: #ffffff;  
-}  
-
-.img-fluid {  
-    max-width: 100%;  
-    height: auto;  
-}  
-
-.d-md-flex {  
-    display: flex;  
-}  
-
-.flex-row {  
-    flex-direction: row;  
-}  
-
-.align-self-center {  
-    align-self: center;  
-}  
-
-/* Séparateur d'étapes */  
-.section-separator {  
-    margin: 0 10px;  
-}  
-
-/* Section 2 - Récapitulatif */  
-.fix-recap {  
-    position: relative; /* Pour le positionnement éventuel */  
-    background-color: #ffffff; /* Couleur de fond blanc */  
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre portée pour donner du relief */  
-}  
-
-.border-bottom {  
-    border-bottom: 1px solid #e0e0e0; /* Bordure inférieure */  
-}  
-
-.font-12 {  
-    font-size: 12px;  
-}  
-
-.py-2 {  
-    padding-top: 0.5rem;  
-    padding-bottom: 0.5rem;  
-}  
-
-/* Boutons et liens */  
-.font-weight-500 {  
-    font-weight: 500;  
-}  
-
-.link-search {  
-    color: #007bff; /* Couleur de lien */  
-    text-decoration: none; /* Pas de soulignement */  
-}  
-
-.link-search:hover {  
-    text-decoration: underline; /* Soulignement au survol */  
-}  
-
-.bg-warning {  
-    background-color: #ffc107; /* Couleur d'arrière-plan d'avertissement */  
-}  
-
-.z-motant {  
-    z-index: 10; /* Assurer que la section est au-dessus des autres éléments si nécessaire */  
-}  
-
-/* Marges */  
-.ml-auto {  
-    margin-left: auto; /* Pour aligner à droite */  
-}  
-
-.text-center {  
-    text-align: center; /* Centrer le texte */  
-}  
-
-.text-right {  
-    text-align: right; /* Alignement à droite */  
-}  
-
-/* Icônes */  
-.fas, .far {  
-    font-family: FontAwesome; /* Assurez-vous que FontAwesome est inclus */  
-}  
-
-/* Taille du coût total */  
-.font-18 {  
-    font-size: 18px;  
+    color: white;
+    border: none;
 }
 
-.btn-success {
-    color: #fff;
-    background-color: #6b9100;
-    border-color: #6b9100;
+.right-bottom p {
+    margin-bottom: 6px;
 }
 
-/* button oui non  */
-.switch {  
-    position: relative;  
-    display: inline-block;  
-    width: 60px;  
-    height: 34px;  
-  }  
-  
-  .switch-input {  
-    opacity: 0;  
-    width: 0;  
-    height: 0;  
-  }  
-  
-  .switch-label {  
-    position: absolute;  
-    cursor: pointer;  
-    top: 0;  
-    left: 0;  
-    right: 0;  
-    bottom: 0;  
-    background-color: #ccc;  
-    transition: .4s;  
-  }  
-  
-  .switch-label:before {  
-    position: absolute;  
-    content: "";  
-    height: 26px;  
-    width: 26px;  
-    left: 4px;  
-    bottom: 4px;  
-    background-color: white;  
-    transition: .4s;  
-  }  
-  
-  .switch-input:checked + .switch-label {  
-    background-color: #7A9901;  
-  }  
-  
-  .switch-input:checked + .switch-label:before {  
-    transform: translateX(26px);  
-  }  
-  
-  .switch-handle {  
-    position: absolute;  
-  }
+.montant {
+    display: flex;
+    background-color: #212529;
+    padding: 16px;
+    justify-content: space-between;
+}
+
+.montant p{
+ color: white;
+}

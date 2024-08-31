@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 // Import your components and services here
 import { SignUpComponent } from './SignIn-SignUp/sign-up/sign-up.component';
 import { NavBarComponent } from './Shared/nav-bar/nav-bar.component';

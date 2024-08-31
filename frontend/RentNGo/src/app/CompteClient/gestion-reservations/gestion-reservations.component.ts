@@ -3,8 +3,10 @@ import { NgForm } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { Client } from 'src/app/models/Client';
 import { Reservation } from 'src/app/models/Reservation';
+import { Voiture } from 'src/app/models/Voiture';
 import { ClientService } from 'src/app/Services/Client/client.service';
 import { ReservationService } from 'src/app/Services/Reservation/reservation.service';
+import { VoitureService } from 'src/app/Services/Voiture/voiture.service';
 
 @Component({
   selector: 'app-gestion-reservations',
@@ -12,8 +14,11 @@ import { ReservationService } from 'src/app/Services/Reservation/reservation.ser
   styleUrls: ['./gestion-reservations.component.css']
 })
 export class GestionReservationsComponent implements OnInit {
-  reservations: Reservation[] = [];
+  reservations: any[] = [];
   client: Client | null = null;
+  voitures: any;
+  baseUrl: string = 'data:image/jpeg;base64,';
+  selectedFile: File | null = null;
   newReservation: Reservation = {
     id: 0, dateDebut: '', dateFin: '', localisation: '', message: '', status: '',
     client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' },
@@ -40,11 +45,12 @@ export class GestionReservationsComponent implements OnInit {
 
   // updateform: Reservation;
 
-  constructor(private reservationService: ReservationService, private clientService: ClientService) { }
+  constructor(private reservationService: ReservationService, private clientService: ClientService, private voitureService: VoitureService) { }
 
   ngOnInit(): void {
     this.loadReservation();
     this.loadClient();
+    this.loadVoiture();
   }
 
   //  ********************************************************************** load **********************************************************************
@@ -60,15 +66,37 @@ export class GestionReservationsComponent implements OnInit {
     );
   }
 
-  loadReservation(): void {
-    this.reservationService.getAllRentals().subscribe({
-      next: (response) => {
-        // Filter reservations where client.id is 1
-        this.reservations = response.filter(reservation => reservation.client.id === 1);
-        console.log('Filtered Reservations for client 1:', this.reservations); // Log data to check
+  loadVoiture(): void {
+    this.voitureService.getAllCars().subscribe(
+      (response: Voiture[]) => {
+        this.voitures = response.map(voiture => ({
+          ...voiture,
+          photoVoiture: this.baseUrl + voiture.photoVoiture // Prepend the base URL to the base64 string
+        }));
+        console.log('Voitures loaded:', this.voitures);
       },
-      error: (err) => console.error('Erreur lors de la récupération des reservations:', err)
-    });
+      (error) => {
+        console.error('Error loading voitures:', error);
+      }
+    );
+  }
+
+  loadReservation(): void {
+    this.reservationService.getAllRentals().subscribe(
+      (response: Reservation[]) => {
+        this.reservations = response.map(reservation => ({
+          ...reservation,
+          voiture: {
+            ...reservation.voiture,
+            photoVoiture: this.baseUrl + reservation.voiture.photoVoiture // Prepend the base URL to the base64 string for voiture images
+          }
+        }));
+        console.log('Reservations loaded:', this.reservations);
+      },
+      (error) => {
+        console.error('Error loading reservations:', error);
+      }
+    );
   }
 
 

@@ -18,19 +18,4 @@ public class Admin {
     private Long id;
     private String username;
     private String motdepasse;
-
-    // @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    // private List<Contact> contacts;
-
-    // @OneToMany(mappedBy = "admin")
-    // private List<Client> clients;
-
-    // @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    // private List<Temoignage> temoignages;
-
-    // @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    // private List<Voiture> voiture;
-
-    // @OneToMany(mappedBy = "admin", fetch = FetchType.LAZY)
-    // private List<Reservation> reservation;
 }

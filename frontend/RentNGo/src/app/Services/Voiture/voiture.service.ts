@@ -11,6 +11,13 @@ export class VoitureService {
 
   constructor(private http: HttpClient) { }
 
+
+  getCarById(id: number): Observable<Voiture> {
+    return this.http.get<Voiture>(`${this.baseUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   getAllCars(): Observable<Voiture[]> {
     return this.http.get<Voiture[]>(`${this.baseUrl}/all`).pipe(
       catchError(error => {
@@ -19,12 +26,6 @@ export class VoitureService {
       })
     );
   }
-
-  getCarById(id: number): Observable<Voiture> {
-    return this.http.get<Voiture>(`${this.baseUrl}/${id}`);
-  }
-
-
 
   addCar(voiture: Voiture, photoVoiture: File): Observable<any> {
     const formData = new FormData();
@@ -70,8 +71,17 @@ export class VoitureService {
     return this.http.delete(`${this.baseUrl}/delete/${id}`, { responseType: 'text' });
   }
 
+  // Handle HTTP errors
   private handleError(error: HttpErrorResponse): Observable<never> {
-    console.error('Une erreur est survenue:', error.message);
-    return throwError(() => new Error('Erreur lors de la demande de données.'));
+    let errorMessage = 'Unknown error occurred!';
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred.
+      errorMessage = `Client-side error: ${error.error.message}`;
+    } else {
+      // The backend returned an unsuccessful response code.
+      errorMessage = `Server-side error: ${error.status} ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

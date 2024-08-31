@@ -26,17 +26,4 @@ public class Client {
     private Long telephone;
     private String address;
 
-   
-    // @ManyToOne
-    // @JoinColumn(name = "admin_id")
-    // private Admin admin;
-
-    // @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    // private List<Contact> contacts;
-
-    // @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    // private List<Temoignage> temoignages;
-
-    // @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    // private List<Reservation> reservations;
 }

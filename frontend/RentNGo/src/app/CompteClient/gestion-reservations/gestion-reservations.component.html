@@ -82,9 +82,8 @@
           </tr>
           <tr>
             <td>Photo voiture :</td>
-            <td *ngIf="selectedReservation"><img
-                src="assets/images/voitures/{{ selectedReservation.voiture.nomPhotoVoiture }}"
-                alt="{{ selectedReservation.voiture.nomPhotoVoiture }}"></td>
+            <td *ngIf="selectedReservation"><img [src]="selectedReservation.voiture.photoVoiture"
+                alt="{{ selectedReservation.voiture.marque }}" /></td>
           </tr>
         </table>
       </div>

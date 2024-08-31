@@ -99,21 +99,24 @@ img {
   background-repeat: no-repeat;
 }
 
-/* p{
-  color: white;
-} */
 .carousel-card button {
   width: 100px;
+
 }
 
 .top {
-  height: 340px;
-  /* background-image: url('/assets/images/accueil/cars/car1.jpg'); */
+  height: 240px;
+  display: flex;
   background-size: cover;
   background-repeat: no-repeat;
-  display: flex;
-  justify-content: center;
+  flex-direction: column;
+  /* Aligns items vertically */
   align-items: center;
+  /* Centers items horizontally */
+  justify-content: center;
+  /* Centers items vertically if there's extra space */
+  text-align: center;
+  /* Center-aligns text and inline elements */
 }
 
 .top button:hover,

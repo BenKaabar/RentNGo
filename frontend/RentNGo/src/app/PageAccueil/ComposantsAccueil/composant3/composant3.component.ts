@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Voiture } from 'src/app/models/Voiture';
 import { VoitureService } from 'src/app/Services/Voiture/voiture.service';
 
@@ -11,27 +12,12 @@ export class Composant3Component implements OnInit {
   voitures: any[] = []; // Change type according to your model
   baseUrl: string = 'data:image/jpeg;base64,'; // Change MIME type according to your image type
 
-  selectedVoiture: Voiture | null = null;
-  selectedFile: File | null = null;
-  newVoiture: Voiture = {
-    id: 0,
-    immatriculation: '',
-    marque: '',
-    prix: 0,
-    couleur: '',
-    categorie: '',
-    garantie: 0,
-    nomPhotoVoiture: '',
-    estDisponible: true,
-    typePhotoVoiture: '',
-    photoVoiture: new Uint8Array()
-  };
   currentIndex = 0;
   cardWidth = 410; // Card width in pixels
   cardMargin = 10; // Sum of left and right margins
   transitionTimeout: any; // Variable to hold timeout ID
 
-  constructor(private voitureService: VoitureService) { }
+  constructor(private voitureService: VoitureService, private router: Router) { }
 
   ngOnInit(): void {
     this.startAutoPlay();
@@ -60,7 +46,7 @@ export class Composant3Component implements OnInit {
   }
 
 
-  //  ********************************************************************** pagination **********************************************************************
+  //  ********************************************************************** caroussel **********************************************************************
 
   get transformStyle() {
     const cardWidthWithMargin = this.cardWidth + this.cardMargin;
@@ -90,13 +76,18 @@ export class Composant3Component implements OnInit {
   startAutoPlay() {
     this.transitionTimeout = setTimeout(() => {
       this.next(); // Automatically transition to next card
-    }, 2000); // Set delay between transitions (5000 milliseconds = 5 seconds)
+    }, 2000); // Set delay between transitions (2000 milliseconds = 2 seconds)
+  }
+
+  stopAutoPlay() {
+    clearTimeout(this.transitionTimeout); // Stop autoplay when hovering
   }
 
   restartAutoPlay() {
     clearTimeout(this.transitionTimeout); // Clear previous timeout
     this.startAutoPlay(); // Restart autoplay with updated currentIndex
   }
+
 
   //  ********************************************************************** files **********************************************************************
   onImageChange(event: Event): void {
@@ -119,5 +110,8 @@ export class Composant3Component implements OnInit {
       binary += String.fromCharCode(bytes[i]);
     }
     return window.btoa(binary);
+  }
+  goToEtape2(carId: number) {
+    this.router.navigate(['/Reservation/etape2'], { state: { carId } });
   }
 }

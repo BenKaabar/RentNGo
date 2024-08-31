@@ -54,7 +54,7 @@ export class VoitureComponent implements AfterViewInit, OnInit {
     });
     this.loadVoitures();
   }
-  
+
   loadVoitures(): void {
     this.voitureService.getAllCars().subscribe(data => {
       this.voitures = data.map(voiture => ({
@@ -102,4 +102,10 @@ export class VoitureComponent implements AfterViewInit, OnInit {
     this.updatePage();
     this.router.navigate(['Voiture/', this.currentPage]);
   }
+
+  goToEtape2(carId: number) {
+    this.router.navigate(['/Reservation/etape2'], { state: { carId } });
+  }
+
+
 }

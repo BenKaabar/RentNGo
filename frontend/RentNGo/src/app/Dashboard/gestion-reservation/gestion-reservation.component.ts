@@ -15,9 +15,10 @@ import { map } from 'rxjs';
   styleUrls: ['./gestion-reservation.component.css']
 })
 export class GestionReservationComponent implements OnInit {
-  reservations: Reservation[] = [];
+  reservations: any[] = [];
   clients: Client[] = [];
-  voitures: Voiture[] = [];
+  voitures: any;
+  baseUrl: string = 'data:image/jpeg;base64,';
   selectedFile: File | null = null;
   newReservation: Reservation = {
     id: 0, dateDebut: '', dateFin: '', localisation: '', message: '', status: '',
@@ -39,10 +40,9 @@ export class GestionReservationComponent implements OnInit {
   };
   tempReservation: Reservation | null = null;
   selectedReservation: Reservation | null = null;
+  selectedVoiture: Voiture | null = null;
   page: number = 1;
-  itemsPerPage: number = 4;
-
-  // updateform: Reservation;
+  itemsPerPage: number = 5;
 
   constructor(private reservationService: ReservationService, private clientService: ClientService, private voitureService: VoitureService) { }
 
@@ -64,27 +64,39 @@ export class GestionReservationComponent implements OnInit {
       }
     );
   }
-
   loadVoiture(): void {
     this.voitureService.getAllCars().subscribe(
-      data => {
-        this.voitures = data;
+      (response: Voiture[]) => {
+        this.voitures = response.map(voiture => ({
+          ...voiture,
+          photoVoiture: this.baseUrl + voiture.photoVoiture // Prepend the base URL to the base64 string
+        }));
+        console.log('Voitures loaded:', this.voitures);
       },
-      error => {
-        console.error('Error fetching reservations', error);
+      (error) => {
+        console.error('Error loading voitures:', error);
       }
     );
   }
 
   loadReservation(): void {
-    this.reservationService.getAllRentals().subscribe({
-      next: (response) => {
-        this.reservations = response;
-        console.log('Reservations:', this.reservations); // Log data to check
+    this.reservationService.getAllRentals().subscribe(
+      (response: Reservation[]) => {
+        this.reservations = response.map(reservation => ({
+          ...reservation,
+          voiture: {
+            ...reservation.voiture,
+            photoVoiture: this.baseUrl + reservation.voiture.photoVoiture // Prepend the base URL to the base64 string for voiture images
+          }
+        }));
+        console.log('Reservations loaded:', this.reservations);
       },
-      error: (err) => console.error('Erreur lors de la récupération des reservations:', err)
-    });
+      (error) => {
+        console.error('Error loading reservations:', error);
+      }
+    );
   }
+
 
   //  ********************************************************************** consulting **********************************************************************
   consultingReservation(reservation: Reservation): void {
@@ -204,7 +216,6 @@ export class GestionReservationComponent implements OnInit {
     }
   }
 
-
   //  ********************************************************************** pagination **********************************************************************
   get paginatedReservations(): Reservation[] {
     const startIndex = (this.page - 1) * this.itemsPerPage;
@@ -235,7 +246,8 @@ export class GestionReservationComponent implements OnInit {
       this.page--;
     }
   }
-  // File handling
+
+  //  ********************************************************************** pagination **********************************************************************
   onImageChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -249,7 +261,7 @@ export class GestionReservationComponent implements OnInit {
         const base64String = reader.result?.toString().split(',')[1];
         if (base64String) {
           const byteArray = this.base64ToUint8Array(base64String);
-          this.newReservation.voiture.photoVoiture = byteArray;
+          this.voitures.photoVoiture = byteArray;
         }
       };
       reader.readAsDataURL(file);
@@ -261,4 +273,5 @@ export class GestionReservationComponent implements OnInit {
     const byteNumbers = Array.from(byteCharacters, char => char.charCodeAt(0));
     return new Uint8Array(byteNumbers);
   }
+
 }

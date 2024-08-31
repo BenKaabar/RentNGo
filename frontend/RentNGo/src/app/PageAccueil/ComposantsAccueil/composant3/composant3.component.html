@@ -1,19 +1,23 @@
 <div class="main">
     <div class="container">
-        <h2 style="text-align: center;"><span style="color:rgb(255, 111, 0);">Nos promotions de locations</span> de
-            voitures en Tunisie</h2>
-        <h6>Profitez de nos meilleures offres de location voiture Tunisie chez RentNGo, un des leaders de loueurs de
-            voitures en Tunisie</h6>
-        <div class="carousel-wrapper">
+        <h2 style="text-align: center;">
+            <span style="color: rgb(255, 111, 0);">Nos promotions de locations</span>
+            de voitures en Tunisie
+        </h2>
+        <h6>
+            Profitez de nos meilleures offres de location voiture Tunisie chez
+            RentNGo, un des leaders de loueurs de voitures en Tunisie
+        </h6>
+        <div class="carousel-wrapper" (mouseenter)="stopAutoPlay()" (mouseleave)="startAutoPlay()">
             <button (click)="prev()" aria-label="Previous" class="nav-button prev-button">&lt;</button>
             <div class="carousel-content" [style.transform]="transformStyle">
                 <div class="carousel-card" *ngFor="let voiture of voitures">
-                    <div class="top">
-                        <img *ngIf="voiture.photoVoiture" [src]="voiture.photoVoiture"
-                            alt="{{ voiture.nomPhotoVoiture }}" />
-
-                        <!-- <button class="btn btn-danger"  routerLink="/Reservation">Réserver</button> -->
+                    <div class="top" [ngStyle]="{ 'background-image': 'url(' + voiture.photoVoiture + ')' }">
+                        <!-- <button class="btn btn-danger"
+                            [routerLink]="['/Reservation/etape2', voiture.id]">Réserver</button> -->
+                        <button class="btn btn-danger" (click)="goToEtape2(voiture.id)">Réserver</button>
                     </div>
+
                     <div class="card-body">
                         <div style="background-color: #212529; padding: 5px; width: 50%;">
                             <p class="card-title">{{voiture.marque}}</p>

@@ -20,6 +20,8 @@ import { GestionReservationComponent } from './Dashboard/gestion-reservation/ges
 import { GestionTemoignagesComponent } from './Dashboard/gestion-temoignages/gestion-temoignages.component';
 import { ReservationComponent } from './ReservationPage/Reservation/reservation.component';
 import { GestionVoitureComponent } from './Dashboard/gestion-voiture/gestion-voiture.component';
+import { Etape2Component } from './ReservationPage/composantsReservation/etapes/etape2/etape2.component';
+import { Etape3Component } from './ReservationPage/composantsReservation/etapes/etape3/etape3.component';
 
 const routes: Routes = [
   { path: 'Accueil', component: PageAccueilComponent },
@@ -29,18 +31,27 @@ const routes: Routes = [
   { path: 'Contact', component: ContactComponent },
   { path: 'Apropos', component: AproposComponent },
   { path: 'Faq', component: FaqComponent },
-  { path: 'Reservation', component: ReservationComponent },
   { path: 'SignIn', component: SignInComponent },
   { path: 'SignUp', component: SignUpComponent },
+  // { path: 'etape2/:id', component: Etape2Component },
+  // { path: 'Reservation/:idVoiture', component: ReservationComponent },
   { path: '', redirectTo: '/Accueil', pathMatch: 'full' },
- 
+  {
+    path: 'Reservation',
+    component: ReservationComponent,
+    children: [
+      { path: 'etape2', component: Etape2Component }, // Make sure this is correct
+      { path: 'etape3', component: Etape3Component }
+    ]
+  },
+  
   {
     path: 'admin', component: DashboardComponent, children: [
       { path: 'gestion-client', component: GestionClientComponent },
       { path: 'gestion-contact', component: GestionContactComponent },
       { path: 'gestion-reservation', component: GestionReservationComponent },
       { path: 'gestion-temoignages', component: GestionTemoignagesComponent },
-      { path: 'gestion-voiture', component: GestionVoitureComponent},
+      { path: 'gestion-voiture', component: GestionVoitureComponent },
       { path: '', redirectTo: 'gestion-client', pathMatch: 'full' }
     ]
   },

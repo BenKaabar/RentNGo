@@ -28,7 +28,7 @@ public class VoitureController {
     @Autowired
     private VoitureService carService;
 
-    @GetMapping(path = "/ById/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<Voiture> findCarById(@PathVariable Long id) {
         try {
             Voiture voiture = carService.findCarById(id);

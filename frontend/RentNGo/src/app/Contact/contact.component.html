@@ -41,70 +41,11 @@
                 </p>
               </div>
               <div class="col-md-7">
-                <form name="contactForm" id="contactForm" action="/app/contact-action.cfm" method="post">
-                  <input type="hidden" name="token" value="4B53699BC5FFBDCF0E4EA8E92734A71649BA6E05">
-                  <div class="d-flex">
-                    <div class="mr-3 form-group validator-log">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="title" value="Mr" checked="" required="">
-                        <label class="form-check-label">
-                          Mr
-                        </label>
-                      </div>
-                    </div>
-                    <div class="form-group validator-log">
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="title" value="Mme" required="">
-                        <label class="form-check-label">
-                          Mme
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <span>Nom de famille</span>
-                        <input type="text" class=" form-control" placeholder="Nom de famille*" name="firstName"
-                          required="">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <span>Prénom</span>
-                        <input type="text" class="form-control" placeholder="Prénom*" name="lastName" required="">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6 form-group">
-                      <span>Email</span>
-                      <input type="text" class="form-control " placeholder="Votre e-mail*" name="email" required="">
-                    </div>
-                    <div class="col-md-6 form-group">
-                      <span>Téléphone</span>
-                      <input type="tel" class="form-control" name="tel" id="tel" required=""
-                        placeholder="Votre Télephone" autocomplete="off">
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <span>Message</span>
-                        <textarea class="form-control" name="message" id="message" rows="5"
-                          placeholder="Ecrire un message">
-                      </textarea>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row mt-3 mb-3">
-                    <div class="col-md-12">
-                      <div class="text-md-right">
-                        <button type="submit" class="btn btn-warning rounded-0  btn-sm-block">Envoyer</button>
-                        <div id="result-contact"></div>
-                      </div>
-                    </div>
-                  </div>
+                <form (ngSubmit)="createContact(createForm)" #createForm="ngForm">
+                  <label for="message" class="form-label">Contact : </label>
+                  <textarea [(ngModel)]="newContact.message" name="message" id="message" class="form-control"
+                    required></textarea>
+                  <button type="submit" class="btn btn-success custom-btn" [routerLink]="['/Contact']">Ajouter</button>
                 </form>
               </div>
             </div>
