@@ -1,0 +1,28 @@
+<form [formGroup]="signinform" novalidate (ngSubmit)="onSubmit()">
+  <div class="main">
+    <div class="login">
+      <div class="signup">
+        <h2>Bienvenue à RentGo</h2>
+        <h5>Créez votre compte RentNGo en quelques étapes simples pour une réservation plus rapide et profitez d’une
+          expérience de location de voiture agréable !</h5>
+        <button routerLink="/SignUp">S’inscrire</button>
+      </div>
+      <div class="signin">
+        <div class="mb-3">
+          <label for="exampleInputmail" class="form-label">Email address</label><br>
+          <input type="text" formControlName="mail" class="form-control" id="exampleInputmail" required>
+          <small *ngIf="signinform.controls['mail'].errors && signinform.controls['mail'].touched" class="text-danger">
+            {{getErrorsMessage('mail', signinform.controls['mail'].errors)}}</small>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputmotDePasse" class="form-label">mot De Passe</label><br>
+          <input type="password" formControlName="motDePasse" class="form-control" id="exampleInputmotDePasse">
+          <small *ngIf="signinform.controls['motDePasse'].errors && signinform.controls['motDePasse'].touched"
+            class="text-danger">
+            {{getErrorsMessage('motDePasse', signinform.controls['motDePasse'].errors)}}</small>
+        </div>
+        <button type="submit">Se connecter</button>
+      </div>
+    </div>
+  </div>
+</form>

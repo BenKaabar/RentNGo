@@ -1,115 +1,98 @@
 <div class="container-fluid">
   <div class="row flex-nowrap">
-    <div class="col py-3">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <h3>Mon Compte</h3>
-            <div class="main-content">
-              <!-- Informations Personnelles -->
-              <div class="card mb-3">
-                <div class="card-body">
-                  <h5 class="card-title">Informations Personnelles</h5>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <h3>Mon Compte</h3>
+          <div class="main-content">
+            <!-- Informations Personnelles -->
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">Informations Personnelles</h5>
 
-                  <table *ngIf="client">
-                    <tr>
-                      <td>
-                        Nom :
-                      </td>
-                      <td>
-                        {{client.nom}}, {{client.prenom}}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Email :
-                      </td>
-                      <td>
-                        {{client.email}}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        Telephone :
-                      </td>
-                      <td>
-                        {{client.telephone}}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        address
-                      </td>
-                      <td>
-                        {{client.address}}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <button class="btn btn-warning me-2" (click)="openUpdateModal(client)"> Mettre à jour</button>
-                      </td>
-                    </tr>
-                  </table>
+                <!-- Display client information -->
+                <table *ngIf="client">
+                  <tr>
+                    <td>Nom :</td>
+                    <td>{{ client.nom }}, {{ client.prenom }}</td>
+                  </tr>
+                  <tr>
+                    <td>Email :</td>
+                    <td>{{ client.email }}</td>
+                  </tr>
+                  <tr>
+                    <td>Téléphone :</td>
+                    <td>{{ client.telephone }}</td>
+                  </tr>
+                  <tr>
+                    <td>Adresse :</td>
+                    <td>{{ client.address }}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <button class="btn btn-warning me-2" (click)="openUpdateModal(client)">Mettre à jour</button>
+                    </td>
+                  </tr>
+                </table>
+                <!-- Display error message -->
+                <div *ngIf="errorMessage" class="alert alert-danger">
+                  {{ errorMessage }}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
-
   </div>
 
-
-<!-- Modal Modifier Client -->
-<div class="modal fade" id="updateClientModal" tabindex="-1" aria-labelledby="updateClientModalLabel"
+  <!-- Modal Modifier Client -->
+  <div class="modal fade" id="updateClientModal" tabindex="-1" aria-labelledby="updateClientModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="updateClientModalLabel">Modifier client</h1>
-                <button type="button" class="btn-close" aria-label="Close" (click)="closeUpdateClientModal()"></button>
-            </div>
-            <div class="modal-body">
-                <form #updateClientForm="ngForm" (ngSubmit)="updateClient(updateClientForm)">
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="updateClientNom" class="form-label">Nom</label>
-                        <input [(ngModel)]="selectedClient.nom" id="updateClientNom" name="nom" class="form-control"
-                            required />
-                    </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="updateClientPrenom" class="form-label">Prénom</label>
-                        <input [(ngModel)]="selectedClient.prenom" id="updateClientPrenom" name="prenom"
-                            class="form-control" required />
-                    </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="updateClientEmail" class="form-label">Email</label>
-                        <input [(ngModel)]="selectedClient.email" id="updateClientEmail" name="email" class="form-control"
-                            required />
-                    </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="updateClientMotDePasse" class="form-label">Mot de passe</label>
-                        <input [(ngModel)]="selectedClient.motdepasse" id="updateClientMotDePasse" name="motDePasse"
-                            type="password" class="form-control" />
-                    </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="updateClientTelephone" class="form-label">Téléphone</label>
-                        <input [(ngModel)]="selectedClient.telephone" id="updateClientTelephone" name="telephone"
-                            class="form-control" required />
-                    </div>
-                    <div class="mb-3" *ngIf="selectedClient">
-                        <label for="updateClientAddress" class="form-label">Adresse</label>
-                        <input [(ngModel)]="selectedClient.address" id="updateClientAddress" name="address"
-                            class="form-control" required />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Modifier</button>
-                        <button type="button" class="btn btn-secondary"
-                            (click)="closeUpdateClientModal()">Fermer</button>
-                    </div>
-                </form>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="updateClientModalLabel">Modifier client</h1>
+          <button type="button" class="btn-close" aria-label="Close" (click)="closeUpdateClientModal()"></button>
         </div>
+        <div class="modal-body">
+          <form #updateClientForm="ngForm" (ngSubmit)="updateClient(updateClientForm)">
+            <div class="mb-3" *ngIf="selectedClient">
+              <label for="updateClientNom" class="form-label">Nom</label>
+              <input [(ngModel)]="selectedClient.nom" id="updateClientNom" name="nom" class="form-control" required />
+            </div>
+            <div class="mb-3" *ngIf="selectedClient">
+              <label for="updateClientPrenom" class="form-label">Prénom</label>
+              <input [(ngModel)]="selectedClient.prenom" id="updateClientPrenom" name="prenom" class="form-control"
+                required />
+            </div>
+            <div class="mb-3" *ngIf="selectedClient">
+              <label for="updateClientEmail" class="form-label">Email</label>
+              <input [(ngModel)]="selectedClient.email" id="updateClientEmail" name="email" class="form-control"
+                required />
+            </div>
+            <div class="mb-3" *ngIf="selectedClient">
+              <label for="updateClientmotDePasse" class="form-label">Mot de passe</label>
+              <input [(ngModel)]="selectedClient.motDePasse" id="updateClientmotDePasse" name="motDePasse"
+                type="password" class="form-control" />
+            </div>
+            <div class="mb-3" *ngIf="selectedClient">
+              <label for="updateClientTelephone" class="form-label">Téléphone</label>
+              <input [(ngModel)]="selectedClient.telephone" id="updateClientTelephone" name="telephone"
+                class="form-control" required />
+            </div>
+            <div class="mb-3" *ngIf="selectedClient">
+              <label for="updateClientAddress" class="form-label">Adresse</label>
+              <input [(ngModel)]="selectedClient.address" id="updateClientAddress" name="address" class="form-control"
+                required />
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Modifier</button>
+              <button type="button" class="btn btn-secondary" (click)="closeUpdateClientModal()">Fermer</button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

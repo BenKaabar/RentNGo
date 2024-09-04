@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import * as bootstrap from 'bootstrap';
 import { Client } from 'src/app/models/Client';
+import { AuthService } from 'src/app/Services/Auth/auth.service';
 import { ClientService } from 'src/app/Services/Client/client.service';
 import { TemoignageService } from 'src/app/Services/Temoignage/temoignage.service';
 
@@ -15,42 +16,66 @@ export class GestionTemoignageComponent {
   temoignages: Temoignage[] = [];
   client: Client | null = null;
   selectedTemoignage: Temoignage | null = null;
+  currentClient?: Client | null = null;
+  errorMessage: string = '';
   newTemoignage: Temoignage = {
     id: 0,
     messageTemoignage: '',
     dateTemoignage: '',
-    client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' }
+    client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motDePasse: '', address: '' }
   };
   page: number = 1;
   itemsPerPage: number = 5;
 
   constructor(
     private temoignageService: TemoignageService,
-    private clientService: ClientService
+    private clientService: ClientService, private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.loadTemoignages();
-    this.loadClients();
+    this.authService.currentClient.subscribe(client => {
+      this.currentClient = client;
+      this.loadTemoignages();
+      this.loadClients();
+
+    });
   }
 
   //  ********************************************************************** load **********************************************************************
   loadTemoignages(): void {
-    this.temoignageService.getAllTemoignages().subscribe({
-      next: (response) => {
-        // Filter temoignages where client.id is 1
-        this.temoignages = response.filter(temoignage => temoignage.client.id === 1);
-        console.log('Filtered Temoignages for client 1:', this.temoignages); // Log data to check
-      },
-      error: (err) => console.error('Erreur lors de la récupération des témoignages:', err)
-    });
+    if (this.currentClient && this.currentClient.id !== undefined) {
+      this.temoignageService.getAllTemoignages().subscribe({
+        next: (response) => {
+          // Assuming response is an array of testimonials
+          this.temoignages = response.filter(temoignage => temoignage.client.id === this.currentClient?.id);
+          console.log('Filtered Témoignages for current client:', this.temoignages); // Log data to check
+        },
+        error: (err) => {
+          this.errorMessage = 'Erreur lors de la récupération des témoignages.';
+          console.error('Erreur lors de la récupération des témoignages:', err);
+        }
+      });
+    } else {
+      this.errorMessage = 'Client ID is not available.';
+      console.error('Client ID is not available.');
+    }
   }
 
+
+  // loadClients(): void {
+  //   this.clientService.getClientById(1).subscribe({
+  //     next: (response) => this.client = response,
+  //     error: (err) => console.error('Erreur lors de la récupération des clients:', err)
+  //   });
+  // }
   loadClients(): void {
-    this.clientService.getClientById(1).subscribe({
-      next: (response) => this.client = response,
-      error: (err) => console.error('Erreur lors de la récupération des clients:', err)
-    });
+    // Assuming you want to load the current client or all clients
+    if (this.currentClient) {
+      this.clientService.getClientById(this.currentClient.id).subscribe({
+        next: (response) => this.client = response,
+        error: (err) => console.error('Erreur lors de la récupération des clients:', err)
+      });
+    }
   }
 
   //  ********************************************************************** consulting **********************************************************************
@@ -88,9 +113,8 @@ export class GestionTemoignageComponent {
   }
 
   addTemoignage(form: NgForm): void {
-    if (form.valid) {
-      const idClient: number = this.newTemoignage.client.id;
-      this.temoignageService.addTemoignage(idClient, this.newTemoignage).subscribe({
+    if (form.valid && this.currentClient != null) {
+      this.temoignageService.addTemoignage(this.currentClient?.id, this.newTemoignage).subscribe({
         next: (response: Temoignage) => {
           this.newTemoignage.id = response.id; // Met à jour l'ID après la réponse
           this.loadTemoignages(); // Rafraîchir la liste après l'ajout

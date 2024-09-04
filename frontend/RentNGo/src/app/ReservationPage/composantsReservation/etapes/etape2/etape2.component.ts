@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VoitureService } from 'src/app/Services/Voiture/voiture.service';
 import { ReservationService } from 'src/app/Services/Reservation/reservation.service';
+import { Client } from 'src/app/models/Client';
+import { AuthService } from 'src/app/Services/Auth/auth.service';
+import { ReservationDataService } from 'src/app/Services/ReservationDataService/reservation-data.service';
 
 @Component({
   selector: 'app-etape2',
@@ -16,12 +19,15 @@ export class Etape2Component implements OnInit {
   photoVoitureBase64: string | undefined;
   carId: number | null = null;
   baseUrl: string = 'data:image/jpeg;base64,';
+  currentClient?: Client | null = null;
   numberOfDays: number | null = null;
   totalPrice: number | null = null;
   constructor(
     private voitureService: VoitureService,
     private reservationService: ReservationService,
+    private authService: AuthService,
     private router: Router,
+    private reservationDataService: ReservationDataService,
     private fb: FormBuilder
   ) {
     this.reservationForm = this.fb.group({
@@ -35,19 +41,24 @@ export class Etape2Component implements OnInit {
   }
 
   ngOnInit() {
-    const navigation = history.state;
-    // console.log("navigation " + navigation);
-    if (navigation && navigation.carId) {
-      this.carId = navigation.carId as number;
-      this.loadVoitureById(this.carId); // Load the car data based on the carId
-    } else {
-      console.error('No carId found in navigation state');
-    }
-    // Subscribe to value changes to calculate days and total price dynamically
-    this.reservationForm.valueChanges.subscribe(() => {
-      this.calculateDaysDifference();
-      this.calculateTotalPrice();
+    this.authService.currentClient.subscribe(client => {
+      this.currentClient = client;
+      const navigation = history.state;
+      // console.log("navigation " + navigation);
+      if (navigation && navigation.carId) {
+        this.carId = navigation.carId as number;
+        this.loadVoitureById(this.carId); // Load the car data based on the carId
+      } else {
+        console.error('No carId found in navigation state');
+      }
+      // Subscribe to value changes to calculate days and total price dynamically
+      this.reservationForm.valueChanges.subscribe(() => {
+        this.calculateDaysDifference();
+        this.calculateTotalPrice();
+      });
+
     });
+
   }
 
   loadVoitureById(id: number): void {
@@ -60,9 +71,13 @@ export class Etape2Component implements OnInit {
   }
 
   createReservation(): void {
-    if (this.reservationForm.valid && this.voiture) {
-      const idClient: number = 1; // Adjust this to get the actual client ID
+    if (this.reservationForm.valid && this.voiture && this.currentClient?.id != null) {
       const idVoiture: number = this.voiture.id;
+      const dateDebut = new Date(this.reservationForm.get('dateDebut')?.value);
+      const dateFin = new Date(this.reservationForm.get('dateFin')?.value);
+      const timeDiff = Math.abs(dateFin.getTime() - dateDebut.getTime());
+      const numberOfDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      const totalPrice = numberOfDays * this.voiture.prix;
 
       const newReservation = {
         id: 0,
@@ -71,14 +86,18 @@ export class Etape2Component implements OnInit {
         localisation: this.reservationForm.get('Lieu')?.value,
         message: this.reservationForm.get('Message')?.value,
         status: 'EN_ATTENTE',
-        client: { id: idClient, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' },
+        client: { id: this.currentClient?.id, nom: this.currentClient?.nom, prenom: this.currentClient?.prenom, email: this.currentClient?.email, telephone: this.currentClient?.telephone, motDePasse: '', address: '' },
         voiture: this.voiture
       };
 
-      this.reservationService.addRental(newReservation, idClient, idVoiture).subscribe({
+      // Store the reservation details
+      this.reservationDataService.setReservationDetails(newReservation);
+      this.reservationDataService.setNumberOfDays(numberOfDays);
+      this.reservationDataService.setTotalPrice(totalPrice);
+      this.reservationService.addRental(newReservation, this.currentClient?.id, idVoiture).subscribe({
         next: () => {
           console.log('Reservation added successfully');
-          // this.router.navigate(['/confirmation']);
+          this.router.navigate(['/Reservation/etape3']);
         },
         error: (err) => console.error('Error adding reservation:', err)
       });
@@ -86,6 +105,7 @@ export class Etape2Component implements OnInit {
       console.error('Form is invalid or voiture is not defined.');
     }
   }
+
 
   convertUint8ArrayToBase64(uint8Array: Uint8Array): Promise<string> {
     return new Promise((resolve, reject) => {

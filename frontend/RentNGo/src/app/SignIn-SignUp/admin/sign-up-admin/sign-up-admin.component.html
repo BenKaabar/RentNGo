@@ -1,0 +1,35 @@
+<form [formGroup]="signupform" (ngSubmit)="createAdmin()">
+    <div class="main">
+        <div class="login">
+            <div class="signup">
+                <div class="signupform">
+                    <div>
+                        <label for="exampleInputusername" class="form-label">Username</label><br>
+                        <input type="text" formControlName="username" class="form-control" id="exampleInputusername">
+                        <small *ngIf="signupform.get('username')?.errors && signupform.get('username')?.touched"
+                            class="text-danger">
+                            {{getErrorsMessage('username', signupform.get('username')?.errors)}}</small>
+                    </div>
+                    <div>
+                        <label for="exampleInputmotdepasse1" class="form-label">Mot de passe</label>
+                        <input type="motdepasse" class="form-control" formControlName="motdepasse"
+                            id="exampleInputmotdepasse1">
+                        <small *ngIf="signupform.get('motdepasse')?.errors && signupform.get('motdepasse')?.touched"
+                            class="text-danger">
+                            {{getErrorsMessage('motdepasse', signupform.get('motdepasse')?.errors)}}</small>
+                    </div>
+                </div>
+                <div class="signupbutton">
+                    <button type="submit" [disabled]="!signupform.valid">S’inscrire</button>
+                </div>
+            </div>
+
+            <div class="signin">
+                <h2>Bienvenue à RentGo</h2>
+                <h5>Connectez-vous à votre compte RentGo pour accéder à la meilleure expérience de location de voiture.
+                </h5>
+                <button routerLink="/SignInAdmin">Connectez-vous</button>
+            </div>
+        </div>
+    </div>
+</form>

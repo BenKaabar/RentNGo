@@ -11,7 +11,7 @@ import { ClientService } from 'src/app/Services/Client/client.service';
 })
 export class GestionClientComponent implements OnInit {
   clients: Client[] = [];
-  newClient: Client = { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' };
+  newClient: Client = { id: 0, nom: '', prenom: '', email: '', telephone: '', motDePasse: '', address: '' };
   selectedClient: Client | null = null;
 
   paginatedClients: Client[] = [];
@@ -81,7 +81,7 @@ export class GestionClientComponent implements OnInit {
   }
   // **************************************************************** create ********************************************************************************
   openCreateModal(): void {
-    this.newClient = { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' };
+    this.newClient = { id: 0, nom: '', prenom: '', email: '', telephone: '', motDePasse: '', address: '' };
     const createModalElement = document.getElementById('createClientModal');
     if (createModalElement) {
       const createModal = new bootstrap.Modal(createModalElement);

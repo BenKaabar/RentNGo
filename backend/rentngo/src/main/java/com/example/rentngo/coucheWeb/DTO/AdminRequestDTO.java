@@ -1,5 +1,6 @@
 package com.example.rentngo.coucheWeb.DTO;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -14,4 +15,5 @@ public class AdminRequestDTO {
     private Long id;
     private String username;
     private String motdepasse;
+    // private Role role;
 }

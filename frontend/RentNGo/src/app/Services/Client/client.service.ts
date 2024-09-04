@@ -3,14 +3,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { Client } from 'src/app/models/Client';
 import { throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService {
+  login(email: string, motdepasse: string) {
+    throw new Error('Method not implemented.');
+  }
   private baseUrl = 'http://localhost:9798/client'; // URL de l'API
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   // Get all clients
   getAllClient(): Observable<Client[]> {
@@ -24,7 +28,16 @@ export class ClientService {
       catchError(this.handleError)
     );
   }
-  
+  getClientByEmail(email: string): Observable<Client> {
+    return this.http.get<Client>(`${this.baseUrl}/ByEmail/${email}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+  // getClientByEmail(email: string): Observable<Client> {
+  //   return this.http.get<Client>(`${this.baseUrl}/ByEmail/${email}`).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
 
   // Update client
   updateClient(client: Client, id: number): Observable<string> {
@@ -36,8 +49,9 @@ export class ClientService {
   }
 
 
-  // Add new client
+  // Add new client (return Observable)
   addClient(client: Client): Observable<string> {
+    console.log('data ' + client);
     return this.http.post<string>(`${this.baseUrl}/add`, client, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'

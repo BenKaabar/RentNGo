@@ -4,6 +4,7 @@ import * as bootstrap from 'bootstrap';
 import { Client } from 'src/app/models/Client';
 import { Reservation } from 'src/app/models/Reservation';
 import { Voiture } from 'src/app/models/Voiture';
+import { AuthService } from 'src/app/Services/Auth/auth.service';
 import { ClientService } from 'src/app/Services/Client/client.service';
 import { ReservationService } from 'src/app/Services/Reservation/reservation.service';
 import { VoitureService } from 'src/app/Services/Voiture/voiture.service';
@@ -16,12 +17,14 @@ import { VoitureService } from 'src/app/Services/Voiture/voiture.service';
 export class GestionReservationsComponent implements OnInit {
   reservations: any[] = [];
   client: Client | null = null;
+  errorMessage: string = '';
   voitures: any;
   baseUrl: string = 'data:image/jpeg;base64,';
   selectedFile: File | null = null;
+  currentClient?: Client | null = null;
   newReservation: Reservation = {
     id: 0, dateDebut: '', dateFin: '', localisation: '', message: '', status: '',
-    client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' },
+    client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motDePasse: '', address: '' },
     voiture: {
       id: 0,
       immatriculation: '',
@@ -45,25 +48,37 @@ export class GestionReservationsComponent implements OnInit {
 
   // updateform: Reservation;
 
-  constructor(private reservationService: ReservationService, private clientService: ClientService, private voitureService: VoitureService) { }
+  constructor(private reservationService: ReservationService, private authService: AuthService, private clientService: ClientService, private voitureService: VoitureService) { }
 
   ngOnInit(): void {
-    this.loadReservation();
-    this.loadClient();
-    this.loadVoiture();
+    this.authService.currentClient.subscribe(client => {
+      this.currentClient = client;
+      this.loadVoiture();// Ensure client data is loaded after the current client is set
+      this.loadReservation();
+      this.loadClient();
+
+    });
+
   }
 
   //  ********************************************************************** load **********************************************************************
 
   loadClient(): void {
-    this.clientService.getClientById(1).subscribe(
-      data => {
-        this.client = data;
-      },
-      error => {
-        console.error('Error fetching reservations', error);
-      }
-    );
+    if (this.currentClient && this.currentClient.id !== undefined) {
+      this.clientService.getClientById(this.currentClient.id).subscribe({
+        next: (response) => {
+          this.client = response;
+          console.log('Client:', this.client); // Log data to check
+        },
+        error: (err) => {
+          this.errorMessage = 'Erreur lors de la récupération des informations du client.';
+          console.error('Erreur lors de la récupération des informations du client:', err);
+        }
+      });
+    } else {
+      this.errorMessage = 'Client ID is not available.';
+      console.error('Client ID is not available.');
+    }
   }
 
   loadVoiture(): void {
@@ -81,17 +96,38 @@ export class GestionReservationsComponent implements OnInit {
     );
   }
 
+  // loadReservation(): void {
+  //   this.reservationService.getAllRentals().subscribe(
+  //     (response: Reservation[]) => {
+  //       this.reservations = response.map(reservation => ({
+  //         ...reservation,
+  //         voiture: {
+  //           ...reservation.voiture,
+  //           photoVoiture: this.baseUrl + reservation.voiture.photoVoiture // Prepend the base URL to the base64 string for voiture images
+  //         }
+  //       }));
+  //       console.log('Reservations loaded:', this.reservations);
+  //     },
+  //     (error) => {
+  //       console.error('Error loading reservations:', error);
+  //     }
+  //   );
+  // }
   loadReservation(): void {
     this.reservationService.getAllRentals().subscribe(
       (response: Reservation[]) => {
-        this.reservations = response.map(reservation => ({
-          ...reservation,
-          voiture: {
-            ...reservation.voiture,
-            photoVoiture: this.baseUrl + reservation.voiture.photoVoiture // Prepend the base URL to the base64 string for voiture images
-          }
-        }));
-        console.log('Reservations loaded:', this.reservations);
+        // Filter the reservations by the current client's ID
+        this.reservations = response
+          .filter(reservation => reservation.client.id === this.currentClient?.id) // Filter by current client ID
+          .map(reservation => ({
+            ...reservation,
+            voiture: {
+              ...reservation.voiture,
+              photoVoiture: this.baseUrl + reservation.voiture.photoVoiture // Prepend the base URL to the photo
+            }
+          }));
+
+        console.log('Filtered reservations for current client:', this.reservations);
       },
       (error) => {
         console.error('Error loading reservations:', error);
@@ -165,11 +201,10 @@ export class GestionReservationsComponent implements OnInit {
   }
 
   updateReservation(form: NgForm): void {
-    if (form.valid && this.selectedReservation) {
-      const idClient: number = this.selectedReservation.client.id;
+    if (form.valid && this.selectedReservation && this.currentClient?.id != null) {
       const idVoiture: number = this.selectedReservation.voiture.id;
       console.log('Updating reservation with data:', this.selectedReservation);
-      this.reservationService.updateRental(this.selectedReservation, idClient, idVoiture, this.selectedReservation.id)
+      this.reservationService.updateRental(this.selectedReservation, this.currentClient?.id, idVoiture, this.selectedReservation.id)
         .subscribe({
           next: () => {
             this.loadReservation();

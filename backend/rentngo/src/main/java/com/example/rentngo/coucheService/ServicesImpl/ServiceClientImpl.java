@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.rentngo.DAO.entites.Client;
+import com.example.rentngo.DAO.enums.Role;
 import com.example.rentngo.DAO.repository.ClientRepository;
 import com.example.rentngo.coucheService.Services.ServiceClient;
 import com.example.rentngo.coucheWeb.DTO.ClientRequestDTO;
@@ -33,6 +34,7 @@ public class ServiceClientImpl implements ServiceClient {
         client.setMotDePasse(dto.getMotdepasse());
         client.setTelephone(dto.getTelephone());
         client.setAddress(dto.getAddress());
+        client.setRole(Role.CLIENT);
         clientRepository.save(client);
         log.info("Client added successfully----------------------");
     }
@@ -87,8 +89,35 @@ public class ServiceClientImpl implements ServiceClient {
         }
     }
 
+    // login
     @Override
-    public List<Client> findByNom(String nom) {
-        return clientRepository.findByNom(nom);
+    public Client findByEmail(String email) {
+        return clientRepository.findByEmail(email);
     }
+
+    // public Client authenticate(String email, String motDePasse) {
+    // Client client = clientRepository.findByEmail(email);
+    // // Use the password encoder to check if the password matches
+    // if (client != null && passwordEncoder.matches(motDePasse,
+    // client.getMotDePasse())) {
+    // return client;
+    // }
+    // return null;
+    // }
+    @Override
+    public Client authenticate(String email, String motDePasse) {
+        // Fetch the client by email
+        Client client = clientRepository.findByEmail(email);
+
+        log.info("********************* motDePasse " + motDePasse);
+        log.info("(\"********************* email " + email);
+        // Check if the client exists and if the plain-text password matches
+        if (client != null && motDePasse.equals(client.getMotDePasse())) {
+
+            log.info("(\"********************* Successful authentication");
+            return client; // Successful authentication
+        }
+        return null; // Authentication failed
+    }
+
 }

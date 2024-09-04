@@ -6,8 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.rentngo.DAO.entites.Admin;
+import com.example.rentngo.DAO.entites.LoginRequestAdmin;
 import com.example.rentngo.coucheService.Services.AdminService;
 import com.example.rentngo.coucheWeb.DTO.AdminRequestDTO;
+
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.List;
@@ -72,5 +75,26 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("Admin not found with id: " + id);
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Admin> loginAdmin(@RequestBody LoginRequestAdmin loginRequestAdmin, HttpSession session) {
+        String username = loginRequestAdmin.getusername(); // Using email as the username field for Admin
+        String motDePasse = loginRequestAdmin.getmotdepasse();
+
+        Admin admin = adminService.authenticate(username, motDePasse);
+
+        if (admin != null) {
+            session.setAttribute("user", admin);
+            session.setAttribute("role", "ADMIN");
+            return ResponseEntity.ok(admin);
+        }
+        return null;
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate();
+        return ResponseEntity.ok("admin Logged out successfully!");
     }
 }

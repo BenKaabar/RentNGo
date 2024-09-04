@@ -18,7 +18,7 @@ export class GestionTemoignagesComponent implements OnInit {
     id: 0, 
     messageTemoignage: '',
     dateTemoignage: '',
-    client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' }
+    client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motDePasse: '', address: '' }
   };
   page: number = 1;
   itemsPerPage: number = 5;

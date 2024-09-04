@@ -1,0 +1,28 @@
+<form [formGroup]="signinform" (ngSubmit)="onSubmit()">
+  <div class="main">
+    <div class="login">
+      <div class="signup">
+        <h2>Bienvenue à RentGo</h2>
+        <h5>Créez votre compte RentNGo en quelques étapes simples pour une réservation plus rapide et profitez d’une
+          expérience de location de voiture agréable !</h5>
+        <button routerLink="/SignUpAdmin">S’inscrire</button>
+      </div>
+      <div class="signin">
+        <div>
+          <label for="exampleInputusername" class="form-label">Username</label><br>
+          <input type="text" formControlName="username" class="form-control" id="exampleInputusername">
+          <small *ngIf="signinform.get('username')?.errors && signinform.get('username')?.touched" class="text-danger">
+            {{getErrorsMessage('username', signinform.get('username')?.errors)}}</small>
+        </div>
+        <div>
+          <label for="exampleInputmotdepasse1" class="form-label">Mot de passe</label>
+          <input type="password" class="form-control" formControlName="motdepasse" id="exampleInputmotdepasse1">
+          <small *ngIf="signinform.get('motdepasse')?.errors && signinform.get('motdepasse')?.touched"
+            class="text-danger">
+            {{getErrorsMessage('motdepasse', signinform.get('motdepasse')?.errors)}}</small>
+        </div>
+        <button type="submit" [disabled]="!signinform.valid">Se connecter</button>
+      </div>
+    </div>
+  </div>
+</form>

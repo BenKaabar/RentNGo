@@ -4,15 +4,23 @@
     <h4>Tableau de bord</h4>
     <div> <img src="assets/images/user/user.png" alt=""></div>
     <div class="element">
-      <i class="fs-4 bi-person">
-      </i><span [routerLink]="['/client/compte-client']" routerLinkActive="active">Mon Compte</span>
+      <i class="fs-4 bi-person"></i>
+      <span [routerLink]="['/client/compte-client']" routerLinkActive="active">
+        Mon Compte
+      </span>
     </div>
-    <div class="element"><i class="fs-4 bi-calendar">
-      </i><span [routerLink]="['/client/gestion-reservations']" routerLinkActive="active">Mes Réservations</span></div>
-    <div class="element"><i class="fs-4 bi-chat">
-      </i><span [routerLink]="['/client/gestion-temoignage']" routerLinkActive="active">Mes Témoignages</span></div>
-    <div class="element"><i class="fs-4 bi-box-arrow-in-right">
-      </i><span [routerLink]="['/Accueil']" routerLinkActive="active">Logout</span></div>
+    <div class="element">
+      <i class="fs-4 bi-calendar"></i>
+      <span [routerLink]="['/client/gestion-reservations']" routerLinkActive="active">Mes Réservations</span>
+    </div>
+    <div class="element">
+      <i class="fs-4 bi-chat"></i>
+      <span [routerLink]="['/client/gestion-temoignage']" routerLinkActive="active">Mes Témoignages</span>
+    </div>
+    <div class="element">
+      <i class="fs-4 bi-box-arrow-in-right"></i>
+      <span [routerLink]="['/SignIn']" routerLinkActive="active" (click)="logout()">Logout</span>
+    </div>
   </div>
   <div class="right">
     <router-outlet></router-outlet>

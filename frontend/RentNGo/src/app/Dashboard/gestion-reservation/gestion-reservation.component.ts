@@ -22,7 +22,7 @@ export class GestionReservationComponent implements OnInit {
   selectedFile: File | null = null;
   newReservation: Reservation = {
     id: 0, dateDebut: '', dateFin: '', localisation: '', message: '', status: '',
-    client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' },
+    client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motDePasse: '', address: '' },
     voiture: {
       id: 0,
       immatriculation: '',

@@ -14,7 +14,7 @@ import * as bootstrap from 'bootstrap';
 export class GestionContactComponent implements OnInit {
   contacts: Contact[] = [];
   clients: Client[] = [];
-  newContact: Contact = { id: 0, email: '', message: '', client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motdepasse: '', address: '' } };
+  newContact: Contact = { id: 0, email: '', message: '', client: { id: 0, nom: '', prenom: '', email: '', telephone: '', motDePasse: '', address: '' } };
 
   selectedContact: Contact | null = null;
   tempContact: Contact | null = null;

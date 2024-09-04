@@ -6,8 +6,8 @@ import { TemoignagesComponent } from './Temoignages/temoignages.component';
 import { AproposComponent } from './About/apropos/apropos.component';
 import { FaqComponent } from './About/faq/faq.component';
 import { ContactComponent } from './Contact/contact.component';
-import { SignInComponent } from './SignIn-SignUp/sign-in/sign-in.component';
-import { SignUpComponent } from './SignIn-SignUp/sign-up/sign-up.component';
+import { SignInComponent } from './SignIn-SignUp/client/sign-in/sign-in.component';
+import { SignUpComponent } from './SignIn-SignUp/client/sign-up/sign-up.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CompteClientComponent } from './CompteClient/compte-client/compte-client.component';
 import { DashboardClientComponent } from './CompteClient/dashboard-client/dashboard-client.component';
@@ -18,10 +18,12 @@ import { GestionClientComponent } from './Dashboard/gestion-client/gestion-clien
 import { GestionContactComponent } from './Dashboard/gestion-contact/gestion-contact.component';
 import { GestionReservationComponent } from './Dashboard/gestion-reservation/gestion-reservation.component';
 import { GestionTemoignagesComponent } from './Dashboard/gestion-temoignages/gestion-temoignages.component';
-import { ReservationComponent } from './ReservationPage/Reservation/reservation.component';
 import { GestionVoitureComponent } from './Dashboard/gestion-voiture/gestion-voiture.component';
 import { Etape2Component } from './ReservationPage/composantsReservation/etapes/etape2/etape2.component';
 import { Etape3Component } from './ReservationPage/composantsReservation/etapes/etape3/etape3.component';
+import { SignUpAdminComponent } from './SignIn-SignUp/admin/sign-up-admin/sign-up-admin.component';
+import { SignInAdminComponent } from './SignIn-SignUp/admin/sign-in-admin/sign-in-admin.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: 'Accueil', component: PageAccueilComponent },
@@ -33,18 +35,12 @@ const routes: Routes = [
   { path: 'Faq', component: FaqComponent },
   { path: 'SignIn', component: SignInComponent },
   { path: 'SignUp', component: SignUpComponent },
-  // { path: 'etape2/:id', component: Etape2Component },
-  // { path: 'Reservation/:idVoiture', component: ReservationComponent },
+  { path: 'SignInAdmin', component: SignInAdminComponent },
+  { path: 'SignUpAdmin', component: SignUpAdminComponent },
+  { path: 'Reservation/etape3', component: Etape3Component },
+  { path: 'Reservation/etape2', component: Etape2Component, canActivate: [AuthGuard], },
   { path: '', redirectTo: '/Accueil', pathMatch: 'full' },
-  {
-    path: 'Reservation',
-    component: ReservationComponent,
-    children: [
-      { path: 'etape2', component: Etape2Component }, // Make sure this is correct
-      { path: 'etape3', component: Etape3Component }
-    ]
-  },
-  
+
   {
     path: 'admin', component: DashboardComponent, children: [
       { path: 'gestion-client', component: GestionClientComponent },

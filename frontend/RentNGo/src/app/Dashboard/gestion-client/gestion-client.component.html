@@ -96,8 +96,8 @@
                             required />
                     </div>
                     <div class="mb-3" >
-                        <label for="createClientMotdepasse" class="form-label">Mot de passe</label>
-                        <input type="password" [(ngModel)]="newClient.motdepasse" id="ClientMotdepasse" name="Motdepasse"
+                        <label for="createClientmotDePasse" class="form-label">Mot de passe</label>
+                        <input type="password" [(ngModel)]="newClient.motDePasse" id="ClientmotDePasse" name="motDePasse"
                             class="form-control" required />
                     </div>
                     <div class="mb-3" >
@@ -148,8 +148,8 @@
                             required />
                     </div>
                     <div class="mb-3" *ngIf="selectedClient">
-                        <label for="updateClientMotDePasse" class="form-label">Mot de passe</label>
-                        <input [(ngModel)]="selectedClient.motdepasse" id="updateClientMotDePasse" name="motDePasse"
+                        <label for="updateClientmotDePasse" class="form-label">Mot de passe</label>
+                        <input [(ngModel)]="selectedClient.motDePasse" id="updateClientmotDePasse" name="motDePasse"
                             type="password" class="form-control" />
                     </div>
                     <div class="mb-3" *ngIf="selectedClient">

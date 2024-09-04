@@ -1,6 +1,8 @@
 package com.example.rentngo.coucheService.ServicesImpl;
 
 import com.example.rentngo.DAO.entites.Admin;
+import com.example.rentngo.DAO.entites.Client;
+import com.example.rentngo.DAO.enums.Role;
 import com.example.rentngo.DAO.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.List;
+
 @Slf4j
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -27,6 +30,7 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = new Admin();
         admin.setUsername(adminRequestDTO.getUsername());
         admin.setMotdepasse(adminRequestDTO.getMotdepasse());
+        admin.setRole(Role.ADMIN);
         adminRepository.save(admin);
         log.info("admin added successfully");
     }
@@ -58,4 +62,14 @@ public class AdminServiceImpl implements AdminService {
     public Admin findByUsername(String username) {
         return adminRepository.findByUsername(username);
     }
+
+    @Override
+    public Admin authenticate(String username, String motDePasse) {
+        Admin admin = adminRepository.findByUsername(username);
+        if (admin != null && admin.getMotdepasse().equals(motDePasse)) {
+            return admin;
+        }
+        return null;
+    }
+
 }

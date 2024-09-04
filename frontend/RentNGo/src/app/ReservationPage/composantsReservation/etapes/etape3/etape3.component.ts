@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ReservationDataService } from 'src/app/Services/ReservationDataService/reservation-data.service';
 
 @Component({
   selector: 'app-etape3',
@@ -7,16 +8,26 @@ import { Router } from '@angular/router';
   styleUrls: ['./etape3.component.css']
 })
 export class Etape3Component implements OnInit {
-  reservationDetails: any;
+  reservationDetails: any = {};  // Initialize with an empty object
+  numberOfDays: number | null = null;
+  totalPrice: number | null = null;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private reservationDataService: ReservationDataService) { }
 
   ngOnInit(): void {
-    // Fetch the reservation details from localStorage or a service
-    this.reservationDetails = JSON.parse(localStorage.getItem('reservationDetails') || '{}');
+    // Retrieve reservation details, number of days, and total price from the service
+    this.reservationDetails = this.reservationDataService.getReservationDetails();
+    this.numberOfDays = this.reservationDataService.getNumberOfDays();
+    this.totalPrice = this.reservationDataService.getTotalPrice();
+
+    if (!this.reservationDetails) {
+      console.error('No reservation details found');
+    }
   }
 
+
   goToHomePage(): void {
-    this.router.navigate(['/home']);
+    this.reservationDataService.clearReservationDetails();
+    this.router.navigate(['/Accueil']);
   }
 }

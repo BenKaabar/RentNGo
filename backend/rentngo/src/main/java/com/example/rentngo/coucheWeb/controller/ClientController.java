@@ -9,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.rentngo.DAO.entites.Client;
+import com.example.rentngo.DAO.entites.LoginRequest;
 import com.example.rentngo.coucheService.Services.ServiceClient;
 import com.example.rentngo.coucheWeb.DTO.ClientRequestDTO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -47,15 +49,13 @@ public class ClientController {
         }
     }
 
-    // Select clients by name
-    @GetMapping(path = "/ByNom/{nom}")
-    public ResponseEntity<List<Client>> findByNom(@PathVariable("nom") String nom) {
+    @GetMapping(path = "/ByEmail/{email}")
+    public ResponseEntity<Client> findByEmail(@PathVariable("email") String email) {
         try {
-            List<Client> clients = serviceClient.findByNom(nom);
-            return ResponseEntity.ok(clients);
+            Client client = serviceClient.findByEmail(email);
+            return ResponseEntity.ok(client);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -100,4 +100,27 @@ public class ClientController {
                     .body("Client not found with id: " + id);
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> loginClient(@RequestBody LoginRequest loginRequest, HttpSession session) {
+        String email = loginRequest.getEmail();
+        String motDePasse = loginRequest.getMotDePasse();
+
+        Client client = serviceClient.authenticate(email, motDePasse);
+
+        if (client != null) {
+            session.setAttribute("user", client);
+            session.setAttribute("role", "CLIENT");
+            return ResponseEntity.ok("Client authenticated successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate();
+        return ResponseEntity.ok("client Logged out successfully!");
+    }
+
 }
