@@ -8,15 +8,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.rentngo.DAO.entites.Admin;
 import com.example.rentngo.DAO.entites.Client;
 import com.example.rentngo.DAO.entites.LoginRequest;
+import com.example.rentngo.DAO.entites.LoginRequestAdmin;
 import com.example.rentngo.coucheService.Services.ServiceClient;
 import com.example.rentngo.coucheWeb.DTO.ClientRequestDTO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @AllArgsConstructor
+@Slf4j
 @RestController
 @CrossOrigin("*") // Allows any domain to make requests to your API
 @RequestMapping(path = "/client")
@@ -64,6 +68,7 @@ public class ClientController {
     public ResponseEntity<String> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
         try {
             serviceClient.addClient(clientRequestDTO);
+            log.info("mot de passe ******************** " + clientRequestDTO.getMotDePasse());
             return ResponseEntity.ok("Client added successfully");
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -102,7 +107,7 @@ public class ClientController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginClient(@RequestBody LoginRequest loginRequest, HttpSession session) {
+    public ResponseEntity<Client> loginClient(@RequestBody LoginRequest loginRequest, HttpSession session) {
         String email = loginRequest.getEmail();
         String motDePasse = loginRequest.getMotDePasse();
 
@@ -111,9 +116,9 @@ public class ClientController {
         if (client != null) {
             session.setAttribute("user", client);
             session.setAttribute("role", "CLIENT");
-            return ResponseEntity.ok("Client authenticated successfully");
+            return ResponseEntity.ok(client);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+            return null;
         }
     }
 

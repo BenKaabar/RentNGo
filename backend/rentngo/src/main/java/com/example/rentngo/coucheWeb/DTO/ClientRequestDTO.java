@@ -32,7 +32,7 @@ public class ClientRequestDTO {
 
     @NotBlank(message = "Password cannot be blank")
     @Size(min = 6, message = "Password must be at least 6 characters long")
-    private String motdepasse;
+    private String motDePasse;
 
     private Long telephone;  // Changed to String to handle various formats
 

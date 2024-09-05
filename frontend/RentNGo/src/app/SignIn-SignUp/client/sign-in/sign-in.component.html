@@ -1,25 +1,25 @@
-<form [formGroup]="signinform" novalidate (ngSubmit)="onSubmit()">
+<form [formGroup]="signinform" (ngSubmit)="onSubmit()">
   <div class="main">
     <div class="login">
       <div class="signup">
         <h2>Bienvenue à RentGo</h2>
-        <h5>Créez votre compte RentNGo en quelques étapes simples pour une réservation plus rapide et profitez d’une
-          expérience de location de voiture agréable !</h5>
-        <button routerLink="/SignUp">S’inscrire</button>
+        <h5>Connectez-vous pour accéder à votre compte.</h5>
+        <button type="button" routerLink="/SignUp">S’inscrire</button>
       </div>
       <div class="signin">
         <div class="mb-3">
-          <label for="exampleInputmail" class="form-label">Email address</label><br>
-          <input type="text" formControlName="mail" class="form-control" id="exampleInputmail" required>
-          <small *ngIf="signinform.controls['mail'].errors && signinform.controls['mail'].touched" class="text-danger">
-            {{getErrorsMessage('mail', signinform.controls['mail'].errors)}}</small>
+          <label for="email" class="form-label">Adresse email</label><br>
+          <input type="email" formControlName="email" class="form-control" id="email" required>
+          <small *ngIf="signinform.controls['email'].errors && signinform.controls['email'].touched"
+            class="text-danger">
+            {{ getErrorsMessage('Email', signinform.controls['email'].errors) }}</small>
         </div>
         <div class="mb-3">
-          <label for="exampleInputmotDePasse" class="form-label">mot De Passe</label><br>
-          <input type="password" formControlName="motDePasse" class="form-control" id="exampleInputmotDePasse">
+          <label for="password" class="form-label">Mot de passe</label><br>
+          <input type="password" formControlName="motDePasse" class="form-control" id="password">
           <small *ngIf="signinform.controls['motDePasse'].errors && signinform.controls['motDePasse'].touched"
             class="text-danger">
-            {{getErrorsMessage('motDePasse', signinform.controls['motDePasse'].errors)}}</small>
+            {{ getErrorsMessage('Mot de passe', signinform.controls['motDePasse'].errors) }}</small>
         </div>
         <button type="submit">Se connecter</button>
       </div>

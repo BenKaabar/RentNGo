@@ -31,7 +31,7 @@ public class ServiceClientImpl implements ServiceClient {
         client.setNom(dto.getNom());
         client.setPrenom(dto.getPrenom());
         client.setEmail(dto.getEmail());
-        client.setMotDePasse(dto.getMotdepasse());
+        client.setMotDePasse(dto.getMotDePasse());
         client.setTelephone(dto.getTelephone());
         client.setAddress(dto.getAddress());
         client.setRole(Role.CLIENT);
@@ -62,8 +62,8 @@ public class ServiceClientImpl implements ServiceClient {
             if (dto.getEmail() != null && !dto.getEmail().isEmpty()) {
                 client.setEmail(dto.getEmail());
             }
-            if (dto.getMotdepasse() != null && !dto.getMotdepasse().isEmpty()) {
-                client.setMotDePasse(dto.getMotdepasse());
+            if (dto.getMotDePasse() != null && !dto.getMotDePasse().isEmpty()) {
+                client.setMotDePasse(dto.getMotDePasse());
             }
             if (dto.getTelephone() != null) {
                 client.setTelephone(dto.getTelephone());

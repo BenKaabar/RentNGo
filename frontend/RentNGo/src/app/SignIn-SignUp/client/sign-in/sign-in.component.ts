@@ -1,10 +1,8 @@
-// sign-in.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/Services/Auth/auth.service';
-import { ClientService } from 'src/app/Services/Client/client.service';
 import { Client } from 'src/app/models/Client';
+import { AuthService } from 'src/app/Services/Auth/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,61 +12,59 @@ import { Client } from 'src/app/models/Client';
 export class SignInComponent implements OnInit {
   public signinform!: FormGroup;
   public errorMessage: string = '';
-  public currentClient?: Client;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private clientService: ClientService,
     private router: Router
   ) { }
 
+  newClient: Client = { id: 0, nom: '', prenom: '', email: '', telephone: '', motDePasse: '', address: '' };
+
   ngOnInit() {
     this.signinform = this.formBuilder.group({
-      mail: ['', [Validators.required, Validators.email]],
-      motDePasse: ['', Validators.required]
+      email: ['', [
+        Validators.required,
+        Validators.email,
+      ]],
+      motDePasse: ['', [
+        Validators.required,
+      ]],
     });
   }
 
   getErrorsMessage(fieldName: string, error: any): string {
     if (error['required']) {
-      return `${fieldName} obligatoire`;
+      return `${fieldName} est obligatoire`;
     } else if (error['email']) {
       return 'Email invalide';
     }
     return '';
   }
 
+
   onSubmit() {
     if (this.signinform.valid) {
-      const email = this.signinform.get('mail')?.value;
-      const motDePasse = this.signinform.get('motDePasse')?.value;
-      console.log("Client details: ", email + " " + motDePasse);
+      this.newClient = this.signinform.value;
+      console.log("Email: ", this.newClient.email);
 
-      this.authService.loginClient(email, motDePasse).subscribe(
-        response => {
-          if (response) {
-            this.clientService.getClientByEmail(email).subscribe(
-              client => {
-                this.currentClient = client;
-                this.authService.setClient(this.currentClient); // Store the client data
-                this.router.navigate(['/client']);
-              },
-              error => {
-                this.errorMessage = 'Échec de la récupération des détails du client.';
-                console.error('Erreur de récupération des détails du client', error);
-              }
-            );
-          } else {
-            this.errorMessage = 'Réponse de connexion invalide.';
-            console.error('Réponse de connexion invalide', response);
-          }
+      // Call AuthService for client login
+      this.authService.loginClient(this.newClient.email, this.newClient.motDePasse).subscribe({
+        next: (response: any) => { // Explicitly type the response parameter
+          console.log("Client logged in successfully");
+          // Store client data in localStorage
+          localStorage.setItem('currentClient', JSON.stringify(response));
+          // Redirect to the client dashboard or homepage
+          this.router.navigate(['/client']);
         },
-        error => {
+        error: (err) => {
+          console.error('Erreur lors de la connexion du client:', err);
           this.errorMessage = 'Échec de la connexion. Veuillez vérifier vos informations.';
-          console.error('Erreur de connexion', error);
         }
-      );
+      });
+    } else {
+      this.errorMessage = 'Veuillez remplir correctement le formulaire.';
     }
   }
+
 }

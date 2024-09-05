@@ -38,7 +38,7 @@ const routes: Routes = [
   { path: 'SignInAdmin', component: SignInAdminComponent },
   { path: 'SignUpAdmin', component: SignUpAdminComponent },
   { path: 'Reservation/etape3', component: Etape3Component },
-  { path: 'Reservation/etape2', component: Etape2Component, canActivate: [AuthGuard], },
+  { path: 'Reservation/etape2', component: Etape2Component, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/Accueil', pathMatch: 'full' },
 
   {

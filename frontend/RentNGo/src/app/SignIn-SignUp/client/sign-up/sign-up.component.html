@@ -1,4 +1,4 @@
-<form [formGroup]="signupform" (ngSubmit)="createClient()">
+<form [formGroup]="signupform" (ngSubmit)="submit()">
     <div class="main">
         <div class="login">
             <div class="signup">
@@ -18,20 +18,21 @@
                             {{getErrorsMessage('prenom', signupform.controls['prenom'].errors)}}</small>
                     </div>
                     <div>
-                        <label for="exampleInputemail" class="form-label">Email address</label>
-                        <input type="email" class="form-control" formControlName="email" id="exampleInputemail">
+                        <label for="exampleInputEmail1" class="form-label">Adresse email</label>
+                        <input type="email" class="form-control" formControlName="email" id="exampleInputEmail1">
                         <small *ngIf="signupform.controls['email'].errors && signupform.controls['email'].touched"
                             class="text-danger">
-                            {{getErrorsMessage('email', signupform.controls['email'].errors)}}</small>
+                            {{getErrorsMessage('email', signupform.controls['email'].errors)}}
+                        </small>
                     </div>
                     <div>
-                        <label for="exampleInputmotdepasse1" class="form-label">mot de passe</label>
-                        <input type="password" class="form-control" formControlName="motdepasse"
-                            id="exampleInputmotdepasse">
+                        <label for="exampleInputmotDePasse1" class="form-label">mot de passe</label>
+                        <input type="password" class="form-control" formControlName="motDePasse"
+                            id="exampleInputmotDePasse1">
                         <small
-                            *ngIf="signupform.controls['motdepasse'].errors && signupform.controls['motdepasse'].touched"
+                            *ngIf="signupform.controls['motDePasse'].errors && signupform.controls['motDePasse'].touched"
                             class="text-danger">
-                            {{getErrorsMessage('motdepasse', signupform.controls['motdepasse'].errors)}}</small>
+                            {{getErrorsMessage('motDePasse', signupform.controls['motDePasse'].errors)}}</small>
                     </div>
                     <div>
                         <label for="exampleInputTelephone" class="form-label">Telephone</label>
@@ -52,11 +53,8 @@
                 </div>
                 <div class="signupbutton">
                     <button type="submit">S’inscrire</button>
-                    <!-- routerLink="/SignIn" -->
                 </div>
             </div>
-
-
             <div class="signin">
                 <h2>Bienvenue a RentGo</h2>
                 <h5>Connectez-vous à votre compte RentNGo pour accéder à la meilleure expérience de location de voiture.

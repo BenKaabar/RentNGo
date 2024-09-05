@@ -89,7 +89,7 @@ export class AuthService {
           localStorage.removeItem('currentAdmin');
           sessionStorage.removeItem('currentAdmin');
           this.currentAdminSubject.next(null); // Clear currentAdmin
-          this.router.navigate(['/SignInAdmin']);
+          this.router.navigate(['/Accueil']);
         },
         (error) => {
           console.error('Error during logout:', error);
@@ -128,7 +128,7 @@ export class AuthService {
           localStorage.removeItem('currentClient');
           sessionStorage.removeItem('currentClient');
           this.currentClientSubject.next(null); // Clear currentClient
-          this.router.navigate(['/SignIn']);
+          this.router.navigate(['/Accueil']);
         },
         (error) => {
           console.error('Error during logout:', error);

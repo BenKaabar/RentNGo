@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Client } from 'src/app/models/Client';
 import { ClientService } from 'src/app/Services/Client/client.service';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -9,26 +11,25 @@ import { ClientService } from 'src/app/Services/Client/client.service';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
-  public signupform!: FormGroup;
   newClient: Client = { id: 0, nom: '', prenom: '', email: '', telephone: '', motDePasse: '', address: '' };
-
-  constructor(private formBuilder: FormBuilder, private clientService: ClientService) { }
+  signupform!: FormGroup;
+  constructor(private formBuilder: FormBuilder, private clientService: ClientService, private router: Router) { }
 
   ngOnInit() {
     this.signupform = this.formBuilder.group({
       nom: this.formBuilder.control('', [
         Validators.required,
-        Validators.pattern('^[a-zA-Z ]+$')
+        Validators.pattern('^[a-zA-Z]+$'),
       ]),
       prenom: this.formBuilder.control('', [
         Validators.required,
-        Validators.pattern('^[a-zA-Z ]+$')
+        Validators.pattern('^[a-zA-Z]+$'),
       ]),
       email: this.formBuilder.control('', [
         Validators.required,
         Validators.email,
       ]),
-      motdepasse: this.formBuilder.control('', [
+      motDePasse: this.formBuilder.control('', [
         Validators.required,
       ]),
       telephone: this.formBuilder.control('', [
@@ -37,7 +38,7 @@ export class SignUpComponent implements OnInit {
       ]),
       address: this.formBuilder.control('', [
         Validators.required,
-        Validators.pattern('^[a-zA-Z0-9\\s]+$'),
+        Validators.pattern('^[a-zA-Z0-9\s]+$'),
       ]),
     });
   }
@@ -55,16 +56,19 @@ export class SignUpComponent implements OnInit {
     return '';
   }
 
-  createClient(): void {
-    if (this.signupform.valid) {
-      const newClient: Client = this.signupform.value;
-      this.clientService.addClient(newClient).subscribe({
+  submit(): void {
+    console.log(this.signupform.valid);
+    if (this.signupform.valid != null) {
+      this.newClient = this.signupform.value; // Set newAdmin with form values
+      console.log("client " + this.newClient.prenom);
+      console.log("motdepasse " + this.newClient.motDePasse);
+      this.clientService.addClient(this.newClient).subscribe({
         next: () => {
-          console.log("Client ajouté avec succès");
+          this.router.navigate(['/SignIn']);
+          console.log("client create !!!!!!!!!!!!!!!!!!!!!!!!");
         },
         error: (err) => console.error('Erreur lors de l\'ajout du client:', err)
       });
     }
   }
-
 }
